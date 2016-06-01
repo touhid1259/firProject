@@ -48,6 +48,76 @@
 	margin-top: 200px;
 }
 
-.fact, .res {
+.car {
+	float: left;
+  margin-left: 26px;
+}
+
+.res {
 	float: right;
+	margin-top: 30px;
+}
+
+.fact {
+	float: left;
+	margin-bottom: 0;
+	margin-left: -115px;
+	margin-right: 0;
+	margin-top: -135px;
+
+}
+
+.gen-td {
+	width: 268px;
+}
+
+.res-td {
+	width: 218px;
+}
+
+.div-edge {
+	width: 100%;
+	margin: 50% 0 auto;
+}
+
+.edge-left {
+	 border-bottom: 4px solid black;
+	 border-left: 4px solid transparent;
+	 border-top: 4px solid black;
+	 float: left;
+	 width: 93%;
+
+}
+
+.edge-right {
+		border-bottom: 4px solid transparent;
+    border-left: 4px solid black;
+    border-top: 4px solid transparent;
+    float: right;
+    width: 7%;
+
+}
+
+.tr-gap {
+	height: 250px;
+}
+
+.rotate-edge {
+	transform: rotate(44deg);
+	margin-bottom: 0;
+  margin-left: -56px;
+  margin-right: 0;
+  margin-top: 42px;
+}
+
+.rotate-edge-90 {
+	margin: 50% 25px auto;
+	width: 83%;
+	transform: rotate(90deg);
+}
+
+.tb-en > tbody > tr > td {
+		border-top-color: none;
+    border-top-style: none;
+    border-top-width: none;
 }
