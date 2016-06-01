@@ -1,0 +1,53 @@
+.navbar.navbar-custom {
+	background-color: #717DC3;
+}
+
+.navbar-nav-custom {
+	float: right;
+}
+
+.gap {
+	margin: 95px 0 0 0;
+}
+
+.content-links:hover {
+	color: #fff;
+}
+
+.pers-links {
+	background-color: #eee;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.pers-nav {
+	margin-bottom: 20px;
+}
+
+.energy-container {
+ 	background: linear-gradient(to right bottom, rgba(187, 208, 103, 0.76), rgba(64, 134, 98, 0.81));
+}
+
+.eng-gen {
+	height: 250px;
+	width: 250px;
+	-moz-box-shadow: -4px 11px 10px rgb(82, 117, 101);
+	-webkit-box-shadow: -4px 11px 10px rgb(82, 117, 101);
+	box-shadow: -4px 11px 10px rgb(82, 117, 101);
+}
+
+.eng-con {
+	height: 200px;
+	width: 200px;
+	-moz-box-shadow: -4px 11px 10px rgb(82, 117, 101);
+	-webkit-box-shadow: -4px 11px 10px rgb(82, 117, 101);
+	box-shadow: -4px 11px 10px rgb(82, 117, 101);
+}
+
+.car-fact {
+	margin-top: 200px;
+}
+
+.fact, .res {
+	float: right;
+}

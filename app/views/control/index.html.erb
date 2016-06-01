@@ -1,0 +1,17 @@
+<div class='container'>
+	<nav class="pers-nav">
+	  <ul class="nav nav-justified pers-links">
+		<li><a href="<%= controlling_path %>">Controlling</a></li>
+		<li><a href="#">Gaming</a></li>
+		<li><a href="#">Planning</a></li>
+		<li><a href="#">Analyzing</a></li>
+	  </ul>
+    </nav>
+	<div class='jumbotron'>
+		<ul>
+			<% @tables.each do |item| %>
+				<li> <%= item %> </li>
+			<% end %>
+		</ul>
+	</div>
+</div>
