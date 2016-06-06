@@ -121,3 +121,190 @@
     border-top-style: none;
     border-top-width: none;
 }
+
+.mobile-view {
+	display: none;
+}
+
+.tab-desk-view {
+	display: block;
+}
+
+
+/**** Above css's are the actual css. Below css are the view specific css ****/
+
+/* Extra small devices (phones, less than 768px) */
+/* No media query since this is the default in Bootstrap */
+
+/*Mobile devices smaller than 543px*/
+@media (max-width: 543px) {
+	.mobile-view {
+		display: block;
+		border: none;
+	}
+
+	.tab-desk-view {
+		display: none;
+	}
+}
+
+/*Mobile and Tab devices betwwen 544px and 767px*/
+@media (min-width: 544px) and (max-width: 767px) {
+	.mobile-view {
+		display: block;
+		border: none;
+	}
+
+	.tab-desk-view {
+		display: none;
+	}
+
+	.fact {
+     float: none;
+     margin-bottom: 0;
+     margin-left: 0;
+     margin-right: 0;
+     margin-top: 0;
+	}
+
+	.car {
+    float: none;
+    margin-left: 0;
+	}
+
+	.eng-gen {
+    height: 190px;
+    width: 190px;
+		-moz-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+		-webkit-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+		box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+	}
+
+	.gen-td {
+    width: 208px;
+	}
+
+	.eng-con {
+    height: 140px;
+    width: 140px;
+		-moz-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+    -webkit-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+    box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+	}
+
+	.res {
+     float: none;
+     margin: 0 0 15px 23px;
+	}
+
+}
+
+/* Small devices (tablets, 768px and up) */
+@media (min-width: 768px) {
+	.eng-gen {
+    height: 230px;
+    width: 230px;
+	}
+
+	.gen-td {
+    width: 248px;
+	}
+
+	.eng-con {
+    height: 180px;
+    width: 180px;
+	}
+
+	.res-td {
+    width: 198px;
+	}
+
+	.tr-gap {
+    height: 230px;
+	}
+
+}
+
+/* Medium devices (desktops, 992px and up) */
+@media (min-width: 992px) {
+
+	.eng-gen {
+		height: 200px;
+		width: 200px;
+	}
+
+	.gen-td {
+    width: 218px;
+	}
+
+	.eng-con {
+		height: 150px;
+		width: 150px;
+	}
+
+	.res-td {
+    width: 168px;
+	}
+
+	.tr-gap {
+    height: 200px;
+	}
+
+	.rotate-edge {
+		margin-left: -50px;
+		margin-top: 36px;
+	}
+
+	.fact {
+		margin-left: -105px;
+		margin-top: -105px;
+	}
+
+}
+
+/* Large devices (large desktops, 1200px and up) */
+@media (min-width: 1200px) {
+	.eng-gen {
+		height: 250px;
+		width: 250px;
+	}
+
+	.gen-td {
+    width: 268px;
+	}
+
+	.eng-con {
+    height: 200px;
+    width: 200px;
+	}
+
+	.res-td {
+    width: 218px;
+	}
+
+	.tr-gap {
+    height: 250px;
+	}
+
+	.rotate-edge {
+		margin-left: -56px;
+	  margin-top: 42px;
+	}
+
+	.fact {
+		margin-left: -115px;
+		margin-top: -135px;
+	}
+
+
+}
+
+/*************************************************************/
+/*************************************************************/
+
+/*We occasionally expand on these media queries to include a max-width to limit CSS to a narrower set of devices.*/
+
+@media (max-width: @screen-xs-max) { ... }
+@media (min-width: @screen-sm-min) and (max-width: @screen-sm-max) { ... }
+@media (min-width: @screen-md-min) and (max-width: @screen-md-max) { ... }
+@media (min-width: @screen-lg-min) { ... }
