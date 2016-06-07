@@ -128,6 +128,7 @@
 
 .tab-desk-view {
 	display: block;
+	border: none;
 }
 
 
@@ -138,43 +139,60 @@
 
 /*Mobile devices smaller than 543px*/
 @media (max-width: 543px) {
-	.mobile-view {
-		display: block;
-		border: none;
-	}
 
-	.tab-desk-view {
-		display: none;
-	}
+		.mobile-view {
+			display: block;
+			border: none;
+		}
+
+		.tab-desk-view {
+			display: none;
+		}
+
+		.fact {
+	     float: left;
+	     margin: 0 0 10px 0;
+		}
+
+		.car {
+	    float: right;
+	    margin: 0 0 10px 0;
+		}
+
+		.eng-gen {
+	    height: 180px;
+	    width: 180px;
+			-moz-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+			-webkit-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+			box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+		}
+
+		.gen-td {
+	    width: 198px;
+		}
+
+		.eng-con {
+	    height: 120px;
+	    width: 120px;
+			-moz-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+	    -webkit-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+	    box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+		}
+
+		.res {
+	     float: none;
+	     margin: 10px 0 15px 23px;
+		}
+
 }
 
 /*Mobile and Tab devices betwwen 544px and 767px*/
 @media (min-width: 544px) and (max-width: 767px) {
-	.mobile-view {
-		display: block;
-		border: none;
-	}
-
-	.tab-desk-view {
-		display: none;
-	}
-
-	.fact {
-     float: left;
-     margin: 0 0 10px 0;
-	}
-
-	.car {
-    float: right;
-    margin: 0 0 10px 0;
-	}
 
 	.eng-gen {
     height: 180px;
     width: 180px;
-		-moz-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
-		-webkit-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
-		box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+
 	}
 
 	.gen-td {
@@ -182,16 +200,48 @@
 	}
 
 	.eng-con {
-    height: 120px;
-    width: 120px;
-		-moz-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
-    -webkit-box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
-    box-shadow: 0px 1px 13px 5px rgb(82, 117, 101);
+    height: 130px;
+    width: 130px;
 	}
 
-	.res {
-     float: none;
-     margin: 10px 0 15px 23px;
+	.res-td {
+    width: 148px;
+	}
+
+	.tab-desk-view {
+		width: 506px;
+		margin: 0 auto;
+	}
+
+	.tr-gap {
+    height: 155px;
+	}
+
+	.div-edge {
+		margin: 74% 0 auto;
+	}
+
+	.rotate-edge {
+    margin-left: -39px;
+    margin-top: 16px;
+	}
+
+	.rotate-edge-90 {
+		margin: 41% 31px auto;
+    width: 69%;
+	}
+
+	.car {
+    margin: 0 0 10px 26px;
+	}
+
+	.fact {
+    margin-left: -79px;
+    margin-top: -100px;
+	}
+
+	.weather {
+		float: right;
 	}
 
 }
@@ -218,6 +268,13 @@
 
 	.tr-gap {
     height: 230px;
+	}
+
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+	.weather {
+		float: right;
 	}
 
 }
