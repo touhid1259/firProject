@@ -55,6 +55,7 @@
 	-moz-box-shadow: -4px 11px 10px rgb(82, 117, 101);
 	-webkit-box-shadow: -4px 11px 10px rgb(82, 117, 101);
 	box-shadow: -4px 11px 10px rgb(82, 117, 101);
+	cursor: pointer;
 }
 
 .car-fact {
@@ -139,6 +140,20 @@
 	border: none;
 }
 
+.eng-con:hover {
+		-moz-box-shadow: -4px 11px 10px rgb(214, 214, 214);
+		-webkit-box-shadow: -4px 11px 10px rgb(214, 214, 214);
+    box-shadow: -4px 11px 10px rgb(214, 214, 214);
+}
+
+.choose-machine {
+	display: none;
+}
+
+.printer-energy-container {
+	background: linear-gradient(to right bottom, rgba(81, 174, 210, 0.78), rgba(224, 224, 224, 0.55));
+}
+
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
@@ -150,16 +165,22 @@
 	.eng-gen {
     height: 100px;
     width: 100px;
+		-moz-box-shadow: -4px 5px 10px rgb(82, 117, 101);
+		-webkit-box-shadow: -4px 5px 10px rgb(82, 117, 101);
+		box-shadow: -4px 5px 10px rgb(82, 117, 101);
 
 	}
 
 	.gen-td {
-    width: 118px;
+    width: 102px;
 	}
 
 	.eng-con {
     height: 60px;
     width: 60px;
+		-moz-box-shadow: -4px 5px 10px rgb(82, 117, 101);
+		-webkit-box-shadow: -4px 5px 10px rgb(82, 117, 101);
+		box-shadow: -4px 5px 10px rgb(82, 117, 101);
 	}
 
 	.res-td {
@@ -172,35 +193,52 @@
 	}
 
 	.tr-gap {
-    height: 100px;
+    height: 102px;
 	}
 
 	.div-edge {
-		margin: 74% 0 auto;
+		margin: 74% 7px auto;
 	}
 
 	.rotate-edge {
-    margin-left: -39px;
-    margin-top: 16px;
+		margin-left: -14px;
+		margin-top: 20px;
 	}
 
 	.rotate-edge-90 {
-		margin: 41% 31px auto;
+		margin: 50% 19px auto;
     width: 69%;
 	}
 
 	.car {
-    margin: 0 0 10px 26px;
+    margin: 0 0 18px 22px;
 	}
 
 	.fact {
-    margin-left: -79px;
-    margin-top: -100px;
+		margin-left: -24px;
+		margin-top: -52px;
 	}
 
 	.weather {
 		float: right;
+		font-size: 12px
 	}
+
+	.weather h2 {
+		font-size: 24px
+	}
+
+	.tb-en > tbody > tr > td {
+		padding: 0;
+
+	}
+
+	.eng-con:hover {
+			-moz-box-shadow: -4px 5px 10px rgb(214, 214, 214);
+			-webkit-box-shadow: -4px 5px 10px rgb(214, 214, 214);
+	  	box-shadow: -4px 5px 10px rgb(214, 214, 214);
+	}
+
 }
 
 /*Mobile and Tab devices betwwen 544px and 767px*/
@@ -235,7 +273,7 @@
 	}
 
 	.div-edge {
-		margin: 74% 0 auto;
+		margin: 66% 0 auto;
 	}
 
 	.rotate-edge {

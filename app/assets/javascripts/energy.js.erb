@@ -16,4 +16,8 @@ $(document).ready(function() {
       $(".weather").html('<p>'+error+'</p>');
     }
   });
+
+  $('.fact').on('click', function(){
+    $('.choose-machine').dialog();
+  });
 });
