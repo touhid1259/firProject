@@ -1,19 +1,20 @@
 $(document).ready(function() {
-  function drawTestGraph(){
+  function drawTestGraph(gpitems){
     var container = $(".graph")[0];
-    var items = [
-      {x: '2014-06-11', y: 10},
-      {x: '2014-06-12', y: 25},
-      {x: '2014-06-13', y: 30},
-      {x: '2014-06-14', y: 10},
-      {x: '2014-06-15', y: 15},
-      {x: '2014-06-16', y: 30}
-    ];
+    // var items = [
+    //   {x: '2014-06-11', y: 10},
+    //   {x: '2014-06-12', y: 25},
+    //   {x: '2014-06-13', y: 30},
+    //   {x: '2014-06-14', y: 10},
+    //   {x: '2014-06-15', y: 15},
+    //   {x: '2014-06-16', y: 30}
+    // ];
+    var items = gpitems
 
     var dataset = new vis.DataSet(items);
     var options = {
-      start: '2014-06-10',
-      end: '2014-06-18',
+      start: gpitems[0]['x'],
+      end: gpitems[9]['x'],
       dataAxis: {
         left: {
           title: {
@@ -25,5 +26,5 @@ $(document).ready(function() {
     var graph2d = new vis.Graph2d(container, dataset, options);
   }
 
-  drawTestGraph();
+  drawTestGraph(gon.graphData);
 });
