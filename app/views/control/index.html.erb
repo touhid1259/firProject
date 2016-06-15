@@ -8,10 +8,16 @@
 	  </ul>
     </nav>
 	<div class='jumbotron'>
-		<ul>
-			<% @tables.each do |item| %>
-				<li> <%= item %> </li>
-			<% end %>
-		</ul>
+		<div class="row">
+			<div class="col-md-3">
+				<ul>
+					<% @tables.each do |item| %>
+						<li> <%= item %> </li>
+					<% end %>
+				</ul>
+			</div>
+			<div class="col-md-9 graph">
+			</div>
+		</div>
 	</div>
 </div>
