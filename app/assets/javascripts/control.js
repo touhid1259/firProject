@@ -18,7 +18,7 @@ $(document).ready(function() {
       dataAxis: {
         left: {
           title: {
-            text: 'performance'
+            text: 'Spannung(Durchschnitt) in 0.01V'
           }
         }
       }

@@ -19,4 +19,5 @@
 //= require ripples.min
 //= require jquery.simpleWeather.min
 //= require vis
+//= require d3.min
 //= require_tree .
