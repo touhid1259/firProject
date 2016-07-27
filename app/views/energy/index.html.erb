@@ -13,7 +13,7 @@
                   <div class="edge-right"></div>
                 </div>
               </td>
-              <td class="res-td"><img src="assets/residents.png" class="img-circle img-responsive eng-con res"></td>
+              <td class="res-td"><img src="<%= image_path 'residents.png' %>" class="img-circle img-responsive eng-con res"></td>
             </tr>
             <tr class="tr-gap">
               <td>
@@ -31,9 +31,9 @@
               <td></td>
             </tr>
             <tr>
-              <td><img src="assets/cars.png" class="img-circle img-responsive eng-con car"></td>
+              <td><img src="<%= image_path 'cars.png' %>" class="img-circle img-responsive eng-con car"></td>
               <td></td>
-              <td><img src="assets/factories.jpg" class="img-circle img-responsive eng-con fact" data-toggle="modal" data-target="#machineries-modal"></td>
+              <td><img src="<%= image_path 'factories.jpg' %>" class="img-circle img-responsive eng-con fact" data-toggle="modal" data-target="#machineries-modal"></td>
             </tr>
           </table>
         </div>
@@ -55,7 +55,7 @@
             </div>
             <div class="modal-body">
               <div class="row">
-                <div class="col-md-4"><a href="<%= energy_printer_path %>"><img src="assets/printer.png" class="img-responsive" ></a></div>
+                <div class="col-md-4"><a href="<%= energy_printer_path %>"><img src="<%= image_path 'printer.png' %>" class="img-responsive" ></a></div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4"></div>
                 <div class="col-md-4"></div>
