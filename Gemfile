@@ -10,6 +10,11 @@ gem 'sqlite3'
 gem 'tiny_tds'
 gem 'activerecord-sqlserver-adapter', '~> 4.1.2'
 
+# Using Mysql server
+
+gem 'mysql2', '~> 0.3.18'
+
+
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
