@@ -151,9 +151,12 @@
 }
 
 .printer-energy-container {
-	background: linear-gradient(to right bottom, rgba(81, 174, 210, 0.78), rgba(224, 224, 224, 0.55));
+	/*background: linear-gradient(to right bottom, rgba(81, 174, 210, 0.78), rgba(224, 224, 224, 0.55));*/
 }
 
+.img-printer {
+	margin: 0 0 20px 0;
+}
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 

@@ -1,7 +1,17 @@
 <div class="container">
-  <div class="jumbotron printer-energy-container">
-      <div class="row">
-          PRINTER ENERGY DATA WILL BE HEREE SOON!!!
+  <div class='jumbotron printer-energy-container'>
+    <div class="row img-printer">
+      <div class="col-md-3">
+        <img src="<%= image_path 'printer.png' %>" class="img-responsive" >
       </div>
-  </div>
+      <div class="col-md-9">
+        <h3>Printer Data Flow</h3>
+        <p>Printer's power consumption vs time graph</p>
+      </div>
+    </div>
+		<div class="row">
+			<div class="col-md-12 printer-graph">
+			</div>
+		</div>
+	</div>
 </div>
