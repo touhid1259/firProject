@@ -96,7 +96,7 @@ $(document).ready(function() {
         }
 
         var json_data = JSON.parse(event.data);
-        console.log(json_data.data);
+        // console.log(json_data.data);
         xtime = json_data.data.x
         ypower = json_data.data.y
 
