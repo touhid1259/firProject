@@ -10,7 +10,7 @@ class EnergyController < ApplicationController
     graphData = Energy.last(50)
     gon.graphData = graphData.collect do |item|
       {
-        x: "#{item.date} " + "#{(item.time - 57.minutes + 10.seconds).strftime('%H:%M:%S')}",
+        x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         y: item.power
       }
     end
@@ -20,22 +20,26 @@ class EnergyController < ApplicationController
     response.headers['Content-Type'] = 'text/event-stream'
     sse = SSE.new(response.stream, event: 'time')
     begin
+      last_id = -1
       loop do
-        # puts request.path
-        # if(request.path == '/energy/printer/continuous')
-        #   sse.close
-        #   break
-        # end
         Energy.uncached do
-          a = Energy.last
-          sse.write({ :data => a })
+          item = Energy.last
+          if(last_id != item.id)
+            sse.write({
+                data: {
+                  x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
+                  y: item.power
+                }
+            })
+          end
+          last_id = item.id
           sleep 1
         end
 
       end
 
     rescue Exception => e
-      puts 'its a exception'
+      puts "its an exception - #{e.message}"
       logger.error e.backtrace.join("\n")
       sse.close
 
@@ -44,7 +48,7 @@ class EnergyController < ApplicationController
 
     end
     render nothing: true
-    
+
   end
 
 end

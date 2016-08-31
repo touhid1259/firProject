@@ -57,11 +57,6 @@ $(document).ready(function() {
 
       drawPrinterGraph(gon.graphData);
 
-      $.ajax({
-        method: "GET",
-        url: "/energy/printer/continuous"
-      });
-
       /**
        * Add a new datapoint to the graph
        */
@@ -93,20 +88,25 @@ $(document).ready(function() {
 
       }
 
-      var sec = 15;
-      // setTimeout(function(){
-        var source = new EventSource('/energy/printer/continuous');
-        source.addEventListener('time', function(event) {
-          var json_data = JSON.parse(event.data);
-          // console.log(json_data.data.time);
+      // var sec = 2;
+      var source = new EventSource('/energy/printer/continuous');
+      source.addEventListener('time', function(event) {
+        if(window.location.pathname != '/energy/printer'){
+          source.close();
+        }
 
-          var d = new Date("August 23, 2016 05:18:" + sec);
-          renderStep(d);
-          addDataPoint(d, 20);
-          sec = sec + 2
-        });
+        var json_data = JSON.parse(event.data);
+        console.log(json_data.data);
+        xtime = json_data.data.x
+        ypower = json_data.data.y
 
-      // }, 1000);
+        var d = new Date(xtime);
+        // d.setSeconds(d.getSeconds() + sec);
+        renderStep(d);
+        addDataPoint(d, ypower);
+        // sec = sec + 2
+
+      });
 
   }
 
