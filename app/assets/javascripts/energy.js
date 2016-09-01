@@ -22,6 +22,11 @@ $(document).on("turbolinks:load", function() {
       $('.fact').on('click', function(){
         $('.choose-machine').dialog();
       });
+
+      $('.printer-link').on('click', function(){
+        $('#machineries-modal').modal('hide');
+        window.location.href = "/energy/printer";
+      });
   }
 
   if(window.location.pathname == '/energy/printer')

@@ -158,6 +158,10 @@
 	margin: 0 0 20px 0;
 }
 
+.printer-link {
+	cursor: pointer;
+}
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */
