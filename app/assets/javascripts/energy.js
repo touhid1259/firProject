@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).on("turbolinks:load", function() {
   if(window.location.pathname == '/energy')
   {
       $.simpleWeather({
@@ -109,5 +109,4 @@ $(document).ready(function() {
       });
 
   }
-
 });

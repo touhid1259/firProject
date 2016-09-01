@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <%= include_gon(init: true) %>
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
 <body>
@@ -19,13 +20,13 @@
   			<span class="icon-bar"></span>
   			<span class="icon-bar"></span>
 		  </button>
-		  <a class="navbar-brand" href="#">Energy Data Management</a>
+		  <a class="navbar-brand" href="<%= root_path %>">Energy Data Management</a>
 		</div>
 		<div id="navbar" class="collapse navbar-collapse">
 		  <ul class="nav navbar-nav navbar-nav-custom">
 			<li><a href="<%= root_path %>">Home</a></li>
-			<li><a href="#about">About</a></li>
-			<li><a href="#contact">Contact</a></li>
+			<li><a>About</a></li>
+			<li><a>Contact</a></li>
 		  </ul>
 		</div><!--/.nav-collapse -->
 	  </div>
@@ -33,7 +34,6 @@
   <div class="gap"></div>
 
   <%= yield %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
 
 </body>
 </html>

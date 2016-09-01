@@ -11,12 +11,13 @@
 // about supported directives.
 //
 //= require jquery
+//= require jquery.turbolinks
 //= require jquery_ujs
 //= require jquery-ui
 //= require bootstrap.min
-//= require turbolinks
 //= require material.min
 //= require ripples.min
 //= require jquery.simpleWeather.min
 //= require vis
 //= require_tree .
+//= require turbolinks
