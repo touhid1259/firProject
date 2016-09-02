@@ -37,9 +37,21 @@ $(document).on("turbolinks:load", function() {
       function drawPrinterGraph(gpitems){
         var container = $(".printer-graph")[0];
         var items = gpitems
+        // var groups = new vis.DataSet();
+        // groups.add({
+        //     id: 0,
+        //     content: '< 18',
+        // });
+        //
+        // groups.add({
+        //     id: 1,
+        //     content: '> 18',
+        //     className: 'power-more-20',
+        // });
+
         dataset = new vis.DataSet(items);
         var options = {
-          start: gpitems[10]['x'],
+          start: gpitems[0]['x'],
           end: gpitems[49]['x'],
           drawPoints: {
             style: 'circle' // square, circle
@@ -69,7 +81,8 @@ $(document).on("turbolinks:load", function() {
         // add a new data point to the dataset
         dataset.add({
           x: time,
-          y: power
+          y: power,
+          // group: (power < 18) ? 0 : 1
         });
 
         // remove all data points which are no longer visible
@@ -77,9 +90,11 @@ $(document).on("turbolinks:load", function() {
         var interval = range.end - range.start;
         var oldIds = dataset.getIds({
           filter: function (item) {
-            return item.x < range.start - interval;
+            var jstime = new Date(item.x);
+            return jstime < range.start - interval ;
           }
         });
+
         dataset.remove(oldIds);
       }
 

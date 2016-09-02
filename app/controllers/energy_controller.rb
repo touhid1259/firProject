@@ -12,6 +12,7 @@ class EnergyController < ApplicationController
       {
         x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         y: item.power
+        # group: item.power > 18 ? 1 : 0
       }
     end
   end
