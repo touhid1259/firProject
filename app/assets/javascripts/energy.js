@@ -33,28 +33,44 @@ $(document).on("turbolinks:load", function() {
   {
       var graph2d;
       var dataset; // x and y axis data array for the graph2d
+      var groups;
 
       function drawPrinterGraph(gpitems){
         var container = $(".printer-graph")[0];
         var items = gpitems
-        // var groups = new vis.DataSet();
+        groups = new vis.DataSet();
         // groups.add({
         //     id: 0,
         //     content: '< 18',
         // });
         //
-        // groups.add({
-        //     id: 1,
-        //     content: '> 18',
-        //     className: 'power-more-20',
-        // });
+        groups.add({
+            id: 0,
+            content: 'group 0',
+        });
 
         dataset = new vis.DataSet(items);
         var options = {
-          start: gpitems[0]['x'],
+          start: gpitems[30]['x'],
           end: gpitems[49]['x'],
+          // end: gpitems[4]['x'],
           drawPoints: {
-            style: 'circle' // square, circle
+            onRender: function(item, graph2d){
+              if(item.y > 50){
+                return {
+                  style: 'circle',
+                  size: 10,
+                  className: 'power-more-20'
+                }
+
+              }else {
+                return {
+                  style: 'circle'
+                }
+
+              }
+            },
+            style: 'circle', // square, circle
           },
           shaded: {
             orientation: 'bottom' // top, bottom
@@ -68,7 +84,7 @@ $(document).on("turbolinks:load", function() {
           }
         };
 
-        graph2d = new vis.Graph2d(container, dataset, options);
+        graph2d = new vis.Graph2d(container, dataset, groups ,options);
         console.log(graph2d.getWindow());
       }
 
@@ -82,7 +98,7 @@ $(document).on("turbolinks:load", function() {
         dataset.add({
           x: time,
           y: power,
-          // group: (power < 18) ? 0 : 1
+          group: 0
         });
 
         // remove all data points which are no longer visible

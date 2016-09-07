@@ -163,10 +163,8 @@
 }
 
 .power-more-20 {
-	fill: #0df200;
-  fill-opacity: 0;
-  stroke-width: 2px;
-  stroke: #0df200;
+	fill: #ff0000;
+  stroke: #ff0000;
 }
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
