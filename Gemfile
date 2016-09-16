@@ -42,6 +42,10 @@ gem 'jquery-ui-rails'
 
 gem 'gon'
 
+# For using bootstrap datepicker
+gem 'momentjs-rails', '>= 2.9.0'
+gem 'bootstrap3-datetimepicker-rails', '~> 4.17.42'
+
 gem 'capistrano', '3.5.0'
 gem 'capistrano-bundler', '~> 1.1.2'
 gem 'capistrano-rails', '~> 1.1.1'

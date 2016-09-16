@@ -18,6 +18,8 @@
 //= require material.min
 //= require ripples.min
 //= require jquery.simpleWeather.min
+//= require moment
+//= require bootstrap-datetimepicker
 //= require vis
 //= require_tree .
 //= require turbolinks

@@ -62,4 +62,30 @@ class EnergyController < ApplicationController
 
   end
 
+  def get_datewise_printer_data
+    begin
+      dt = Time.parse(params[:date]).to_date
+      etm = Time.parse(params[:end_time])
+      stm = etm - 1.hour
+      @printer_data = Energy.consumption_on(dt, stm, etm)
+      @printer_data = @printer_data.collect do |item|
+        {
+          x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+          y: item.power,
+          group: 1
+        }
+      end
+
+    rescue Exception => ex
+      logger.error ex.message
+      logger.error ex.backtrace.join("\n")
+      @printer_data = []
+
+    end
+
+    respond_to do |format|
+      format.js {}
+    end
+  end
+
 end

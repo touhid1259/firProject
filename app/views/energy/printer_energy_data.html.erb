@@ -10,8 +10,63 @@
       </div>
     </div>
 		<div class="row">
+      <div class="col-md-12 on-the-fly">
+        Power Consumption on the FLY:
+      </div>
 			<div class="col-md-12 printer-graph">
 			</div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <div class="consumption-from"> Power Consumption On: </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+            <div class='input-group date' id='st-date'>
+                <input type='text' class="form-control" id="consumption_date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <select class="form-control" id="select-hour">
+            <option value="2000-01-01 01:00:00 UTC">1st Hour</option>
+            <option value="2000-01-01 02:00:00 UTC">2nd Hour</option>
+            <option value="2000-01-01 03:00:00 UTC">3rd Hour</option>
+            <option value="2000-01-01 04:00:00 UTC">4th Hour</option>
+            <option value="2000-01-01 05:00:00 UTC">5th Hour</option>
+            <option value="2000-01-01 06:00:00 UTC">6th Hour</option>
+            <option value="2000-01-01 07:00:00 UTC">7th Hour</option>
+            <option value="2000-01-01 08:00:00 UTC">8th Hour</option>
+            <option value="2000-01-01 09:00:00 UTC">9th Hour</option>
+            <option value="2000-01-01 10:00:00 UTC">10th Hour</option>
+            <option value="2000-01-01 11:00:00 UTC">11th Hour</option>
+            <option value="2000-01-01 12:00:00 UTC">12th Hour</option>
+            <option value="2000-01-01 13:00:00 UTC">13th Hour</option>
+            <option value="2000-01-01 14:00:00 UTC">14th Hour</option>
+            <option value="2000-01-01 15:00:00 UTC">15th Hour</option>
+            <option value="2000-01-01 16:00:00 UTC">16th Hour</option>
+            <option value="2000-01-01 17:00:00 UTC">17th Hour</option>
+            <option value="2000-01-01 18:00:00 UTC">18th Hour</option>
+            <option value="2000-01-01 19:00:00 UTC">19th Hour</option>
+            <option value="2000-01-01 20:00:00 UTC">20th Hour</option>
+            <option value="2000-01-01 21:00:00 UTC">21th Hour</option>
+            <option value="2000-01-01 22:00:00 UTC">22th Hour</option>
+            <option value="2000-01-01 23:00:00 UTC">23th Hour</option>
+            <option value="2000-01-01 24:00:00 UTC">24th Hour</option>
+          </select>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="form-group">
+          <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-date-data" >Load</a>
+        </div>
+      </div>
+      <div class="col-md-12 printer-graph-static">
+      </div>
 		</div>
 	</div>
 </div>

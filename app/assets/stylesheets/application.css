@@ -13,6 +13,7 @@
  *
  *= require bootstrap.min
  *= require bootstrap-material-design.min
+ *= require bootstrap-datetimepicker
  *= require ripples.min
  *= require vis
  *= require jquery-ui

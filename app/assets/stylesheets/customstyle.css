@@ -162,9 +162,35 @@
 	cursor: pointer;
 }
 
+.datewise-data {
+  fill: #0df200;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #0df200;
+}
+
 .power-more-20 {
 	fill: #ff0000;
+	fill-opacity: 0;
+	stroke-width: 2px;
   stroke: #ff0000;
+}
+
+.on-the-fly {
+    font-size: 20px;
+    color: #26bbff;
+    margin-bottom: 10px;
+    margin-top: 10px;
+}
+
+.consumption-from {
+	color: #26bbff;
+	font-size: 20px;
+	padding: 4px 0 0 0;
+}
+
+.custom-btn-info {
+	margin: 0 0 0 0;
 }
 
 /**** Above css's are the actual css. Below css are the view specific css ****/

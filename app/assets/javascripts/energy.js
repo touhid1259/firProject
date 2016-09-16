@@ -59,7 +59,7 @@ $(document).on("turbolinks:load", function() {
               if(item.y > 50){
                 return {
                   style: 'circle',
-                  size: 10,
+                  size: 8,
                   className: 'power-more-20'
                 }
 
@@ -89,6 +89,8 @@ $(document).on("turbolinks:load", function() {
       }
 
       drawPrinterGraph(gon.graphData);
+
+    // real time functions start ----
 
       /**
        * Add a new datapoint to the graph
@@ -142,6 +144,24 @@ $(document).on("turbolinks:load", function() {
         addDataPoint(d, ypower);
         // sec = sec + 2
 
+      });
+
+    // real time functions end ----
+
+      // Datepicker code below
+      $('#st-date').datetimepicker({
+        format: 'YYYY-MM-DD'
+      });
+
+      $("#load-printer-date-data").on('click', function(){
+        var dt = $("#consumption_date").val();
+        var etm = $("#select-hour").val();
+        $.ajax({
+          type: 'POST',
+          url: '/energy/printer/consumption_on',
+          data: {date: dt, end_time: etm},
+          dataType: 'script'
+        });
       });
 
   }

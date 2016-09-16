@@ -46,6 +46,8 @@ GEM
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
       rack (>= 0.9.0)
+    bootstrap3-datetimepicker-rails (4.17.42)
+      momentjs-rails (>= 2.8.1)
     builder (3.2.2)
     capistrano (3.5.0)
       airbrussh (>= 1.0.0)
@@ -97,6 +99,8 @@ GEM
     mime-types-data (3.2016.0521)
     mini_portile2 (2.1.0)
     minitest (5.9.0)
+    momentjs-rails (2.11.1)
+      railties (>= 3.1)
     multi_json (1.12.1)
     mysql2 (0.3.21)
     net-scp (1.2.1)
@@ -173,6 +177,7 @@ DEPENDENCIES
   activerecord-sqlserver-adapter (~> 4.1.2)
   awesome_print
   better_errors
+  bootstrap3-datetimepicker-rails (~> 4.17.42)
   capistrano (= 3.5.0)
   capistrano-bundler (~> 1.1.2)
   capistrano-rails (~> 1.1.1)
@@ -184,6 +189,7 @@ DEPENDENCIES
   jquery-rails
   jquery-turbolinks
   jquery-ui-rails
+  momentjs-rails (>= 2.9.0)
   mysql2 (~> 0.3.18)
   puma
   quiet_assets
