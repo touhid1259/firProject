@@ -1,0 +1,59 @@
+var printer_data = <%=raw @printer_data.to_json %>;
+if(printer_data.length == 0){
+  alert('Nothing to show');
+
+} else {
+    var graph2d;
+    var dataset; // x and y axis data array for the graph2d
+    var groups;
+
+    function drawPrinterGraph(gpitems){
+      var container = $(".printer-graph-static")[0];
+      var items = gpitems;
+      groups = new vis.DataSet();
+      groups.add({
+          id: 1,
+          content: 'group 1',
+          className: 'datewise-data'
+      });
+
+      dataset = new vis.DataSet(items);
+      var options = {
+        start: gpitems[0]['x'],
+        end: gpitems.length > 20 ? gpitems[19]['x'] : gpitems[gpitems.length - 1]['x'],
+        drawPoints: {
+          onRender: function(item, graph2d){
+            if(item.y > 50){
+              return {
+                style: 'circle',
+                size: 8,
+                className: 'power-more-20'
+              }
+
+            }else {
+              return {
+                style: 'circle'
+              }
+
+            }
+          },
+          style: 'circle', // square, circle
+        },
+        shaded: {
+          orientation: 'bottom' // top, bottom
+        },
+        dataAxis: {
+          left: {
+            title: {
+              text: 'Power'
+            }
+          }
+        }
+      };
+
+      graph2d = new vis.Graph2d(container, dataset, groups ,options);
+    }
+
+    drawPrinterGraph(printer_data);
+
+}
