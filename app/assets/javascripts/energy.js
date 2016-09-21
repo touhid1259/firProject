@@ -160,7 +160,15 @@ $(document).on("turbolinks:load", function() {
           type: 'POST',
           url: '/energy/printer/consumption_on',
           data: {date: dt, end_time: etm},
-          dataType: 'script'
+          dataType: 'script',
+          beforeSend: function(){
+            $("#load-printer-date-data").css('display', 'none');
+            $("#load-printer-date-data-loader").css('display', 'inline-block');
+          },
+          complete: function(){
+            $("#load-printer-date-data").css('display', 'inline-block');
+            $("#load-printer-date-data-loader").css('display', 'none');
+          }
         });
       });
 

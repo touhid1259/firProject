@@ -63,10 +63,13 @@
       <div class="col-md-3">
         <div class="form-group">
           <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-date-data" >Load</a>
+          <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-date-data-loader" >
+            Please Wait
+            <img src="<%= image_path 'rolling.gif' %>" class="img-responsive rolling-img" >
+          </a>
         </div>
       </div>
-      <div class="col-md-12 printer-graph-static">
-      </div>
+      <div class="col-md-12 printer-graph-static"></div>
 		</div>
 	</div>
 </div>

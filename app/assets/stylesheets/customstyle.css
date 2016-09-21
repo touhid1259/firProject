@@ -193,6 +193,16 @@
 	margin: 0 0 0 0;
 }
 
+.rolling-img {
+	width: 20px;
+	display: inline;
+	margin-left: 10px;
+}
+
+#load-printer-date-data-loader {
+	display: none;
+}
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */
