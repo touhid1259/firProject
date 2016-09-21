@@ -1,1 +1,1 @@
-Rails.application.config.assets.precompile += %w( timeline/* network/* );
+Rails.application.config.assets.precompile += %w( *.svg *.eot *.woff *.ttf timeline/* network/* );
