@@ -67,13 +67,20 @@ class EnergyController < ApplicationController
       dt = Time.parse(params[:date]).to_date
       etm = Time.parse(params[:end_time])
       stm = etm - 1.hour
-      @printer_data = Energy.consumption_on(dt, stm, etm)
-      @printer_data = @printer_data.collect do |item|
-        {
-          x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
-          y: item.power,
-          group: 1
-        }
+      if(dt > Time.now.to_date)
+        @printer_data = []
+
+      else
+        @printer_data = Energy.consumption_on(dt, stm, etm)
+        @printer_data = @printer_data.collect do |item|
+          {
+            x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+            y: item.power,
+            group: 1
+          }
+          
+        end
+
       end
 
     rescue Exception => ex

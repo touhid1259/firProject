@@ -203,6 +203,11 @@
 	display: none;
 }
 
+
+.sl-custom-form-group, .dt-custom-form-group, .ld-custom-form-group {
+	margin: 0;
+}
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */
@@ -210,6 +215,37 @@
 
 /*Mobile devices smaller than 543px*/
 @media (max-width: 543px) {
+	.consumption-from {
+			font-size: 15px;
+	}
+
+	.on-the-fly {
+    font-size: 15px;
+	}
+
+	.printer-img-div {
+			padding: 0;
+			max-width: 65px;
+	}
+
+	.printer-img {
+		min-width: 100px;
+		margin: 0 0 0 -18px;
+	}
+
+	.h3-label-dtf {
+		font-size: 20px;
+    margin: 4px 0 3px 0;
+	}
+
+	.jumbotron p.para-consm {
+		font-size: 12px;
+	}
+
+	.img-printer {
+    margin: 0;
+	}
+
 	.eng-gen {
     height: 100px;
     width: 100px;
@@ -291,6 +327,22 @@
 
 /*Mobile and Tab devices betwwen 544px and 767px*/
 @media (min-width: 544px) and (max-width: 767px) {
+	.h3-label-dtf {
+		padding: 0 0 0 12px;
+	}
+
+	.jumbotron p.para-consm {
+		padding: 0 0 0 12px;
+    font-size: 16px;
+	}
+
+	.printer-img {
+		min-width: 153px;
+	}
+
+	.printer-img-div {
+		padding: 0;
+	}
 
 	.eng-gen {
     height: 180px;
@@ -378,6 +430,10 @@
 @media (min-width: 768px) and (max-width: 991px) {
 	.weather {
 		float: right;
+	}
+
+	.printer-img-div {
+		padding: 0;
 	}
 
 }

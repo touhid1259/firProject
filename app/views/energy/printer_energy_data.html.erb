@@ -1,12 +1,12 @@
 <div class="container">
   <div class='jumbotron printer-energy-container'>
     <div class="row img-printer">
-      <div class="col-md-3">
-        <img src="<%= image_path 'printer.png' %>" class="img-responsive" >
+      <div class="col-md-3 col-sm-3 col-xs-3 printer-img-div">
+        <img src="<%= image_path 'printer.png' %>" class="img-responsive printer-img" >
       </div>
-      <div class="col-md-9">
-        <h3>Printer Data Flow</h3>
-        <p>Printer's power consumption vs time graph</p>
+      <div class="col-md-9 col-sm-9 col-xs-9">
+        <h3 class="h3-label-dtf">Printer Data Flow</h3>
+        <p class="para-consm">Printer's power consumption vs time graph</p>
       </div>
     </div>
 		<div class="row">
@@ -15,24 +15,24 @@
       </div>
 			<div class="col-md-12 printer-graph">
 			</div>
-      <div class="col-md-3">
+      <div class="col-md-12">
         <div class="form-group">
           <div class="consumption-from"> Power Consumption On: </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="form-group">
+      <div class="col-md-3 col-sm-4 col-xs-4">
+        <div class="form-group dt-custom-form-group">
             <div class='input-group date' id='st-date'>
-                <input type='text' class="form-control" id="consumption_date" />
+                <input type='text' class="form-control" id="consumption_date" placeholder="pick a date" />
                 <span class="input-group-addon">
                     <span class="glyphicon glyphicon-calendar"></span>
                 </span>
             </div>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="form-group">
-          <select class="form-control" id="select-hour">
+      <div class="col-md-3 col-sm-4 col-xs-3">
+        <div class="form-group sl-custom-form-group">
+          <select class="form-control" id="select-hour" >
             <option value="2000-01-01 01:00:00 UTC">1st Hour</option>
             <option value="2000-01-01 02:00:00 UTC">2nd Hour</option>
             <option value="2000-01-01 03:00:00 UTC">3rd Hour</option>
@@ -60,8 +60,8 @@
           </select>
         </div>
       </div>
-      <div class="col-md-3">
-        <div class="form-group">
+      <div class="col-md-3 col-sm-4 col-xs-5">
+        <div class="form-group ld-custom-form-group">
           <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-date-data" >Load</a>
           <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-date-data-loader" >
             Please Wait
@@ -69,7 +69,7 @@
           </a>
         </div>
       </div>
-      <div class="col-md-12 printer-graph-static"></div>
+      <div class="col-md-12 col-sm-12 col-xs-12 printer-graph-static"></div>
 		</div>
 	</div>
 </div>
