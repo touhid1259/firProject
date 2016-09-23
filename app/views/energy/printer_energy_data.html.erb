@@ -20,7 +20,7 @@
           <div class="consumption-from"> Power Consumption On: </div>
         </div>
       </div>
-      <div class="col-md-3 col-sm-4 col-xs-4">
+      <div class="col-md-3 col-sm-4 col-xs-4 custom-st-dt">
         <div class="form-group dt-custom-form-group">
             <div class='input-group date' id='st-date'>
                 <input type='text' class="form-control" id="consumption_date" placeholder="pick a date" />
@@ -30,7 +30,7 @@
             </div>
         </div>
       </div>
-      <div class="col-md-3 col-sm-4 col-xs-3">
+      <div class="col-md-3 col-sm-4 col-xs-3 custom-hour">
         <div class="form-group sl-custom-form-group">
           <select class="form-control" id="select-hour" >
             <option value="2000-01-01 01:00:00 UTC">1st Hour</option>
@@ -60,11 +60,11 @@
           </select>
         </div>
       </div>
-      <div class="col-md-3 col-sm-4 col-xs-5">
+      <div class="col-md-3 col-sm-4 col-xs-5 custom-ld">
         <div class="form-group ld-custom-form-group">
           <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-date-data" >Load</a>
           <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-date-data-loader" >
-            Please Wait
+            Loading
             <img src="<%= image_path 'rolling.gif' %>" class="img-responsive rolling-img" >
           </a>
         </div>

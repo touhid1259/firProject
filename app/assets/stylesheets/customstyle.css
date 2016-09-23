@@ -215,6 +215,18 @@
 
 /*Mobile devices smaller than 543px*/
 @media (max-width: 543px) {
+	.custom-ld {
+		margin: 0 0 10px 0;
+	}
+
+	.custom-st-dt {
+		min-width: 100%;
+	}
+
+	.custom-hour {
+		min-width: 40%;
+	}
+
 	.consumption-from {
 			font-size: 15px;
 	}
