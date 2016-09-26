@@ -1,16 +1,8 @@
-$(document).ready(function() {
+$(document).on("turbolinks:load", function() {
   if(window.location.pathname == '/controlling')
   {
       function drawTestGraph(gpitems){
         var container = $(".graph")[0];
-        // var items = [
-        //   {x: '2014-06-11', y: 10},
-        //   {x: '2014-06-12', y: 25},
-        //   {x: '2014-06-13', y: 30},
-        //   {x: '2014-06-14', y: 10},
-        //   {x: '2014-06-15', y: 15},
-        //   {x: '2014-06-16', y: 30}
-        // ];
         var items = gpitems
 
         var dataset = new vis.DataSet(items);
