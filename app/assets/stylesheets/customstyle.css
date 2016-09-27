@@ -208,6 +208,22 @@
 	margin: 0;
 }
 
+.machine-checkbox {
+	display: inline-block;
+}
+
+.pd-checkbox {
+	padding: 0 0 0 55px;
+}
+
+.checkbox label.ck-label {
+	color: #000000;
+}
+
+.graph {
+	margin: 15px 0 15px 0;
+}
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */

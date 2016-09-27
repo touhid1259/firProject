@@ -1,12 +1,4 @@
 <div class='container'>
-	<!-- <nav class="pers-nav">
-	  <ul class="nav nav-justified pers-links">
-		<li><a href="<%= controlling_path %>">Controlling</a></li>
-		<li><a href="#">Gaming</a></li>
-		<li><a href="#">Planning</a></li>
-		<li><a href="#">Analyzing</a></li>
-	  </ul>
-  </nav> -->
 	<div class='jumbotron'>
 		<div class="row">
 			<!-- <div class="col-md-3">
@@ -17,15 +9,15 @@
 				</ul>
 			</div> -->
 			<div class="col-md-12">
-				<h3>Statistical data of units of some machines </h3>
+				<h3>Statistical data of some machines </h3>
 			</div>
 			<div class="col-md-12 graph">
 			</div>
 			<div class="col-md-12">
-				<% TbWeidmuellerHf2::MACHINES.each do |item| %>
-					<div class="checkbox">
-						<label>
-							<input type="checkbox" checked="checked">
+				<% TbWeidmuellerHf2::MACHINES.each_with_index do |item, index| %>
+					<div class="checkbox machine-checkbox <%= index > 0 ? 'pd-checkbox' : '' %>">
+						<label class="ck-label">
+							<input type="checkbox" class="<%= item %>" checked >
 							<span class="checkbox-material"><span class="check"></span></span>
 							<%= item %>
 						</label>
