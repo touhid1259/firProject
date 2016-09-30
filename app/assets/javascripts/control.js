@@ -3,11 +3,11 @@ $(document).on("turbolinks:load", function() {
   {
       var groups = new vis.DataSet();
       var graph2d;
+      var machines = ["HF_Laser", "AbsauganlageLaser", "KuehlungLaser", "MechanikLaser", "Druckluft"];
 
       function drawTestGraph(gpitems){
         var container = $(".graph")[0];
-        var items = gpitems
-        var machines = ["HF_Laser", "AbsauganlageLaser", "KuehlungLaser", "MechanikLaser", "Druckluft"];
+        var items = gpitems;
         for(i = 0; i < 5; i++){
           groups.add({
             id: machines[i],
@@ -42,23 +42,29 @@ $(document).on("turbolinks:load", function() {
 
       $(".machine-checkbox > label > input").on('change', function(){
         var cls = $(this).attr("class");
+        var cls_true = {};
+        var cls_false = {};
+        cls_true[cls] = true;
+        cls_false[cls] = false;
+
         if($(this).is(":checked")){
           graph2d.setOptions({
               groups:{
-                  visibility:{
-                      "HF_Laser": true
-                  }
+                  visibility: cls_true
               }
           });
         } else {
            graph2d.setOptions({
                groups:{
-                   visibility:{
-                       "HF_Laser": false
-                   }
+                   visibility: cls_false
                }
            });
        }
+      });
+
+      graph2d.on("click", function(prop){
+        console.log(prop);
+
       });
   }
 });
