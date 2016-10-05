@@ -7,6 +7,12 @@ class ControlController < ApplicationController
 				x: "#{item.Datum} " + "#{item.Zeit.strftime('%H:%M:%S')}",
 				y: item["Spannung_Durchschnitt_in_0_01V"],
 				group: item.MaschinenID,
+				label: {
+					content: item["Spannung_Durchschnitt_in_0_01V"],
+					className: "point-label",
+					xOffset: -10,
+					yOffset: -10,
+				}
 			}
 		end
 	end

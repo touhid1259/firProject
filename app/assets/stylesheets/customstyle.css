@@ -224,6 +224,18 @@
 	margin: 15px 0 15px 0;
 }
 
+.point-label {
+	display: none;
+}
+
+circle.vis-point {
+	cursor: pointer;
+}
+
+circle.vis-point:hover + text.point-label {
+	display: inline-block;
+}
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */
