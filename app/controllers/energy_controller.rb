@@ -78,7 +78,7 @@ class EnergyController < ApplicationController
             y: item.power,
             group: 1
           }
-          
+
         end
 
       end

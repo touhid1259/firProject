@@ -15,7 +15,7 @@
 			</div>
 			<div class="col-md-12">
 				<% TbWeidmuellerHf2::MACHINES.each_with_index do |item, index| %>
-					<div class="checkbox machine-checkbox <%= index > 0 ? 'pd-checkbox' : '' %>">
+					<div class="checkbox machine-checkbox <%= index > 0 ? 'pd-checkbox' : 'pd-' + item %>">
 						<label class="ck-label">
 							<input type="checkbox" class="<%= item %>" checked >
 							<span class="checkbox-material"><span class="check"></span></span>

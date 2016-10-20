@@ -65,6 +65,16 @@
 
 					</div>
 				</div>
+				<% if Rails.env == "development" %>
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<h3 class="panel-title"><a href="<%= demo_coding_path %>" class="content-links" > Demo Coding </a></h3>
+						</div>
+						<div class="panel-body">
+							Trying new codes for personal learning.
+						</div>
+					</div>
+				<% end %>
 			</div>
 		</div>
 	</div>

@@ -476,6 +476,10 @@ circle.vis-point:hover + text.point-label {
 		padding: 0;
 	}
 
+	.pd-checkbox {
+    padding: 0 0 0 12px;
+	}
+
 }
 
 /* Medium devices (desktops, 992px and up) */
