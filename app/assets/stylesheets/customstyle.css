@@ -169,6 +169,13 @@
   stroke: #0df200;
 }
 
+.high-datewise-data {
+	stroke: #e82525;
+	fill: #e82525;
+	fill-opacity: 0;
+	stroke-width: 3px;
+}
+
 .power-more-20 {
 	fill: #ff0000;
 	fill-opacity: 0;
@@ -234,6 +241,11 @@ circle.vis-point {
 
 circle.vis-point:hover + text.point-label {
 	display: inline-block;
+}
+
+.horizontal-line {
+	height: 2px;
+  background-color: #cecdcd;
 }
 
 /**** Above css's are the actual css. Below css are the view specific css ****/

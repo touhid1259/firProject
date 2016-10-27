@@ -12,11 +12,14 @@ if(printer_data.length == 0){
       var container = $(".printer-graph-static")[0];
       var items = gpitems;
       groups = new vis.DataSet();
-      groups.add({
-          id: 1,
-          content: 'group 1',
-          className: 'datewise-data'
-      });
+
+      for(i = 0; i <= <%= @group_track %>; i++ ){
+        groups.add({
+            id: i,
+            content: 'groups',
+            className: i == 0 ? 'datewise-data' : 'high-datewise-data'
+        });
+      }
 
       dataset = new vis.DataSet(items);
       var options = {
@@ -27,8 +30,8 @@ if(printer_data.length == 0){
             if(item.y > 50){
               return {
                 style: 'circle',
-                size: 8,
-                className: 'power-more-20'
+                size: 8
+                // className: 'power-more-20'
               }
 
             }else {
@@ -40,6 +43,7 @@ if(printer_data.length == 0){
           },
           style: 'circle', // square, circle
         },
+        interpolation: false,
         shaded: {
           orientation: 'bottom' // top, bottom
         },

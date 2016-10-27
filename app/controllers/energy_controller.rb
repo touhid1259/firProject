@@ -72,14 +72,37 @@ class EnergyController < ApplicationController
 
       else
         @printer_data = Energy.consumption_on(dt, stm, etm)
+        overlay_array = []
+        index = 0
+        @group_track = 1
+        increased = true
+
         @printer_data = @printer_data.collect do |item|
+          if item.power > 50
+            overlay_array[index] = {
+              x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+              y: item.power,
+              group: @group_track # Groups 1, 2, 3 and so on
+            }
+            index = index + 1
+            increased = false
+
+          else
+             increased ? @group_track : @group_track = @group_track + 1
+             increased = true
+
+          end
+
           {
             x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
             y: item.power,
-            group: 1
+            group: 0
           }
 
         end
+
+        @printer_data = @printer_data + overlay_array
+
 
       end
 

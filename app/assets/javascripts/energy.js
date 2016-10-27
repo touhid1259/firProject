@@ -54,6 +54,7 @@ $(document).on("turbolinks:load", function() {
           start: gpitems[30]['x'],
           end: gpitems[49]['x'],
           // end: gpitems[4]['x'],
+          interpolation: false,
           drawPoints: {
             onRender: function(item, graph2d){
               if(item.y > 50){
