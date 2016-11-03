@@ -246,6 +246,7 @@ circle.vis-point:hover + text.point-label {
 .horizontal-line {
 	height: 2px;
   background-color: #cecdcd;
+	margin: 0 0 39px 0;
 }
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
