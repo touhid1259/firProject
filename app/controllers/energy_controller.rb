@@ -3,7 +3,16 @@ class EnergyController < ApplicationController
 
 
   def index
+    timestamp = []
+    # last 5 hour's energy production
+    gon.actual_energy = ActualGeneration.where(country: "DE").last(5).collect{ |item|
+      timestamp.push(item.timestamp)
+      [item.timestamp.in_time_zone("CET").strftime("%H:%M"), item.actual_energy]
+    }
 
+    gon.planned_energy = PlannedGeneration.where({country: "DE", timestamp: timestamp}).collect{|item|
+      [item.timestamp.in_time_zone("CET").strftime("%H:%M"), item.expected_energy]
+    }
   end
 
   def printer_energy_data

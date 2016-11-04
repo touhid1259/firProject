@@ -27,7 +27,57 @@ $(document).on("turbolinks:load", function() {
         $('#machineries-modal').modal('hide');
         window.location.href = "/energy/printer";
       });
+
+      google.charts.load("current", {packages:["corechart"]});
+      google.charts.setOnLoadCallback(drawChartActualEnergy);
+      google.charts.setOnLoadCallback(drawChartPlannedEnergy);
+
+      function drawChartActualEnergy() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Time of Day');
+        data.addColumn('number', 'Energy Production');
+
+        data.addRows(gon.actual_energy);
+
+        var options = {
+          title: "Actual Energy Production in recent 5 hours",
+          hAxis: {
+            title: "Time of Day"
+          },
+          width: 320,
+          height: 250,
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('actual_energy'));
+        chart.draw(data, options);
+      }
+
+      function drawChartPlannedEnergy() {
+        var data = new google.visualization.DataTable();
+        data.addColumn('string', 'Time of Day');
+        data.addColumn('number', 'Energy Production');
+
+        data.addRows(gon.planned_energy);
+
+        var options = {
+          title: "Expected Energy Production in recent 5 hours",
+          hAxis: {
+            title: "Time of Day"
+          },
+          width: 320,
+          height: 250,
+          legend: 'none'
+        };
+
+        var chart = new google.visualization.ColumnChart(document.getElementById('planned_energy'));
+        chart.draw(data, options);
+      }
+
+
   }
+
+// /////////////////////////////////////////////////////////////////////////////
 
   if(window.location.pathname == '/energy/printer')
   {
