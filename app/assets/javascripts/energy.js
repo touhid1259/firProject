@@ -44,7 +44,12 @@ $(document).on("turbolinks:load", function() {
           hAxis: {
             title: "Time of Day"
           },
-          width: 320,
+          animation:{
+            duration: 1000,
+            easing: 'out',
+            startup: true
+          },
+          width: 330,
           height: 250,
           legend: 'none'
         };
@@ -57,6 +62,7 @@ $(document).on("turbolinks:load", function() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Time of Day');
         data.addColumn('number', 'Energy Production');
+        data.addColumn({type: 'string', role: 'style' });
 
         data.addRows(gon.planned_energy);
 
@@ -65,7 +71,12 @@ $(document).on("turbolinks:load", function() {
           hAxis: {
             title: "Time of Day"
           },
-          width: 320,
+          animation:{
+            duration: 1000,
+            easing: 'out',
+            startup: true
+          },
+          width: 330,
           height: 250,
           legend: 'none'
         };

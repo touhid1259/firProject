@@ -11,7 +11,7 @@ class EnergyController < ApplicationController
     }
 
     gon.planned_energy = PlannedGeneration.where({country: "DE", timestamp: timestamp}).collect{|item|
-      [item.timestamp.in_time_zone("CET").strftime("%H:%M"), item.expected_energy]
+      [item.timestamp.in_time_zone("CET").strftime("%H:%M"), item.expected_energy, "gold"]
     }
   end
 

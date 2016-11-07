@@ -249,6 +249,19 @@ circle.vis-point:hover + text.point-label {
 	margin: 0 0 39px 0;
 }
 
+#actual_energy {
+	margin: 15px 0 0 0;
+}
+
+.de-gap {
+	margin: 10px 0 0 0;
+}
+
+#planned_energy svg, #actual_energy svg {
+	border-radius: 3px;
+}
+
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */
