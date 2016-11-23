@@ -257,7 +257,7 @@ circle.vis-point:hover + text.point-label {
 	margin: 10px 0 0 0;
 }
 
-#energy_price_trend svg, #planned_energy svg, #actual_energy svg {
+#traded_energy svg, #energy_price_trend svg, #planned_energy svg, #actual_energy svg {
 	border-radius: 3px;
 }
 

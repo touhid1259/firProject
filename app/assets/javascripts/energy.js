@@ -37,6 +37,7 @@ $(document).on("turbolinks:load", function() {
       google.charts.setOnLoadCallback(drawChartActualEnergy);
       google.charts.setOnLoadCallback(drawChartPlannedEnergy);
       google.charts.setOnLoadCallback(drawPriceTrend);
+      google.charts.setOnLoadCallback(drawTradedEnergy);
 
       function drawChartActualEnergy() {
         var data = new google.visualization.DataTable();
@@ -92,7 +93,7 @@ $(document).on("turbolinks:load", function() {
       }
 
       function drawPriceTrend() {
-        var data = google.visualization.arrayToDataTable(gon.energy_price_trend);
+        var data = google.visualization.arrayToDataTable(gon.energy_price_trend_data);
         var options = {
           title: 'Predicted Energy Price Trends in recent 5 hours',
           vAxis: {title: 'Price (euro)'},
@@ -110,6 +111,28 @@ $(document).on("turbolinks:load", function() {
         var chart = new google.visualization.ComboChart(document.getElementById('energy_price_trend'));
         chart.draw(data, options);
       }
+
+      function drawTradedEnergy(){
+        var data = google.visualization.arrayToDataTable(gon.traded_energy_data);
+
+        var options = {
+          title: "Last Hour's Traded Energy in MWh",
+          height: 400,
+          animation:{
+            duration: 1000,
+            easing: 'out',
+            startup: true
+          },
+          legend:{
+            position: "bottom"
+          },
+          is3D: true,
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('traded_energy'));
+        chart.draw(data, options);
+      }
+
     // Google charts code end
 
   }

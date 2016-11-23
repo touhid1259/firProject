@@ -4,7 +4,7 @@ class EnergyController < ApplicationController
 
   def index
     timestamp = []
-    # last 5 hour's energy production
+    # last 5 hour's energy production Actual vs Planned
     gon.actual_energy = ActualGeneration.where(country: "DE").last(5).collect{ |item|
       timestamp.push(item.timestamp)
       [item.timestamp.in_time_zone("CET").strftime("%H:%M"), item.actual_energy]
@@ -14,7 +14,8 @@ class EnergyController < ApplicationController
       [item.timestamp.in_time_zone("CET").strftime("%H:%M"), item.expected_energy, "gold"]
     }
 
-    gon.energy_price_trend = [
+    # Recent 5 hour's energy price trends
+    gon.energy_price_trend_data = [
       [
        "Hours of the Day", "1st Quarter", "2nd Quarter",
        "3rd Quarter", "4th Quarter", "Average"
@@ -29,8 +30,17 @@ class EnergyController < ApplicationController
                     price_data[i+2].price, price_data[i+3].price,
                     (price_data[i].price + price_data[i+1].price + price_data[i+2].price + price_data[i+3].price)/4]
 
-      gon.energy_price_trend.push(trend_data)
+      gon.energy_price_trend_data.push(trend_data)
     end
+
+    # most recent hour's traded energy
+    gon.traded_energy_data = [
+      ["Quarter", "Amount (in MWh)"],
+      ["1st Quarter", price_data[16].amount],
+      ["2nd Quarter", price_data[17].amount],
+      ["3rd Quarter", price_data[18].amount],
+      ["4th Quarter", price_data[19].amount],
+    ]
 
   end
 
