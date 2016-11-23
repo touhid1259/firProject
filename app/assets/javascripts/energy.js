@@ -1,6 +1,7 @@
 $(document).on("turbolinks:load", function() {
   if(window.location.pathname == '/energy')
   {
+    // Weather update code start
       $.simpleWeather({
         // location: 'campus melaten, aachen, germany',
         woeid: '20066562',
@@ -18,7 +19,9 @@ $(document).on("turbolinks:load", function() {
           $(".weather").html('<p>'+error+'</p>');
         }
       });
+    // Weather update code end
 
+    // little tweaks code start
       $('.fact').on('click', function(){
         $('.choose-machine').dialog();
       });
@@ -27,15 +30,18 @@ $(document).on("turbolinks:load", function() {
         $('#machineries-modal').modal('hide');
         window.location.href = "/energy/printer";
       });
+    // little tweaks code end
 
+    // Google charts code start
       google.charts.load("current", {packages:["corechart"]});
       google.charts.setOnLoadCallback(drawChartActualEnergy);
       google.charts.setOnLoadCallback(drawChartPlannedEnergy);
+      google.charts.setOnLoadCallback(drawPriceTrend);
 
       function drawChartActualEnergy() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Time of Day');
-        data.addColumn('number', 'Energy Production');
+        data.addColumn('number', 'Actual Production');
 
         data.addRows(gon.actual_energy);
 
@@ -61,7 +67,7 @@ $(document).on("turbolinks:load", function() {
       function drawChartPlannedEnergy() {
         var data = new google.visualization.DataTable();
         data.addColumn('string', 'Time of Day');
-        data.addColumn('number', 'Energy Production');
+        data.addColumn('number', 'Expected Production');
         data.addColumn({type: 'string', role: 'style' });
 
         data.addRows(gon.planned_energy);
@@ -85,6 +91,26 @@ $(document).on("turbolinks:load", function() {
         chart.draw(data, options);
       }
 
+      function drawPriceTrend() {
+        var data = google.visualization.arrayToDataTable(gon.energy_price_trend);
+        var options = {
+          title: 'Predicted Energy Price Trends in recent 5 hours',
+          vAxis: {title: 'Price (euro)'},
+          hAxis: {title: 'Hours of the Day'},
+          seriesType: 'bars',
+          series: {4: {type: 'line'}},
+          height: 400,
+          animation:{
+            duration: 1000,
+            easing: 'out',
+            startup: true
+          },
+        };
+
+        var chart = new google.visualization.ComboChart(document.getElementById('energy_price_trend'));
+        chart.draw(data, options);
+      }
+    // Google charts code end
 
   }
 
@@ -210,7 +236,7 @@ $(document).on("turbolinks:load", function() {
 
     // real time functions end ----
 
-      // Datepicker code below
+    // Datepicker and datewise energy data code start
       $('#st-date').datetimepicker({
         format: 'YYYY-MM-DD'
       });
@@ -233,6 +259,7 @@ $(document).on("turbolinks:load", function() {
           }
         });
       });
+    // Datepicker and datewise energy data code start
 
   }
 });

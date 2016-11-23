@@ -13,6 +13,25 @@ class EnergyController < ApplicationController
     gon.planned_energy = PlannedGeneration.where({country: "DE", timestamp: timestamp}).collect{|item|
       [item.timestamp.in_time_zone("CET").strftime("%H:%M"), item.expected_energy, "gold"]
     }
+
+    gon.energy_price_trend = [
+      [
+       "Hours of the Day", "1st Quarter", "2nd Quarter",
+       "3rd Quarter", "4th Quarter", "Average"
+      ]
+    ]
+    price_data = EnergyPriceDayAhead.where("date <= ?", Time.now).last(200).reject{|item|
+      item.date == Time.now.strftime("%Y-%m-%d") and item.time.to_i >= Time.now.strftime("%H").to_i
+    }.last(20)
+
+    (0..16).step(4) do |i|
+      trend_data = [(price_data[i].time.to_i + 1).ordinalize, price_data[i].price, price_data[i+1].price,
+                    price_data[i+2].price, price_data[i+3].price,
+                    (price_data[i].price + price_data[i+1].price + price_data[i+2].price + price_data[i+3].price)/4]
+
+      gon.energy_price_trend.push(trend_data)
+    end
+
   end
 
   def printer_energy_data
