@@ -56,8 +56,6 @@ $(document).on("turbolinks:load", function() {
             easing: 'out',
             startup: true
           },
-          width: 330,
-          height: 250,
           legend: 'none'
         };
 
@@ -83,8 +81,6 @@ $(document).on("turbolinks:load", function() {
             easing: 'out',
             startup: true
           },
-          width: 330,
-          height: 250,
           legend: 'none'
         };
 

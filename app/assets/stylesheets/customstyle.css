@@ -249,16 +249,16 @@ circle.vis-point:hover + text.point-label {
 	margin: 0 0 39px 0;
 }
 
-#actual_energy {
-	margin: 15px 0 0 0;
-}
-
 .de-gap {
 	margin: 10px 0 0 0;
 }
 
 #traded_energy svg, #energy_price_trend svg, #planned_energy svg, #actual_energy svg {
 	border-radius: 3px;
+}
+
+#planned_energy, #actual_energy {
+	height: 250px;
 }
 
 
@@ -547,6 +547,14 @@ circle.vis-point:hover + text.point-label {
 
 /* Large devices (large desktops, 1200px and up) */
 @media (min-width: 1200px) {
+	#planned_energy, #actual_energy {
+		width: 360px;
+	}
+
+	#actual_energy {
+		margin: 15px 0 0 0;
+	}
+
 	.eng-gen {
 		height: 250px;
 		width: 250px;
