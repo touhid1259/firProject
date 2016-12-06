@@ -145,7 +145,7 @@ $(document).on("turbolinks:load", function() {
         var container = $(".printer-graph")[0];
         var items = gpitems
         groups = new vis.DataSet();
-        
+
         for(i = 0; i <= 100; i++ ){
           groups.add({
               id: i,
@@ -162,7 +162,7 @@ $(document).on("turbolinks:load", function() {
           interpolation: false,
           drawPoints: {
             onRender: function(item, graph2d){
-              if(item.y > 16){
+              if(item.y > 50){
                 return {
                   style: 'circle',
                   size: 8
@@ -216,7 +216,7 @@ $(document).on("turbolinks:load", function() {
           group: 0
         });
 
-        if(power > 16) {
+        if(power > 50) {
           dataset.add({
             x: time,
             y: power,
