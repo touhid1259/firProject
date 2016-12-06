@@ -145,15 +145,14 @@ $(document).on("turbolinks:load", function() {
         var container = $(".printer-graph")[0];
         var items = gpitems
         groups = new vis.DataSet();
-        // groups.add({
-        //     id: 0,
-        //     content: '< 18',
-        // });
-        //
-        groups.add({
-            id: 0,
-            content: 'group 0',
-        });
+        
+        for(i = 0; i <= 100; i++ ){
+          groups.add({
+              id: i,
+              content: 'groups',
+              className: i == 0 ? '' : 'high-datewise-data'
+          });
+        }
 
         dataset = new vis.DataSet(items);
         var options = {
@@ -163,11 +162,11 @@ $(document).on("turbolinks:load", function() {
           interpolation: false,
           drawPoints: {
             onRender: function(item, graph2d){
-              if(item.y > 50){
+              if(item.y > 16){
                 return {
                   style: 'circle',
-                  size: 8,
-                  className: 'power-more-20'
+                  size: 8
+                  // className: 'power-more-20'
                 }
 
               }else {
@@ -202,13 +201,34 @@ $(document).on("turbolinks:load", function() {
       /**
        * Add a new datapoint to the graph
        */
+      var group_track = gon.group_track + 1;
+      var real_group_track = group_track;
+      var increased = true;
       function addDataPoint(time, power) {
         // add a new data point to the dataset
+        if(real_group_track == 100){
+          real_group_track = group_track;
+        }
+
         dataset.add({
           x: time,
           y: power,
           group: 0
         });
+
+        if(power > 16) {
+          dataset.add({
+            x: time,
+            y: power,
+            group: real_group_track + 1,
+            className: 'high-datewise-data'
+          });
+          increased = false;
+
+        } else {
+          increased ? real_group_track : real_group_track = real_group_track + 1;
+          increased = true;
+        }
 
         // remove all data points which are no longer visible
         var range = graph2d.getWindow();

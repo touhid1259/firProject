@@ -46,6 +46,10 @@ class EnergyController < ApplicationController
 
   def printer_energy_data
     graphData = Energy.last(50)
+    group_track = 1
+    overlay_array = []
+    index = 0
+    increased = true
     # graphData = [
     #   {'date': Time.now.strftime('%F') , 'time': Time.now, 'power': 14},
     #   {'date': Time.now.strftime('%F') , 'time': Time.now + 2.seconds, 'power': 15},
@@ -53,13 +57,32 @@ class EnergyController < ApplicationController
     #   {'date': Time.now.strftime('%F') , 'time': Time.now + 6.seconds, 'power': 17},
     #   {'date': Time.now.strftime('%F') , 'time': Time.now + 8.seconds, 'power': 14}
     # ]
-    gon.graphData = graphData.collect do |item|
+    graphData = graphData.collect do |item|
+      if item.power > 16
+        overlay_array[index] = {
+          x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
+          y: item.power,
+          group: group_track # Groups 1, 2, 3 and so on
+        }
+        index = index + 1
+        increased = false
+
+      else
+         increased ? group_track : group_track = group_track + 1
+         increased = true
+
+      end
+
       {
         x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         y: item.power,
         group: 0
       }
     end
+
+    gon.group_track = group_track
+    gon.graphData = graphData + overlay_array
+
   end
 
   def continuous_printer_energy_data
@@ -88,7 +111,7 @@ class EnergyController < ApplicationController
       end
 
     rescue Exception => e
-      puts "its an exception - #{e.message}"
+      logger.error "its an exception - #{e.message}"
       logger.error e.backtrace.join("\n")
       sse.close
 
