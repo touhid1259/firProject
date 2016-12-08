@@ -162,7 +162,7 @@ $(document).on("turbolinks:load", function() {
           interpolation: false,
           drawPoints: {
             onRender: function(item, graph2d){
-              if(item.y > 50){
+              if(item.y > 99){
                 return {
                   style: 'circle',
                   size: 8
@@ -216,7 +216,7 @@ $(document).on("turbolinks:load", function() {
           group: 0
         });
 
-        if(power > 50) {
+        if(power > 99) {
           dataset.add({
             x: time,
             y: power,
