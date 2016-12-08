@@ -58,7 +58,7 @@ class EnergyController < ApplicationController
     #   {'date': Time.now.strftime('%F') , 'time': Time.now + 8.seconds, 'power': 14}
     # ]
     graphData = graphData.collect do |item|
-      if item.power > 50
+      if item.power > 99
         overlay_array[index] = {
           x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
           y: item.power,
@@ -139,7 +139,7 @@ class EnergyController < ApplicationController
         increased = true
 
         @printer_data = @printer_data.collect do |item|
-          if item.power > 50
+          if item.power > 99
             overlay_array[index] = {
               x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
               y: item.power,
