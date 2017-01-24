@@ -45,7 +45,7 @@ class EnergyController < ApplicationController
   end
 
   def printer_energy_data
-    graphData = Energy.last(50)
+    graphData = Energy.order(date: :desc).take(50).reverse
     group_track = 1
     overlay_array = []
     index = 0
@@ -60,7 +60,8 @@ class EnergyController < ApplicationController
     graphData = graphData.collect do |item|
       if item.power > 99
         overlay_array[index] = {
-          x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
+          # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
+          x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
           y: item.power,
           group: group_track # Groups 1, 2, 3 and so on
         }
@@ -74,7 +75,8 @@ class EnergyController < ApplicationController
       end
 
       {
-        x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
+        # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
+        x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
         y: item.power,
         group: 0
       }
@@ -90,21 +92,21 @@ class EnergyController < ApplicationController
     sse = SSE.new(response.stream, event: 'time')
     begin
 
-      last_id = -1
+      last_data_time = -1
       loop do
         Energy.uncached do
-          item = Energy.last
+          item = Energy.order(date: :desc).take(1)[0]
           # item = {'date': Time.now.strftime('%F') , 'time': Time.now, 'power': rand(14..20)}
-          if(last_id != item.id)
+          if(last_data_time != item.time)
             sse.write({
                 data: {
-                  x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
+                  x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
                   y: item.power,
                   group: 0
                 }
             })
           end
-          last_id = item.id
+          last_data_time = item.time
           sleep 1
         end
 
