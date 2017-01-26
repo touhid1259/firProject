@@ -45,7 +45,7 @@ class EnergyController < ApplicationController
   end
 
   def printer_energy_data
-    graphData = Energy.order(date: :desc).take(50).reverse
+    graphData = Energy.last(50)
     group_track = 1
     overlay_array = []
     index = 0
@@ -61,7 +61,7 @@ class EnergyController < ApplicationController
       if item.power > 99
         overlay_array[index] = {
           # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
-          x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+          x: "#{item.datetime.strftime("%F %H:%M:%S")}",
           y: item.power,
           group: group_track # Groups 1, 2, 3 and so on
         }
@@ -76,7 +76,7 @@ class EnergyController < ApplicationController
 
       {
         # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
-        x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+        x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
         group: 0
       }
@@ -95,18 +95,18 @@ class EnergyController < ApplicationController
       last_data_time = -1
       loop do
         Energy.uncached do
-          item = Energy.order(date: :desc).take(1)[0]
+          item = Energy.last
           # item = {'date': Time.now.strftime('%F') , 'time': Time.now, 'power': rand(14..20)}
-          if(last_data_time != item.time)
+          if(last_data_time != item.datetime)
             sse.write({
                 data: {
-                  x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+                  x: "#{item.datetime.strftime("%F %H:%M:%S")}",
                   y: item.power,
                   group: 0
                 }
             })
           end
-          last_data_time = item.time
+          last_data_time = item.datetime
           sleep 1
         end
 
@@ -127,14 +127,14 @@ class EnergyController < ApplicationController
 
   def get_datewise_printer_data
     begin
-      dt = Time.parse(params[:date]).to_date
-      etm = Time.parse(params[:end_time])
-      stm = etm - 1.hour
-      if(dt > Time.now.to_date)
+      date = Time.parse(params[:date]).to_date
+      if(date > Time.now.to_date)
         @printer_data = []
 
       else
-        @printer_data = Energy.consumption_on(dt, stm, etm)
+        end_datetime = Time.zone.parse("#{params[:date]} " + params[:end_time]) # its in UTC time zone. datetime in database is in UTC format although the date shows the current time of aachen.
+        start_datetime = end_datetime - 1.hour
+        @printer_data = Energy.consumption_on(start_datetime, end_datetime)
         overlay_array = []
         index = 0
         @group_track = 1
@@ -143,7 +143,7 @@ class EnergyController < ApplicationController
         @printer_data = @printer_data.collect do |item|
           if item.power > 99
             overlay_array[index] = {
-              x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+              x: "#{item.datetime.strftime("%F %H:%M:%S")}",
               y: item.power,
               group: @group_track # Groups 1, 2, 3 and so on
             }
@@ -157,8 +157,9 @@ class EnergyController < ApplicationController
           end
 
           {
-            x: "#{item.date} " + "#{item.time.strftime('%H:%M:%S')}",
+            x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
+            label: {content: "heloos"},
             group: 0
           }
 
