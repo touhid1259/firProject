@@ -159,7 +159,6 @@ class EnergyController < ApplicationController
           {
             x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
-            label: {content: "heloos"},
             group: 0
           }
 
