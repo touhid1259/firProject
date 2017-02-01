@@ -50,13 +50,7 @@ class EnergyController < ApplicationController
     overlay_array = []
     index = 0
     increased = true
-    # graphData = [
-    #   {'date': Time.now.strftime('%F') , 'time': Time.now, 'power': 14},
-    #   {'date': Time.now.strftime('%F') , 'time': Time.now + 2.seconds, 'power': 15},
-    #   {'date': Time.now.strftime('%F') , 'time': Time.now + 4.seconds, 'power': 18},
-    #   {'date': Time.now.strftime('%F') , 'time': Time.now + 6.seconds, 'power': 17},
-    #   {'date': Time.now.strftime('%F') , 'time': Time.now + 8.seconds, 'power': 14}
-    # ]
+
     graphData = graphData.collect do |item|
       if item.power > 99
         overlay_array[index] = {
@@ -135,6 +129,8 @@ class EnergyController < ApplicationController
         end_datetime = Time.zone.parse("#{params[:date]} " + params[:end_time]) # its in UTC time zone. datetime in database is in UTC format although the date shows the current time of aachen.
         start_datetime = end_datetime - 1.hour
         @printer_data = Energy.consumption_on(start_datetime, end_datetime)
+        printer_status_data = {}
+        Status.status_of(start_datetime, end_datetime).collect{|item| printer_status_data[item.timestamp] = item.printer_status}
         overlay_array = []
         index = 0
         @group_track = 1
@@ -156,9 +152,14 @@ class EnergyController < ApplicationController
 
           end
 
+          con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
+
           {
             x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
+            label: {
+              content: "#{con ? con : ' '}",
+              className: "lb", xOffset: -7, yOffset: -10},
             group: 0
           }
 
