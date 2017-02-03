@@ -12,5 +12,5 @@ class Status < ActiveRecord::Base
     "Wärmt auf..." => "🆆"
   }
 
-  scope :status_of, -> (start_time, end_time) {where("timestamp >= ? and timestamp < ?", start_time, end_time)}
+  scope :status_of, -> (start_time, end_time) {where("timestamp >= ? and timestamp <= ?", start_time, end_time)}
 end

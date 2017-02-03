@@ -204,7 +204,7 @@ $(document).on("turbolinks:load", function() {
       var group_track = gon.group_track + 1;
       var real_group_track = group_track;
       var increased = true;
-      function addDataPoint(time, power) {
+      function addDataPoint(time, power, con) {
         // add a new data point to the dataset
         if(real_group_track == 100){
           real_group_track = group_track;
@@ -213,6 +213,10 @@ $(document).on("turbolinks:load", function() {
         dataset.add({
           x: time,
           y: power,
+          label: {
+            content: con,
+            className: "lb", xOffset: -7, yOffset: -10
+          },
           group: 0
         });
 
@@ -264,11 +268,12 @@ $(document).on("turbolinks:load", function() {
         // console.log(json_data.data);
         xtime = json_data.data.x
         ypower = json_data.data.y
+        con = json_data.data.label.content
 
         var d = new Date(xtime);
         // d.setSeconds(d.getSeconds() + sec);
         renderStep(d);
-        addDataPoint(d, ypower);
+        addDataPoint(d, ypower, con);
         // sec = sec + 2
 
       });

@@ -50,6 +50,12 @@ class EnergyController < ApplicationController
     overlay_array = []
     index = 0
     increased = true
+    printer_status_data = {}
+    start_datetime = graphData.first.datetime
+    end_datetime = graphData.last.datetime
+    Status.status_of(start_datetime, end_datetime).collect do |item|
+      printer_status_data[item.timestamp] = item.printer_status
+    end
 
     graphData = graphData.collect do |item|
       if item.power > 99
@@ -68,10 +74,16 @@ class EnergyController < ApplicationController
 
       end
 
+      con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
+
       {
         # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
+        label: {
+          content: "#{con ? con : ' '}",
+          className: "lb", xOffset: -7, yOffset: -10
+        },
         group: 0
       }
     end
@@ -90,18 +102,24 @@ class EnergyController < ApplicationController
       loop do
         Energy.uncached do
           item = Energy.last
+          sleep 0.5
+          printer_status_data = Status.where(timestamp: item.datetime).take
+          con = printer_status_data.nil? ? nil : Status::PRINTER_STATUS[printer_status_data.printer_status]
           # item = {'date': Time.now.strftime('%F') , 'time': Time.now, 'power': rand(14..20)}
           if(last_data_time != item.datetime)
             sse.write({
                 data: {
                   x: "#{item.datetime.strftime("%F %H:%M:%S")}",
                   y: item.power,
+                  label: {
+                    content: "#{con ? con : ' '}"
+                  },
                   group: 0
                 }
             })
           end
           last_data_time = item.datetime
-          sleep 1
+          sleep 0.5
         end
 
       end
