@@ -201,8 +201,9 @@ $(document).on("turbolinks:load", function() {
       /**
        * Add a new datapoint to the graph
        */
-      var group_track = gon.group_track + 1;
-      var real_group_track = group_track;
+      var group_track = gon.group_track;
+      var printer_recent_data = gon.graphData[49];
+      var real_group_track = printer_recent_data['y'] > 99 ? group_track : group_track + 1;
       var increased = true;
       function addDataPoint(time, power, con) {
         // add a new data point to the dataset
@@ -224,7 +225,7 @@ $(document).on("turbolinks:load", function() {
           dataset.add({
             x: time,
             y: power,
-            group: real_group_track + 1,
+            group: real_group_track,
             className: 'high-datewise-data'
           });
           increased = false;
