@@ -89,6 +89,7 @@ $(document).on("turbolinks:load", function() {
       }
 
       function drawPriceTrend() {
+        var window_width = $(window).width();
         var data = google.visualization.arrayToDataTable(gon.energy_price_trend_data);
         var options = {
           title: 'Predicted Energy Price Trends in recent 5 hours',
@@ -96,12 +97,15 @@ $(document).on("turbolinks:load", function() {
           hAxis: {title: 'Hours of the Day'},
           seriesType: 'bars',
           series: {4: {type: 'line'}},
-          height: 400,
+          height: window_width < 544 ? 280 : 400,
           animation:{
             duration: 1000,
             easing: 'out',
             startup: true
           },
+          legend: {
+            position: window_width < 544 ? 'bottom' : 'right'
+          }
         };
 
         var chart = new google.visualization.ComboChart(document.getElementById('energy_price_trend'));
@@ -109,11 +113,12 @@ $(document).on("turbolinks:load", function() {
       }
 
       function drawTradedEnergy(){
+        var window_width = $(window).width();
         var data = google.visualization.arrayToDataTable(gon.traded_energy_data);
 
         var options = {
           title: "Last Hour's Traded Energy in MWh",
-          height: 400,
+          height: window_width < 544 ? 280 : 400,
           animation:{
             duration: 1000,
             easing: 'out',

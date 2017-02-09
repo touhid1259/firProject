@@ -279,8 +279,50 @@ circle.vis-point:hover + text.point-label {
 /* Extra small devices (phones, less than 768px) */
 /* No media query since this is the default in Bootstrap */
 
-/*Mobile devices smaller than 543px*/
+/*Mobile devices smaller than 544px*/
 @media (max-width: 543px) {
+
+	.de-gap {
+		padding: 0;
+	}
+
+	.de-gap h4 {
+		font-size: 15px;
+	}
+
+	#planned_energy {
+		padding-left: 0;
+		padding-right: 0;
+		height: 220px;
+	}
+
+	#actual_energy {
+		padding-right: 0;
+		padding-left: 0;
+		padding-top: 16px;
+		height: 220px;
+	}
+
+	#energy_price_trend {
+		clear: both;
+		padding-top: 16px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	#traded_energy {
+		padding-top: 16px;
+		padding-left: 10px;
+		padding-right: 10px;
+	}
+
+	.energy-production {
+		clear: both;
+		padding-top: 15px;
+		padding-left: 10px;
+    padding-right: 10px;
+	}
+
 	.custom-ld {
 		margin: 0 0 10px 0;
 	}
@@ -405,6 +447,32 @@ circle.vis-point:hover + text.point-label {
 
 /*Mobile and Tab devices betwwen 544px and 767px*/
 @media (min-width: 544px) and (max-width: 767px) {
+
+	#planned_energy {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	#actual_energy {
+		padding-right: 0;
+		padding-left: 0;
+		padding-top: 16px;
+	}
+
+	#energy_price_trend {
+		clear: both;
+		padding-top: 16px;
+	}
+
+	#traded_energy {
+		padding-top: 16px;
+	}
+
+	.energy-production {
+		clear: both;
+		padding-top: 15px;
+	}
+
 	.h3-label-dtf {
 		padding: 0 0 0 12px;
 	}
@@ -506,6 +574,30 @@ circle.vis-point:hover + text.point-label {
 }
 
 @media (min-width: 768px) and (max-width: 991px) {
+
+	#planned_energy {
+		padding-left: 0;
+		padding-right: 8px;
+	}
+
+	#actual_energy {
+		padding-right: 0;
+		padding-left: 8px;
+	}
+
+	#energy_price_trend {
+		clear: both;
+		padding-top: 16px;
+	}
+
+	#traded_energy {
+		padding-top: 16px;
+	}
+
+	.energy-production {
+		clear: both;
+	}
+
 	.weather {
 		float: right;
 	}
@@ -522,6 +614,10 @@ circle.vis-point:hover + text.point-label {
 
 /* Medium devices (desktops, 992px and up) */
 @media (min-width: 992px) {
+
+	.energy-production {
+		margin-bottom: 30px;
+	}
 
 	.eng-gen {
 		height: 200px;
@@ -553,6 +649,18 @@ circle.vis-point:hover + text.point-label {
 	.fact {
 		margin-left: -105px;
 		margin-top: -105px;
+	}
+
+}
+
+@media (min-width: 992px) and (max-width: 1199px) {
+
+	#planned_energy {
+		padding-left: 0;
+	}
+
+	#actual_energy {
+		padding-right: 0;
 	}
 
 }
