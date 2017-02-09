@@ -261,6 +261,18 @@ circle.vis-point:hover + text.point-label {
 	height: 250px;
 }
 
+.printer-status-label {
+	border: 1px solid #bbbbbb;
+	margin-bottom: 10px;
+	padding-top: 4px;
+	padding-bottom: 4px;
+	clear: both;
+}
+
+.show-printer-status {
+	display: none;
+}
+
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
