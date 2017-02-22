@@ -312,4 +312,81 @@ $(document).on("turbolinks:load", function() {
     // Datepicker and datewise energy data code start
 
   }
+
+// /////////////////////////////////////////////////////////////////////////////
+
+  if(window.location.pathname == '/demo_coding')
+  {
+    google.charts.load("current", {packages:["corechart"]});
+    google.charts.setOnLoadCallback(drawEnergyChart);
+
+    function drawEnergyChart(){
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Time of Day');
+      data.addColumn('number', 'Power');
+      data.addColumn({type:'string', role:'style'});
+      data.addColumn({type:'string', role:'annotation'});
+      //
+      // for(i = 0; i < gon.graphData.length; i++){
+      //   gon.graphData[i][0] = new Date(gon.graphData[i][0]);
+      // }
+
+      data.addRows(gon.graphData);
+
+      var options = {
+        smoothLine: true,
+        title: "Printer Energy Data (Power Consumption)",
+        height: 450,
+        hAxis: {
+          title: "Time of Day",
+          format: "HH:mm:ss",
+          viewWindowMode: "pretty"
+        },
+        vAxis: {
+          title: "Power",
+          minValue: 0,
+          maxValue: 30
+        },
+        pointSize: 5,
+        animation:{
+          duration: 750,
+          easing: "out",
+          startup: true
+        },
+        legend: 'none',
+        annotations: {
+           boxStyle: {
+             // x-radius of the corner curvature.
+             rx: 2,
+             // y-radius of the corner curvature.
+             ry: 2,
+           }
+         }
+      };
+
+      var chart = new google.visualization.LineChart(document.getElementById('printer_graph_data'));
+      chart.draw(data, options);
+
+      var source = new EventSource('/demo_coding/demo_continuous_printer_energy_data');
+      source.addEventListener('time', function(event) {
+        if(window.location.pathname != '/demo_coding'){
+          source.close();
+        }
+
+        var json_data = JSON.parse(event.data);
+
+        xtime = json_data.data.x
+        ypower = json_data.data.y
+        style = json_data.data.style
+        label = json_data.data.label
+
+        data.addRow([xtime, ypower, style, label]);
+        data.removeRow(0);
+        chart.draw(data, options);
+
+      });
+
+    }
+  }
+
 });

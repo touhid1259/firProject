@@ -1,38 +1,7 @@
-<html>
-  <head>
-    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js" data-turbolinks-track = "reload" ></script>
-    <script type="text/javascript" data-turbolinks-track = "reload" >
-      google.charts.load("current", {packages:["corechart"]});
-      google.charts.setOnLoadCallback(drawChart);
-      function drawChart() {
-        var data = google.visualization.arrayToDataTable
-            ([['X', 'a', 'b', 'c', 'd', 'e', 'f'],
-              [1, 2, 3, null, 5, 6, 7],
-              [2, 3, 4, 3, 6, 7, 8],
-              [3, null, 5, 6, 7, 8, 9],
-              [4, 5, 6, 5, 8, 9, 10],
-              [5, 6, 7, null, 9, 10, 11],
-              [6, 7, 8, null, 10, 11, 12]
-        ]);
-
-        var options = {
-          legend: 'none',
-          series: {
-            0: { color: '#e2431e' },
-            1: { color: '#e7711b' },
-            2: { color: '#f1ca3a' },
-            3: { color: '#6f9654' },
-            4: { color: '#1c91c0' },
-            5: { color: '#43459d' }
-          }
-        };
-
-        var chart = new google.visualization.LineChart(document.getElementById('chart_div'));
-        chart.draw(data, options);
-      }
-    </script>
-  </head>
-  <body>
-    <div id="chart_div" style="width: 900px; height: 500px;"></div>
-  </body>
-</html>
+<div class="container">
+  <div class="jumbotron printer-energy-container">
+    <div id="printer_graph_data">
+      
+    </div>
+  </div>
+</div>
