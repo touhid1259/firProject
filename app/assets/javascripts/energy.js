@@ -255,11 +255,11 @@ $(document).on("turbolinks:load", function() {
 
       function renderStep(time) {
         // move the window (you can think of different strategies).
-        var xtime = time;
+        var xtime = new Date(time.getTime() + 2000);
         var range = graph2d.getWindow();
         var interval = range.end - range.start;
 
-        graph2d.setWindow(xtime - interval, xtime, {animation: false});
+        graph2d.setWindow(xtime - interval, xtime, {animation: true});
 
       }
 
