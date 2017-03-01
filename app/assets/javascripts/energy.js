@@ -155,14 +155,14 @@ $(document).on("turbolinks:load", function() {
           groups.add({
               id: i,
               content: 'groups',
-              className: i == 0 ? '' : 'high-datewise-data'
+              className: i == 0 ? 'datewise-data' : 'high-datewise-data'
           });
         }
 
         dataset = new vis.DataSet(items);
         var options = {
-          start: gpitems[30]['x'],
-          end: gpitems[49]['x'],
+          start: gpitems[32]['x'],
+          end: new Date(new Date(gpitems[49]['x']).getTime() + 2000),
           // end: gpitems[4]['x'],
           interpolation: false,
           drawPoints: {
@@ -170,18 +170,20 @@ $(document).on("turbolinks:load", function() {
               if(item.y > 99){
                 return {
                   style: 'circle',
-                  size: 8
+                  size: 5
                   // className: 'power-more-20'
                 }
 
               }else {
                 return {
-                  style: 'circle'
+                  style: 'circle',
+                  size: 4
                 }
 
               }
             },
             style: 'circle', // square, circle
+            size: 4
           },
           shaded: {
             orientation: 'bottom' // top, bottom
@@ -223,7 +225,8 @@ $(document).on("turbolinks:load", function() {
             content: con,
             className: "lb", xOffset: -7, yOffset: -10
           },
-          group: 0
+          group: 0,
+          className: "datewise-data"
         });
 
         if(power > 99) {
@@ -255,11 +258,11 @@ $(document).on("turbolinks:load", function() {
 
       function renderStep(time) {
         // move the window (you can think of different strategies).
-        var xtime = time;
+        var xtime = new Date(time.getTime() + 2000);
         var range = graph2d.getWindow();
         var interval = range.end - range.start;
 
-        graph2d.setWindow(xtime - interval, xtime, {animation: false});
+        graph2d.setWindow(xtime - interval, xtime, {animation: true});
 
       }
 
