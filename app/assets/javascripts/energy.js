@@ -155,7 +155,7 @@ $(document).on("turbolinks:load", function() {
           groups.add({
               id: i,
               content: 'groups',
-              className: i == 0 ? 'datewise-data' : 'high-datewise-data'
+              className: 'datewise-data'
           });
         }
 
@@ -167,17 +167,23 @@ $(document).on("turbolinks:load", function() {
           interpolation: false,
           drawPoints: {
             onRender: function(item, graph2d){
-              if(item.y > 99){
+              if(item.group != 0){
+                groups.update({
+                  id: item.group,
+                  content: 'groups',
+                  className: item.cls_id
+                });
                 return {
                   style: 'circle',
-                  size: 5
-                  // className: 'power-more-20'
+                  size: 5,
+                  className: item.cls_id
                 }
 
               }else {
                 return {
                   style: 'circle',
-                  size: 4
+                  size: 4,
+                  className: 'datewise-data'
                 }
 
               }

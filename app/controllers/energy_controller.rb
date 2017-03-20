@@ -49,37 +49,40 @@ class EnergyController < ApplicationController
     group_track = 1
     overlay_array = []
     index = 0
-    increased = true
     printer_status_data = {}
+    energy_cluster_ids = {}
     start_datetime = graphData.first.datetime
     end_datetime = graphData.last.datetime
     Status.status_of(start_datetime, end_datetime).collect do |item|
       printer_status_data[item.timestamp] = item.printer_status
     end
 
+    EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
+      energy_cluster_ids[item.datetime] = item.cluster_id
+    end
+
+    track_cluster_id = energy_cluster_ids.first[1]
+
     graphData = graphData.collect do |item|
-      if item.power > 99
-        overlay_array[index] = {
-          # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
-          x: "#{item.datetime.strftime("%F %H:%M:%S")}",
-          y: item.power,
-          group: group_track # Groups 1, 2, 3 and so on
-        }
-        index = index + 1
-        increased = false
-
-      else
-         increased ? group_track : group_track = group_track + 1
-         increased = true
-
+      if energy_cluster_ids[item.datetime] != track_cluster_id
+        group_track = group_track + 1
+        track_cluster_id = energy_cluster_ids[item.datetime]
       end
 
-      con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
+      overlay_array[index] = {
+        x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+        y: item.power,
+        cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
+        group: group_track # Groups 1, 2, 3 and so on
+      }
+      index = index + 1
 
+      con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
       {
         # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
+        cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
         label: {
           content: "#{con ? con : ' '}",
           className: "lb", xOffset: -7, yOffset: -10
