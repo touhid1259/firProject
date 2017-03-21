@@ -151,7 +151,7 @@ $(document).on("turbolinks:load", function() {
         var items = gpitems
         groups = new vis.DataSet();
 
-        for(i = 0; i <= 100; i++ ){
+        for(i = 0; i <= 200; i++ ){
           groups.add({
               id: i,
               content: 'groups',
@@ -215,13 +215,24 @@ $(document).on("turbolinks:load", function() {
        * Add a new datapoint to the graph
        */
       var group_track = gon.group_track;
-      var printer_recent_data = gon.graphData[49];
-      var real_group_track = printer_recent_data['y'] > 99 ? group_track : group_track + 1;
-      var increased = true;
-      function addDataPoint(time, power, con) {
+      var printer_recent_data = gon.graphData[gon.graphData.length - 1];
+      var recent_cls_id = printer_recent_data['cls_id']
+      var real_group_track = group_track;
+
+      function addDataPoint(time, power, con, cls_id) {
         // add a new data point to the dataset
-        if(real_group_track == 100){
+        if(real_group_track == 200){
           real_group_track = group_track;
+        }
+
+        if(recent_cls_id != cls_id){
+          real_group_track = real_group_track + 1
+          recent_cls_id = cls_id
+          groups.update({
+            id: real_group_track,
+            content: 'groups',
+            className: cls_id
+          });
         }
 
         dataset.add({
@@ -235,19 +246,12 @@ $(document).on("turbolinks:load", function() {
           className: "datewise-data"
         });
 
-        if(power > 99) {
-          dataset.add({
-            x: time,
-            y: power,
-            group: real_group_track,
-            className: 'high-datewise-data'
-          });
-          increased = false;
-
-        } else {
-          increased ? real_group_track : real_group_track = real_group_track + 1;
-          increased = true;
-        }
+        dataset.add({
+          x: time,
+          y: power,
+          group: real_group_track,
+          className: cls_id
+        });
 
         // remove all data points which are no longer visible
         var range = graph2d.getWindow();
@@ -284,11 +288,12 @@ $(document).on("turbolinks:load", function() {
         xtime = json_data.data.x
         ypower = json_data.data.y
         con = json_data.data.label.content
+        cls_id = json_data.data.cls_id
 
         var d = new Date(xtime);
         // d.setSeconds(d.getSeconds() + sec);
         renderStep(d);
-        addDataPoint(d, ypower, con);
+        addDataPoint(d, ypower, con, cls_id);
         // sec = sec + 2
 
       });

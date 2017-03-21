@@ -108,12 +108,17 @@ class EnergyController < ApplicationController
           sleep 0.5
           printer_status_data = Status.where(timestamp: item.datetime).take
           con = printer_status_data.nil? ? nil : Status::PRINTER_STATUS[printer_status_data.printer_status]
+
+          cluster = EnergyClass.where(datetime: item.datetime).take
+          cluster_id = cluster.nil? ? nil : cluster.cluster_id
+
           # item = {'date': Time.now.strftime('%F') , 'time': Time.now, 'power': rand(14..20)}
           if(last_data_time != item.datetime)
             sse.write({
                 data: {
                   x: "#{item.datetime.strftime("%F %H:%M:%S")}",
                   y: item.power,
+                  cls_id: "cls_id_" + cluster_id.to_s,
                   label: {
                     content: "#{con ? con : ' '}"
                   },
