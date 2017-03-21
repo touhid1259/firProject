@@ -240,7 +240,9 @@ $(document).on("turbolinks:load", function() {
           y: power,
           label: {
             content: con,
-            className: "lb", xOffset: -7, yOffset: -10
+            className: "lb_" + cls_id,
+            xOffset: -7,
+            yOffset: -10
           },
           group: 0,
           className: "datewise-data"

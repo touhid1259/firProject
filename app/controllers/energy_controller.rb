@@ -85,7 +85,9 @@ class EnergyController < ApplicationController
         cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
         label: {
           content: "#{con ? con : ' '}",
-          className: "lb", xOffset: -7, yOffset: -10
+          className: "lb_cls_id_" + energy_cluster_ids[item.datetime].to_s,
+          xOffset: -7,
+          yOffset: -10
         },
         group: 0
       }
