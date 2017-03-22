@@ -267,6 +267,14 @@
 	fill: #de2afd;
 }
 
+.legend-circle {
+	height: 13px;
+  width: 12px;
+  display: inline-block;
+  margin: 0 4px -1px 4px;
+  border-radius: 11px;
+}
+
 .on-the-fly {
     font-size: 20px;
     color: #26bbff;
