@@ -1,4 +1,5 @@
 class EnergyController < ApplicationController
+  respond_to :html, :xml, :json, :js
   include ActionController::Live
 
 
@@ -45,10 +46,12 @@ class EnergyController < ApplicationController
   end
 
   def printer_energy_data
-    graphData = Energy.last(50)
+    graphData = Energy.last(15)
     group_track = 1
     overlay_array = []
+    mergedGraphData = []
     index = 0
+    index_2 = 0
     printer_status_data = {}
     energy_cluster_ids = {}
     start_datetime = graphData.first.datetime
@@ -63,7 +66,7 @@ class EnergyController < ApplicationController
 
     track_cluster_id = energy_cluster_ids.first[1]
 
-    graphData = graphData.collect do |item|
+    graphData = graphData.each do |item|
       if energy_cluster_ids[item.datetime] != track_cluster_id
         group_track = group_track + 1
         track_cluster_id = energy_cluster_ids[item.datetime]
@@ -75,10 +78,9 @@ class EnergyController < ApplicationController
         cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
         group: group_track # Groups 1, 2, 3 and so on
       }
-      index = index + 1
 
       con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
-      {
+      ash_colored_stream = {
         # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
@@ -91,10 +93,16 @@ class EnergyController < ApplicationController
         },
         group: 0
       }
+
+      mergedGraphData[index_2] = ash_colored_stream
+      mergedGraphData[index_2 + 1] = overlay_array[index]
+      index = index + 1
+      index_2 = index_2 + 2
+
     end
 
     gon.group_track = group_track
-    gon.graphData = graphData + overlay_array
+    gon.graphData = mergedGraphData
 
   end
 
@@ -151,63 +159,76 @@ class EnergyController < ApplicationController
     begin
       date = Time.parse(params[:date]).to_date
       if(date > Time.now.to_date)
-        @printer_data = []
+        @merged_printer_data = []
 
       else
         end_datetime = Time.zone.parse("#{params[:date]} " + params[:end_time]) # its in UTC time zone. datetime in database is in UTC format although the date shows the current time of aachen.
         start_datetime = end_datetime - 1.hour
-        @printer_data = Energy.consumption_on(start_datetime, end_datetime)
+        printer_data = Energy.consumption_on(start_datetime, end_datetime)
         printer_status_data = {}
+        energy_cluster_ids = {}
         Status.status_of(start_datetime, end_datetime).collect{|item| printer_status_data[item.timestamp] = item.printer_status}
+
+        EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
+          energy_cluster_ids[item.datetime] = item.cluster_id
+        end
+
+        track_cluster_id = energy_cluster_ids.first[1]
+
         overlay_array = []
+        @merged_printer_data = []
         index = 0
+        index_2 = 0
         @group_track = 1
-        increased = true
 
-        @printer_data = @printer_data.collect do |item|
-          if item.power > 99
-            overlay_array[index] = {
-              x: "#{item.datetime.strftime("%F %H:%M:%S")}",
-              y: item.power,
-              group: @group_track # Groups 1, 2, 3 and so on
-            }
-            index = index + 1
-            increased = false
-
-          else
-             increased ? @group_track : @group_track = @group_track + 1
-             increased = true
-
+        printer_data = printer_data.each do |item|
+          if energy_cluster_ids[item.datetime] != track_cluster_id
+            @group_track = @group_track + 1
+            track_cluster_id = energy_cluster_ids[item.datetime]
           end
+
+          overlay_array[index] = {
+            x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+            y: item.power,
+            cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
+            group: @group_track # Groups 1, 2, 3 and so on
+          }
 
           con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
 
-          {
+          ash_colored_stream = {
             x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
+            cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
             label: {
               content: "#{con ? con : ' '}",
-              className: "lb", xOffset: -7, yOffset: -10},
+              className: "lb_cls_id_" + energy_cluster_ids[item.datetime].to_s,
+              xOffset: -7,
+              yOffset: -10
+            },
             group: 0
           }
 
+          @merged_printer_data[index_2] = ash_colored_stream
+          @merged_printer_data[index_2 + 1] = overlay_array[index]
+          index_2 = index_2 + 2
+          index = index + 1
+
         end
-
-        @printer_data = @printer_data + overlay_array
-
 
       end
 
     rescue Exception => ex
       logger.error ex.message
       logger.error ex.backtrace.join("\n")
-      @printer_data = []
+      @merged_printer_data = []
 
     end
 
     respond_to do |format|
       format.js {}
     end
+
   end
 
 end

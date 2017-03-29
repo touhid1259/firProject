@@ -159,20 +159,25 @@ $(document).on("turbolinks:load", function() {
           });
         }
 
+        for(i = 0; i < gpitems.length ; i++ ){
+          if(gpitems[i].group != 0){
+            groups.update({
+                id: gpitems[i].group,
+                content: 'groups',
+                className: gpitems[i].cls_id
+            });
+          }
+        }
+
         dataset = new vis.DataSet(items);
         var options = {
-          start: gpitems[32]['x'],
-          end: new Date(new Date(gpitems[49]['x']).getTime() + 2000),
+          start: gpitems[0]['x'],
+          end: new Date(new Date(gpitems[14]['x']).getTime() + 2000),
           // end: gpitems[4]['x'],
           interpolation: false,
           drawPoints: {
             onRender: function(item, graph2d){
               if(item.group != 0){
-                groups.update({
-                  id: item.group,
-                  content: 'groups',
-                  className: item.cls_id
-                });
                 return {
                   style: 'circle',
                   size: 5,
@@ -194,6 +199,7 @@ $(document).on("turbolinks:load", function() {
           shaded: {
             orientation: 'bottom' // top, bottom
           },
+          moveable: false,
           dataAxis: {
             left: {
               title: {
@@ -325,7 +331,7 @@ $(document).on("turbolinks:load", function() {
           }
         });
       });
-    // Datepicker and datewise energy data code start
+    // Datepicker and datewise energy data code end
 
   }
 });

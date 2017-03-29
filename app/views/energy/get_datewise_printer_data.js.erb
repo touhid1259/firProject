@@ -1,8 +1,10 @@
-var printer_data = <%=raw @printer_data.to_json %>;
-if(printer_data.length == 0){
+var printer_data = <%= return_json(@merged_printer_data) %>
+var data_len = printer_data.length
+if(data_len == 0){
   alert('Nothing to show');
 
 } else {
+    console.log(data_len);
     $(".printer-graph-static").html("");
     var graph2d;
     var dataset; // x and y axis data array for the graph2d
@@ -17,7 +19,15 @@ if(printer_data.length == 0){
         groups.add({
             id: i,
             content: 'groups',
-            className: i == 0 ? 'datewise-data' : 'high-datewise-data'
+            className: 'datewise-data'
+        });
+      }
+
+      for(i = 0; i < gpitems.length; i++ ){
+        groups.update({
+            id: gpitems[i].group,
+            content: 'groups',
+            className: gpitems[i].group == 0 ? 'datewise-data' : gpitems[i].cls_id
         });
       }
 
@@ -27,17 +37,18 @@ if(printer_data.length == 0){
         end: gpitems.length > 20 ? gpitems[19]['x'] : gpitems[gpitems.length - 1]['x'],
         drawPoints: {
           onRender: function(item, graph2d){
-            if(item.y > 99){
+            if(item.group != 0){
               return {
                 style: 'circle',
-                size: 5
-                // className: 'power-more-20'
+                size: 5,
+                className: item.cls_id
               }
 
             }else {
               return {
                 style: 'circle',
-                size: 4
+                size: 4,
+                className: 'datewise-data'
               }
 
             }
