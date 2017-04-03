@@ -46,7 +46,7 @@ class EnergyController < ApplicationController
   end
 
   def printer_energy_data
-    graphData = Energy.last(15)
+    graphData = Energy.last(18)
     group_track = 1
     overlay_array = []
     mergedGraphData = []

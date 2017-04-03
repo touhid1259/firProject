@@ -172,7 +172,7 @@ $(document).on("turbolinks:load", function() {
         dataset = new vis.DataSet(items);
         var options = {
           start: gpitems[0]['x'],
-          end: new Date(new Date(gpitems[14]['x']).getTime() + 2000),
+          end: new Date(new Date(gpitems[17]['x']).getTime() + 2000),
           // end: gpitems[4]['x'],
           interpolation: false,
           drawPoints: {
@@ -210,6 +210,7 @@ $(document).on("turbolinks:load", function() {
         };
 
         graph2d = new vis.Graph2d(container, dataset, groups ,options);
+        graph2d.fit();
         console.log(graph2d.getWindow());
       }
 
