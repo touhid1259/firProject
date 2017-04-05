@@ -235,6 +235,10 @@
 	stroke-width: 2.2px;
 }
 
+.datewise-data-cluster-label {
+	padding: 0;
+}
+
 .lb_cls_id_1 {
 	fill: #006dff;
 }
