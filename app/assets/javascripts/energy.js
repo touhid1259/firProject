@@ -378,6 +378,7 @@ $(document).on("turbolinks:load", function() {
         },
         legend: 'none',
         annotations: {
+           alwaysOutside: true,
            boxStyle: {
              // x-radius of the corner curvature.
              rx: 2,
@@ -387,8 +388,18 @@ $(document).on("turbolinks:load", function() {
          }
       };
 
-      var chart = new google.visualization.LineChart(document.getElementById('printer_graph_data'));
+      var chart = new google.visualization.ColumnChart(document.getElementById('printer_graph_data'));
       chart.draw(data, options);
+
+      $(".line-chart").on('click', function(){
+        chart = new google.visualization.LineChart(document.getElementById('printer_graph_data'));
+        chart.draw(data, options);
+      });
+
+      $(".column-chart").on('click', function(){
+        chart = new google.visualization.ColumnChart(document.getElementById('printer_graph_data'));
+        chart.draw(data, options);
+      });
 
       var source = new EventSource('/demo_coding/demo_continuous_printer_energy_data');
       source.addEventListener('time', function(event) {
