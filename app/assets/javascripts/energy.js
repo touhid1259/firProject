@@ -151,33 +151,44 @@ $(document).on("turbolinks:load", function() {
         var items = gpitems
         groups = new vis.DataSet();
 
-        for(i = 0; i <= 100; i++ ){
+        for(i = 0; i <= 200; i++ ){
           groups.add({
               id: i,
               content: 'groups',
-              className: i == 0 ? 'datewise-data' : 'high-datewise-data'
+              className: 'datewise-data'
           });
+        }
+
+        for(i = 0; i < gpitems.length ; i++ ){
+          if(gpitems[i].group != 0){
+            groups.update({
+                id: gpitems[i].group,
+                content: 'groups',
+                className: gpitems[i].cls_id
+            });
+          }
         }
 
         dataset = new vis.DataSet(items);
         var options = {
-          start: gpitems[32]['x'],
-          end: new Date(new Date(gpitems[49]['x']).getTime() + 2000),
+          start: gpitems[0]['x'],
+          end: new Date(new Date(gpitems[17]['x']).getTime() + 2000),
           // end: gpitems[4]['x'],
           interpolation: false,
           drawPoints: {
             onRender: function(item, graph2d){
-              if(item.y > 99){
+              if(item.group != 0){
                 return {
                   style: 'circle',
-                  size: 5
-                  // className: 'power-more-20'
+                  size: 5,
+                  className: item.cls_id
                 }
 
               }else {
                 return {
                   style: 'circle',
-                  size: 4
+                  size: 4,
+                  className: 'datewise-data'
                 }
 
               }
@@ -188,6 +199,7 @@ $(document).on("turbolinks:load", function() {
           shaded: {
             orientation: 'bottom' // top, bottom
           },
+          moveable: false,
           dataAxis: {
             left: {
               title: {
@@ -198,6 +210,7 @@ $(document).on("turbolinks:load", function() {
         };
 
         graph2d = new vis.Graph2d(container, dataset, groups ,options);
+        graph2d.fit();
         console.log(graph2d.getWindow());
       }
 
@@ -209,13 +222,24 @@ $(document).on("turbolinks:load", function() {
        * Add a new datapoint to the graph
        */
       var group_track = gon.group_track;
-      var printer_recent_data = gon.graphData[49];
-      var real_group_track = printer_recent_data['y'] > 99 ? group_track : group_track + 1;
-      var increased = true;
-      function addDataPoint(time, power, con) {
+      var printer_recent_data = gon.graphData[gon.graphData.length - 1];
+      var recent_cls_id = printer_recent_data['cls_id']
+      var real_group_track = group_track;
+
+      function addDataPoint(time, power, con, cls_id) {
         // add a new data point to the dataset
-        if(real_group_track == 100){
+        if(real_group_track == 200){
           real_group_track = group_track;
+        }
+
+        if(recent_cls_id != cls_id){
+          real_group_track = real_group_track + 1
+          recent_cls_id = cls_id
+          groups.update({
+            id: real_group_track,
+            content: 'groups',
+            className: cls_id
+          });
         }
 
         dataset.add({
@@ -223,25 +247,20 @@ $(document).on("turbolinks:load", function() {
           y: power,
           label: {
             content: con,
-            className: "lb", xOffset: -7, yOffset: -10
+            className: "lb_" + cls_id,
+            xOffset: -7,
+            yOffset: -10
           },
           group: 0,
           className: "datewise-data"
         });
 
-        if(power > 99) {
-          dataset.add({
-            x: time,
-            y: power,
-            group: real_group_track,
-            className: 'high-datewise-data'
-          });
-          increased = false;
-
-        } else {
-          increased ? real_group_track : real_group_track = real_group_track + 1;
-          increased = true;
-        }
+        dataset.add({
+          x: time,
+          y: power,
+          group: real_group_track,
+          className: cls_id
+        });
 
         // remove all data points which are no longer visible
         var range = graph2d.getWindow();
@@ -278,11 +297,12 @@ $(document).on("turbolinks:load", function() {
         xtime = json_data.data.x
         ypower = json_data.data.y
         con = json_data.data.label.content
+        cls_id = json_data.data.cls_id
 
         var d = new Date(xtime);
         // d.setSeconds(d.getSeconds() + sec);
         renderStep(d);
-        addDataPoint(d, ypower, con);
+        addDataPoint(d, ypower, con, cls_id);
         // sec = sec + 2
 
       });
@@ -312,7 +332,7 @@ $(document).on("turbolinks:load", function() {
           }
         });
       });
-    // Datepicker and datewise energy data code start
+    // Datepicker and datewise energy data code end
 
   }
 

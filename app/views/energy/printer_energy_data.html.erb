@@ -23,6 +23,15 @@
           <% end %>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="col-md-12 printer-status-label">
+          Cluster:
+          <% EnergyClass::COLOR_CODES.each do |key, value| %>
+            <div class="legend-circle" style="background-color: <%= value %>;"></div>= <%= key %>
+            <%= "," unless key == "cluster_8" %>
+          <% end %>
+        </div>
+      </div>
 			<div class="col-md-12 printer-graph">
 			</div>
       <div class="col-md-12">
@@ -87,6 +96,15 @@
             <%= item[1] + " = " +  item[0] unless item[0] == "WÃ¤rmt auf..." %>
             <%= "|" unless item[0] == "Wärmt auf..." || item[0] == "WÃ¤rmt auf..." %>
           <% end %>
+        </div>
+        <div class="col-md-12 datewise-data-cluster-label">
+          <div class="col-md-12 printer-status-label">
+            Cluster:
+            <% EnergyClass::COLOR_CODES.each do |key, value| %>
+              <div class="legend-circle" style="background-color: <%= value %>;"></div>= <%= key %>
+              <%= "," unless key == "cluster_8" %>
+            <% end %>
+          </div>
         </div>
       </div>
       <div class="col-md-12 col-sm-12 col-xs-12 printer-graph-static"></div>
