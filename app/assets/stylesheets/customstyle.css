@@ -369,6 +369,10 @@ circle.vis-point:hover + text.point-label {
 	display: none;
 }
 
+.googlePrinterGraph {
+	clear: both;
+}
+
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 

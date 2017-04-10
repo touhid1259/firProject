@@ -1,0 +1,48 @@
+<div class="container">
+  <div class='jumbotron printer-energy-container'>
+    <div class="row img-printer">
+      <div class="col-md-3 col-sm-3 col-xs-3 printer-img-div">
+        <img src="<%= image_path 'printer.png' %>" class="img-responsive printer-img" >
+      </div>
+      <div class="col-md-9 col-sm-9 col-xs-9">
+        <h3 class="h3-label-dtf">Printer Data Flow</h3>
+        <p class="para-consm">Printer's power consumption vs time graph</p>
+        <p>
+          <a href="<%= energy_printer_path %>"> View One </a>
+          View Two
+        </p>
+      </div>
+    </div>
+		<div class="row">
+      <div class="col-md-12 on-the-fly">
+        Power Consumption on the FLY:
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-12 printer-status-label">
+          Printer Status:
+          <% Status::PRINTER_STATUS.each do |item| %>
+
+            <%= item[1] + " = " +  item[0] unless item[0] == "WÃ¤rmt auf..." %>
+            <%= "|" unless item[0] == "Wärmt auf..." || item[0] == "WÃ¤rmt auf..." %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-12 printer-status-label">
+          Cluster:
+          <% EnergyClass::COLOR_CODES.each do |key, value| %>
+            <div class="legend-circle" style="background-color: <%= value %>;"></div>= <%= key %>
+            <%= "," unless key == "cluster_8" %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div>
+          <button class="line-chart" type="button">Line Chart View</button>
+          <button class="column-chart" type="button">Column Chart View</button>
+        </div>
+      </div>
+      <div class="googlePrinterGraph" id="printer_graph_data"></div>
+		</div>
+	</div>
+</div>

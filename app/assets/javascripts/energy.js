@@ -300,10 +300,12 @@ $(document).on("turbolinks:load", function() {
         cls_id = json_data.data.cls_id
 
         var d = new Date(xtime);
-        // d.setSeconds(d.getSeconds() + sec);
-        renderStep(d);
-        addDataPoint(d, ypower, con, cls_id);
-        // sec = sec + 2
+        var ds = dataset.get();
+        if(new Date(ds[ds.length - 1].x) != d )
+        {
+          renderStep(d);
+          addDataPoint(d, ypower, con, cls_id);
+        }
 
       });
 
@@ -338,7 +340,7 @@ $(document).on("turbolinks:load", function() {
 
 // /////////////////////////////////////////////////////////////////////////////
 
-  if(window.location.pathname == '/demo_coding')
+  if(window.location.pathname == '/energy/googleGraph_printer')
   {
     google.charts.load("current", {packages:["corechart"]});
     google.charts.setOnLoadCallback(drawEnergyChart);
@@ -358,7 +360,6 @@ $(document).on("turbolinks:load", function() {
 
       var options = {
         smoothLine: true,
-        title: "Printer Energy Data (Power Consumption)",
         height: 450,
         hAxis: {
           title: "Time of Day",
@@ -401,9 +402,9 @@ $(document).on("turbolinks:load", function() {
         chart.draw(data, options);
       });
 
-      var source = new EventSource('/demo_coding/demo_continuous_printer_energy_data');
+      var source = new EventSource('/energy/googleGraph_printer/continuous');
       source.addEventListener('time', function(event) {
-        if(window.location.pathname != '/demo_coding'){
+        if(window.location.pathname != '/energy/googleGraph_printer'){
           source.close();
         }
 
@@ -413,10 +414,15 @@ $(document).on("turbolinks:load", function() {
         ypower = json_data.data.y
         style = json_data.data.style
         label = json_data.data.label
-
-        data.addRow([xtime, ypower, style, label]);
-        data.removeRow(0);
-        chart.draw(data, options);
+        //
+        // console.log("re - " + xtime);
+        // console.log(data.getValue(9, 0));
+        if(data.getValue(9, 0) != xtime)
+        {
+          data.addRow([xtime, ypower, style, label]);
+          data.removeRow(0);
+          chart.draw(data, options);
+        }
 
       });
 
