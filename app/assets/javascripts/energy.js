@@ -211,7 +211,7 @@ $(document).on("turbolinks:load", function() {
 
         graph2d = new vis.Graph2d(container, dataset, groups ,options);
         graph2d.fit();
-        console.log(graph2d.getWindow());
+
       }
 
       drawPrinterGraph(gon.graphData);

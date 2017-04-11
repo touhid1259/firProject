@@ -100,7 +100,7 @@ class EnergyController < ApplicationController
       index_2 = index_2 + 2
 
     end
-
+    
     gon.group_track = group_track
     gon.graphData = mergedGraphData
 
