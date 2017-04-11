@@ -371,6 +371,8 @@ circle.vis-point:hover + text.point-label {
 
 .googlePrinterGraph {
 	clear: both;
+	border: 1px solid #bbbbbb;
+	margin: 10px 0 0 0;
 }
 
 
