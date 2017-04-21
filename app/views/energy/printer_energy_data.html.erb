@@ -22,8 +22,8 @@
           Printer Status:
           <% Status::PRINTER_STATUS.each do |item| %>
 
-            <%= item[1] + " = " +  item[0] unless item[0] == "WÃ¤rmt auf..." %>
-            <%= "|" unless item[0] == "Wärmt auf..." || item[0] == "WÃ¤rmt auf..." %>
+            <%= item[1] + " = " +  item[0] unless (item[0] == "WÃ¤rmt auf..." || item[0] == "Kartusche bald leer") %>
+            <%= "|" unless ("Wärmt auf..." "WÃ¤rmt auf..." "Kartusche bald leer").include?(item[0]) %>
           <% end %>
         </div>
       </div>
@@ -31,8 +31,9 @@
         <div class="col-md-12 printer-status-label">
           Cluster:
           <% EnergyClass::COLOR_CODES.each do |key, value| %>
+            <% next if ("cluster_8" "cluster_7").include?(key) %>
             <div class="legend-circle" style="background-color: <%= value %>;"></div>= <%= key %>
-            <%= "," unless key == "cluster_8" %>
+            <%= "," unless key == "cluster_6" %>
           <% end %>
         </div>
       </div>
@@ -97,8 +98,8 @@
           Printer Status:
           <% Status::PRINTER_STATUS.each do |item| %>
 
-            <%= item[1] + " = " +  item[0] unless item[0] == "WÃ¤rmt auf..." %>
-            <%= "|" unless item[0] == "Wärmt auf..." || item[0] == "WÃ¤rmt auf..." %>
+          <%= item[1] + " = " +  item[0] unless (item[0] == "WÃ¤rmt auf..." || item[0] == "Kartusche bald leer") %>
+          <%= "|" unless ("Wärmt auf..." "WÃ¤rmt auf..." "Kartusche bald leer").include?(item[0]) %>
           <% end %>
         </div>
         <div class="col-md-12 datewise-data-cluster-label">

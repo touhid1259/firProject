@@ -8,7 +8,7 @@ class Status < ActiveRecord::Base
     "Bereit" => "🅱",
     "Offline" => "🅾",
     "Fehler" => "🅵",
-    "Kartusche bald leer" => "🅺",
+    "Kartusche bald leer" => "🅴",#"🅺",
     "Wärmt auf..." => "🆆"
   }
 
