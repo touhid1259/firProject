@@ -429,4 +429,100 @@ $(document).on("turbolinks:load", function() {
     }
   }
 
+  if(window.location.pathname == '/demo_coding')
+  {
+    var graph2d;
+    var dataset; // x and y axis data array for the graph2d
+
+    function drawPrinterGraph(gpitems){
+      var container = $(".predicted_printer_graph")[0];
+      var items = gpitems
+      dataset = new vis.DataSet(items);
+      var options = {
+        start: gpitems[0]['x'],
+        end: new Date(new Date(gpitems[17]['x']).getTime() + 2000),
+        interpolation: false,
+        drawPoints: {
+          style: 'circle', // square, circle
+          size: 4
+        },
+        shaded: {
+          orientation: 'bottom' // top, bottom
+        },
+        moveable: false,
+        dataAxis: {
+          left: {
+            title: {
+              text: 'Power'
+            }
+          }
+        }
+      };
+
+      graph2d = new vis.Graph2d(container, dataset, options);
+
+    }
+
+    drawPrinterGraph(gon.graphData);
+
+  // real time functions start ----
+
+    /**
+     * Add a new datapoint to the graph
+     */
+    var printer_recent_data = gon.graphData[gon.graphData.length - 1];
+
+    function addDataPoint(time, power) {
+      // add a new data point to the dataset
+      dataset.add({
+        x: time,
+        y: power,
+        group: 0
+      });
+
+      // remove all data points which are no longer visible
+      var range = graph2d.getWindow();
+      var interval = range.end - range.start;
+      var oldIds = dataset.getIds({
+        filter: function (item) {
+          var jstime = new Date(item.x);
+          return jstime < range.start - interval ;
+        }
+      });
+
+      dataset.remove(oldIds);
+    }
+
+    function renderStep(time) {
+      // move the window (you can think of different strategies).
+      var xtime = new Date(time.getTime() + 2000);
+      var range = graph2d.getWindow();
+      var interval = range.end - range.start;
+
+      graph2d.setWindow(xtime - interval, xtime, {animation: true});
+
+    }
+
+    var source = new EventSource('/demo_coding/demo_continuous_printer_energy_data');
+    source.addEventListener('time', function(event) {
+      if(window.location.pathname != '/demo_coding'){
+        source.close();
+      }
+
+      var json_data = JSON.parse(event.data);
+      xtime = json_data.data.x
+      ypower = json_data.data.y
+
+      var d = new Date(xtime);
+      var ds = dataset.get();
+      if(new Date(ds[ds.length - 1].x) != d )
+      {
+        renderStep(d);
+        addDataPoint(d, ypower);
+      }
+
+    });
+
+  // real time functions end ----
+  }
 });
