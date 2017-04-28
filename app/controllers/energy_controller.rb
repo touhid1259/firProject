@@ -100,7 +100,7 @@ class EnergyController < ApplicationController
       index_2 = index_2 + 2
 
     end
-    
+
     gon.group_track = group_track
     gon.graphData = mergedGraphData
 
@@ -298,4 +298,7 @@ class EnergyController < ApplicationController
     render nothing: true
   end
 
+  def printer_energy_prediction
+    energy_data = Energy.last(20)
+  end
 end

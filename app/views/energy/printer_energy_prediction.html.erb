@@ -1,0 +1,34 @@
+<div class="container">
+  <div class='jumbotron printer-energy-container'>
+    <div class="row img-printer">
+      <div class="col-md-3 col-sm-3 col-xs-3 printer-img-div">
+        <img src="<%= image_path 'printer.png' %>" class="img-responsive printer-img" >
+      </div>
+      <div class="col-md-9 col-sm-9 col-xs-9">
+        <h3 class="h3-label-dtf">Printer Data Flow</h3>
+        <p class="para-consm">Printer's power consumption vs time graph</p>
+        <p>
+          View One
+          <a href="<%= energy_googleGraph_printer_path %>"> View Two </a>
+        </p>
+      </div>
+    </div>
+		<div class="row">
+      <div class="col-md-12 on-the-fly">
+        Power Consumption on the FLY:
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-12 printer-status-label">
+          Printer Status:
+          <% Status::PRINTER_STATUS.each do |item| %>
+
+            <%= item[1] + " = " +  item[0] unless (item[0] == "WÃ¤rmt auf..." || item[0] == "Kartusche bald leer") %>
+            <%= "|" unless ("Wärmt auf..." "WÃ¤rmt auf..." "Kartusche bald leer").include?(item[0]) %>
+          <% end %>
+        </div>
+      </div>
+			<div class="col-md-12 printer-graph">
+			</div>
+		</div>
+	</div>
+</div>
