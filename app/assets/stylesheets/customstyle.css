@@ -375,6 +375,29 @@ circle.vis-point:hover + text.point-label {
 	margin: 10px 0 0 0;
 }
 
+.predicted_line {
+	fill: #ff4b3b;
+	fill-opacity: 0;
+	stroke-width: 2px;
+	stroke: #ff4b3b;
+	stroke-dasharray: 10 10;
+}
+
+.actual_line {
+	fill: #0f79b3;
+	fill-opacity: 0;
+	stroke-width: 2px;
+	stroke: #0f79b3;
+}
+
+.lb_predicted {
+	fill: #ff4b3b
+}
+
+.lb_actual {
+	fill: #0f79b3
+}
+
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 

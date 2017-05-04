@@ -294,6 +294,43 @@ class EnergyController < ApplicationController
   end
 
   def printer_energy_prediction
-    energy_data = Energy.last(20)
+    energy_data = EnergyClass.last(21)
+    predicted_energy_data = []
+    index = 0
+    multiple_predicted_energy_data = Prediction.where(datetime: energy_data.collect{|item| item.datetime})
+    energy_data = energy_data.collect do |item|
+      predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime }[0]
+      predicted_energy_data[index] = {
+        x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+        y: predicted.power,
+        label: {
+          content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[predicted.state]]}",
+          className: "lb_predicted",
+          xOffset: -7,
+          yOffset: -10
+        },
+        group: 0
+      }
+
+      index += 1
+
+      next if index == 1
+
+      {
+        x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+        y: item.power,
+        label: {
+          content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]}",
+          className: "lb_actual",
+          xOffset: -7,
+          yOffset: -10
+        },
+        group: 1
+      }
+    end
+
+    gon.energy_data = (predicted_energy_data + energy_data).compact
+
   end
+
 end

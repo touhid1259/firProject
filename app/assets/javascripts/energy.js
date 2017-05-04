@@ -429,4 +429,54 @@ $(document).on("turbolinks:load", function() {
     }
   }
 
+// /////////////////////////////////////////////////////////////////////////////
+
+  if(window.location.pathname == '/energy/printer_prediction')
+  {
+    var graph2d;
+    var dataset; // x and y axis data array for the graph2d
+    var groups;
+
+    function drawPrinterGraph(gpitems){
+      var container = $(".printer-graph")[0];
+      var items = gpitems
+      groups = new vis.DataSet();
+
+      for(i = 0; i <= 1; i++){
+        groups.add({
+          id: i,
+          content: "groups",
+          className: i == 0 ? "predicted_line" : "actual_line"
+        });
+      }
+
+      dataset = new vis.DataSet(items);
+      var options = {
+        start: gpitems[0]['x'],
+        end: new Date(new Date(gpitems[20]['x']).getTime() + 2000),
+        // interpolation: false,
+        drawPoints: {
+          style: 'circle', // square, circle
+          size: 5
+        },
+        shaded: {
+          orientation: 'bottom' // top, bottom
+        },
+        moveable: false,
+        dataAxis: {
+          left: {
+            title: {
+              text: 'Power'
+            }
+          }
+        }
+      };
+
+      graph2d = new vis.Graph2d(container, dataset, groups ,options);
+
+    }
+
+    drawPrinterGraph(gon.energy_data);
+  }
+
 });

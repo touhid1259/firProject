@@ -8,22 +8,23 @@
         <h3 class="h3-label-dtf">Printer Data Flow</h3>
         <p class="para-consm">Printer's power consumption vs time graph</p>
         <p>
-          View One
-          <a href="<%= energy_googleGraph_printer_path %>"> View Two </a>
+          <a href="<%= energy_printer_path %>"> View One </a> |
+          <a href="<%= energy_googleGraph_printer_path %>"> View Two </a> |
+          View Three
         </p>
       </div>
     </div>
 		<div class="row">
       <div class="col-md-12 on-the-fly">
-        Power Consumption on the FLY:
+        Actual Power Consumption VS Predicted Power Consumption:
       </div>
       <div class="col-md-12">
         <div class="col-md-12 printer-status-label">
           Printer Status:
           <% Status::PRINTER_STATUS.each do |item| %>
 
-            <%= item[1] + " = " +  item[0] unless (item[0] == "WÃ¤rmt auf..." || item[0] == "Kartusche bald leer") %>
-            <%= "|" unless ("Wärmt auf..." "WÃ¤rmt auf..." "Kartusche bald leer").include?(item[0]) %>
+            <%= item[1] + " = " +  item[0] unless (item[0] == "NoState" || item[0] == "Kartusche bald leer") %>
+            <%= "|" unless ("NoState" "Kartusche bald leer" "Alarm").include?(item[0]) %>
           <% end %>
         </div>
       </div>
