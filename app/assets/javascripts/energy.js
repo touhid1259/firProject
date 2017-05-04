@@ -437,8 +437,8 @@ $(document).on("turbolinks:load", function() {
     var dataset; // x and y axis data array for the graph2d
     var groups;
 
-    function drawPrinterGraph(gpitems){
-      var container = $(".printer-graph")[0];
+    function drawPredictedPrinterGraph(gpitems){
+      var container = $(".predicted-printer-graph")[0];
       var items = gpitems
       groups = new vis.DataSet();
 
@@ -476,7 +476,7 @@ $(document).on("turbolinks:load", function() {
 
     }
 
-    drawPrinterGraph(gon.energy_data);
+    drawPredictedPrinterGraph(gon.energy_data);
   }
 
 });
