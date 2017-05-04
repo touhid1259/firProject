@@ -46,48 +46,48 @@ class EnergyController < ApplicationController
   end
 
   def printer_energy_data
-    graphData = Energy.last(18)
+    graphData = EnergyClass.last(18)
     group_track = 1
     overlay_array = []
     mergedGraphData = []
     index = 0
     index_2 = 0
-    printer_status_data = {}
-    energy_cluster_ids = {}
-    start_datetime = graphData.first.datetime
-    end_datetime = graphData.last.datetime
-    Status.status_of(start_datetime, end_datetime).collect do |item|
-      printer_status_data[item.timestamp] = item.printer_status
-    end
+    # printer_status_data = {}
+    # energy_cluster_ids = {}
+    # start_datetime = graphData.first.datetime
+    # end_datetime = graphData.last.datetime
+    # Status.status_of(start_datetime, end_datetime).collect do |item|
+    #   printer_status_data[item.timestamp] = item.printer_status
+    # end
 
-    EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
-      energy_cluster_ids[item.datetime] = item.cluster_id
-    end
+    # EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
+    #   energy_cluster_ids[item.datetime] = item.cluster_id
+    # end
 
-    track_cluster_id = energy_cluster_ids.first[1]
+    track_cluster_id = graphData.first.cluster_id
 
     graphData = graphData.each do |item|
-      if energy_cluster_ids[item.datetime] != track_cluster_id
+      if item.cluster_id != track_cluster_id
         group_track = group_track + 1
-        track_cluster_id = energy_cluster_ids[item.datetime]
+        track_cluster_id = item.cluster_id
       end
 
       overlay_array[index] = {
         x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
-        cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
+        cls_id: "cls_id_" + item.cluster_id.to_s,
         group: group_track # Groups 1, 2, 3 and so on
       }
 
-      con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
+      con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
       ash_colored_stream = {
         # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
-        cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
+        cls_id: "cls_id_" + item.cluster_id.to_s,
         label: {
           content: "#{con ? con : ' '}",
-          className: "lb_cls_id_" + energy_cluster_ids[item.datetime].to_s,
+          className: "lb_cls_id_" + item.cluster_id.to_s,
           xOffset: -7,
           yOffset: -10
         },
@@ -113,22 +113,17 @@ class EnergyController < ApplicationController
 
       last_data_time = -1
       loop do
-        Energy.uncached do
-          item = Energy.last
+        EnergyClass.uncached do
+          item = EnergyClass.last
           sleep 0.5
-          printer_status_data = Status.where(timestamp: item.datetime).take
-          con = printer_status_data.nil? ? nil : Status::PRINTER_STATUS[printer_status_data.printer_status]
+          con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
 
-          cluster = EnergyClass.where(datetime: item.datetime).take
-          cluster_id = cluster.nil? ? nil : cluster.cluster_id
-
-          # item = {'date': Time.now.strftime('%F') , 'time': Time.now, 'power': rand(14..20)}
           if(last_data_time != item.datetime)
             sse.write({
                 data: {
                   x: "#{item.datetime.strftime("%F %H:%M:%S")}",
                   y: item.power,
-                  cls_id: "cls_id_" + cluster_id.to_s,
+                  cls_id: "cls_id_" + item.cluster_id.to_s,
                   label: {
                     content: "#{con ? con : ' '}"
                   },
@@ -164,16 +159,16 @@ class EnergyController < ApplicationController
       else
         end_datetime = Time.zone.parse("#{params[:date]} " + params[:end_time]) # its in UTC time zone. datetime in database is in UTC format although the date shows the current time of aachen.
         start_datetime = end_datetime - 1.hour
-        printer_data = Energy.consumption_on(start_datetime, end_datetime)
-        printer_status_data = {}
-        energy_cluster_ids = {}
-        Status.status_of(start_datetime, end_datetime).collect{|item| printer_status_data[item.timestamp] = item.printer_status}
+        printer_data = EnergyClass.consumption_on(start_datetime, end_datetime)
+        # printer_status_data = {}
+        # energy_cluster_ids = {}
+        # Status.status_of(start_datetime, end_datetime).collect{|item| printer_status_data[item.timestamp] = item.printer_status}
 
-        EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
-          energy_cluster_ids[item.datetime] = item.cluster_id
-        end
+        # EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
+        #   energy_cluster_ids[item.datetime] = item.cluster_id
+        # end
 
-        track_cluster_id = energy_cluster_ids.first[1]
+        track_cluster_id = printer_data.empty? ? nil : printer_data.first.cluster_id
 
         overlay_array = []
         @merged_printer_data = []
@@ -182,27 +177,27 @@ class EnergyController < ApplicationController
         @group_track = 1
 
         printer_data = printer_data.each do |item|
-          if energy_cluster_ids[item.datetime] != track_cluster_id
+          if item.cluster_id != track_cluster_id
             @group_track = @group_track + 1
-            track_cluster_id = energy_cluster_ids[item.datetime]
+            track_cluster_id = item.cluster_id
           end
 
           overlay_array[index] = {
             x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
-            cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
+            cls_id: "cls_id_" + item.cluster_id.to_s,
             group: @group_track # Groups 1, 2, 3 and so on
           }
 
-          con = Status::PRINTER_STATUS[printer_status_data[item.datetime]]
+          con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
 
           ash_colored_stream = {
             x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
-            cls_id: "cls_id_" + energy_cluster_ids[item.datetime].to_s,
+            cls_id: "cls_id_" + item.cluster_id.to_s,
             label: {
               content: "#{con ? con : ' '}",
-              className: "lb_cls_id_" + energy_cluster_ids[item.datetime].to_s,
+              className: "lb_cls_id_" + item.cluster_id.to_s,
               xOffset: -7,
               yOffset: -10
             },
@@ -232,25 +227,25 @@ class EnergyController < ApplicationController
   end
 
   def googleGraph_printer_energy_data
-    graphData = Energy.last(10)
-    printer_status_data = {}
-    cluster_ids = {}
-    start_datetime = graphData.first.datetime
-    end_datetime = graphData.last.datetime
-    Status.status_of(start_datetime, end_datetime).collect do |item|
-      printer_status_data[item.timestamp] = item.printer_status
-    end
+    graphData = EnergyClass.last(10)
+    # printer_status_data = {}
+    # cluster_ids = {}
+    # start_datetime = graphData.first.datetime
+    # end_datetime = graphData.last.datetime
+    # Status.status_of(start_datetime, end_datetime).collect do |item|
+    #   printer_status_data[item.timestamp] = item.printer_status
+    # end
 
-    EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
-      cluster_ids[item.datetime] = item.cluster_id
-    end
+    # EnergyClass.get_cluster_ids(start_datetime, end_datetime).collect do |item|
+    #   cluster_ids[item.datetime] = item.cluster_id
+    # end
 
     gon.graphData = graphData.collect{ |item|
       [
         item.datetime.strftime("%H:%M:%S"),
         item.power,
-        "color: #{EnergyClass::COLOR_CODES['cluster_' + cluster_ids[item.datetime].to_s]}",
-        Status::PRINTER_STATUS[printer_status_data[item.datetime]]
+        "color: #{EnergyClass::COLOR_CODES['cluster_' + item.cluster_id.to_s]}",
+        Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
       ]
     }
   end
@@ -262,13 +257,13 @@ class EnergyController < ApplicationController
 
       last_data_time = -1
       loop do
-        Energy.uncached do
-          item = Energy.last
+        EnergyClass.uncached do
+          item = EnergyClass.last
           sleep 0.5
-          printer_status_data = Status.where(timestamp: item.datetime).take
-          label_text = printer_status_data.nil? ? nil : Status::PRINTER_STATUS[printer_status_data.printer_status]
-          cluster_id = EnergyClass.where(datetime: item.datetime).take
-          cluster_color = cluster_id.nil? ? "black" : EnergyClass::COLOR_CODES['cluster_' + cluster_id.cluster_id.to_s]
+          # printer_status_data = Status.where(timestamp: item.datetime).take
+          label_text = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
+          # cluster_id = EnergyClass.where(datetime: item.datetime).take
+          cluster_color = EnergyClass::COLOR_CODES['cluster_' + item.cluster_id.to_s]
 
           if(last_data_time != item.datetime)
             sse.write({
