@@ -342,8 +342,8 @@ class EnergyController < ApplicationController
       loop do
         EnergyClass.uncached do
           item = EnergyClass.last
-          pred_item = Prediction.where(datetime: item.datetime)[0]
           sleep 0.5
+          pred_item = Prediction.where(datetime: item.datetime)[0]
           con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
           pred_con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[pred_item.state]]
 
@@ -359,7 +359,7 @@ class EnergyController < ApplicationController
                     group: 1
                   },
                   predicted: {
-                    x: "#{pred_item.datetime.strftime("%F %H:%M:%S")}",
+                    x: "#{pred_item.pred_time.strftime("%F %H:%M:%S")}",
                     y: pred_item.power,
                     label: {
                       content: "#{pred_con ? pred_con : ' '}"
@@ -370,7 +370,7 @@ class EnergyController < ApplicationController
             })
           end
           last_data_time = item.datetime
-          sleep 0.5
+          sleep 0.2
         end
 
       end
