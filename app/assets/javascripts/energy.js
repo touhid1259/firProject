@@ -477,6 +477,92 @@ $(document).on("turbolinks:load", function() {
     }
 
     drawPredictedPrinterGraph(gon.energy_data);
+
+    // real time functions for Prediction data start ----
+
+      /**
+       * Add a new datapoint to the graph
+       */
+
+      function predictionAddDataPoint() {
+        // add a new data point to the dataset
+
+        dataset.add({
+          x: arguments[3],
+          y: arguments[4],
+          label: {
+            content: arguments[5],
+            className: "lb_predicted",
+            xOffset: -7,
+            yOffset: -10
+          },
+          group: 0
+        });
+
+        dataset.add({
+          x: arguments[0],
+          y: arguments[1],
+          label: {
+            content: arguments[2],
+            className: "lb_actual",
+            xOffset: -7,
+            yOffset: -10
+          },
+          group: 1
+        });
+
+        // remove all data points which are no longer visible
+        var range = graph2d.getWindow();
+        var interval = range.end - range.start;
+        var oldIds = dataset.getIds({
+          filter: function (item) {
+            var jstime = new Date(item.x);
+            return jstime < range.start - interval ;
+          }
+        });
+
+        dataset.remove(oldIds);
+      }
+
+      function predictionRenderStep(time) {
+        // move the window (you can think of different strategies).
+        var xtime = new Date(time.getTime() + 2000);
+        var range = graph2d.getWindow();
+        var interval = range.end - range.start;
+
+        graph2d.setWindow(xtime - interval, xtime, {animation: true});
+
+      }
+
+      // var sec = 2;
+      var source = new EventSource('/energy/printer_prediction/continuous');
+      source.addEventListener('time', function(event) {
+        if(window.location.pathname != '/energy/printer_prediction'){
+          source.close();
+        }
+
+        var json_data = JSON.parse(event.data);
+        // console.log(json_data.data);
+        xtime = json_data.data.actual.x
+        ypower = json_data.data.actual.y
+        con = json_data.data.actual.label.content
+
+        predicted_xtime = json_data.data.predicted.x
+        predicted_ypower = json_data.data.predicted.y
+        predicted_con = json_data.data.predicted.label.content
+
+        var predicted_dtime = new Date(predicted_xtime)
+        var dtime = new Date(xtime);
+        var ds = dataset.get();
+        if(new Date(ds[ds.length - 1].x) != dtime )
+        {
+          predictionRenderStep(dtime);
+          predictionAddDataPoint(dtime, ypower, con, predicted_dtime, predicted_ypower, predicted_con);
+        }
+
+      });
+
+    // real time functions end ----
   }
 
 });

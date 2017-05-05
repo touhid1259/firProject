@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get '/energy/googleGraph_printer' => 'energy#googleGraph_printer_energy_data'
   get '/energy/googleGraph_printer/continuous' => 'energy#googleGraph_continuous_printer_energy_data'
   get '/energy/printer_prediction' => 'energy#printer_energy_prediction'
+  get '/energy/printer_prediction/continuous' => 'energy#continuous_printer_energy_prediction'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

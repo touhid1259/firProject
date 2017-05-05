@@ -328,8 +328,63 @@ class EnergyController < ApplicationController
         group: 1
       }
     end
-    
+
     gon.energy_data = (predicted_energy_data + energy_data).compact
+
+  end
+
+  def continuous_printer_energy_prediction
+    response.headers['Content-Type'] = 'text/event-stream'
+    sse = SSE.new(response.stream, event: 'time')
+    begin
+
+      last_data_time = -1
+      loop do
+        EnergyClass.uncached do
+          item = EnergyClass.last
+          pred_item = Prediction.where(datetime: item.datetime)[0]
+          sleep 0.5
+          con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
+          pred_con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[pred_item.state]]
+
+          if(last_data_time != item.datetime)
+            sse.write({
+                data: {
+                  actual: {
+                    x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+                    y: item.power,
+                    label: {
+                      content: "#{con ? con : ' '}"
+                    },
+                    group: 1
+                  },
+                  predicted: {
+                    x: "#{pred_item.datetime.strftime("%F %H:%M:%S")}",
+                    y: pred_item.power,
+                    label: {
+                      content: "#{pred_con ? pred_con : ' '}"
+                    },
+                    group: 0
+                  }
+              }
+            })
+          end
+          last_data_time = item.datetime
+          sleep 0.5
+        end
+
+      end
+
+    rescue Exception => e
+      logger.error "its an exception - #{e.message}"
+      logger.error e.backtrace.join("\n")
+      sse.close
+
+    ensure
+      sse.close
+
+    end
+    render nothing: true
 
   end
 
