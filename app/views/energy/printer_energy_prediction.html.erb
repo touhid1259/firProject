@@ -28,6 +28,15 @@
           <% end %>
         </div>
       </div>
+      <div class="col-md-12">
+        <div class="col-md-12 printer-status-label">
+          Streams:
+          <% {"Actual Stream" => "#0f79b3", "Predicted Stream" => "#ff4b3b"}.each do |key, value| %>
+            <div class="legend-circle" style="background-color: <%= value %>;"></div>= <%= key %>
+            <%= "|" unless key == "Predicted Stream" %>
+          <% end %>
+        </div>
+      </div>
 			<div class="col-md-12 predicted-printer-graph">
 			</div>
 		</div>

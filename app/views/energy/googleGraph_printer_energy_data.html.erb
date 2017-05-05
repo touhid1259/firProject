@@ -23,8 +23,8 @@
           Printer Status:
           <% Status::PRINTER_STATUS.each do |item| %>
 
-          <%= item[1] + " = " +  item[0] unless (item[0] == "WÃ¤rmt auf..." || item[0] == "Kartusche bald leer") %>
-          <%= "|" unless ("Wärmt auf..." "WÃ¤rmt auf..." "Kartusche bald leer").include?(item[0]) %>
+            <%= item[1] + " = " +  item[0] unless (item[0] == "NoState" || item[0] == "Kartusche bald leer") %>
+            <%= "|" unless ("NoState" "Kartusche bald leer" "Alarm").include?(item[0]) %>
           <% end %>
         </div>
       </div>

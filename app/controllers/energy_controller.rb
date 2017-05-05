@@ -328,7 +328,7 @@ class EnergyController < ApplicationController
         group: 1
       }
     end
-
+    
     gon.energy_data = (predicted_energy_data + energy_data).compact
 
   end
