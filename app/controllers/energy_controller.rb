@@ -1,6 +1,7 @@
 class EnergyController < ApplicationController
   respond_to :html, :xml, :json, :js
   include ActionController::Live
+  LOWER_UPPER_BOUNDS = ClusterConfid.all
 
 
   def index
@@ -296,10 +297,13 @@ class EnergyController < ApplicationController
   def printer_energy_prediction
     energy_data = EnergyClass.last(21)
     predicted_energy_data = []
+    lower_bounds = []
+    upper_bounds = []
     index = 0
     multiple_predicted_energy_data = Prediction.where(datetime: energy_data.collect{|item| item.datetime})
     energy_data = energy_data.collect do |item|
       predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime }[0]
+      lower_upper_bound = LOWER_UPPER_BOUNDS.select{|item_3| item_3.cluster_Id == predicted.cluster && item_3.state == predicted.state}[0]
       predicted_energy_data[index] = {
         x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
         y: predicted.power,
@@ -310,6 +314,18 @@ class EnergyController < ApplicationController
           yOffset: -10
         },
         group: 0
+      }
+
+      lower_bounds[index] = {
+        x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+        y: lower_upper_bound.confid_low,
+        group: 2
+      }
+
+      upper_bounds[index] = {
+        x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+        y: lower_upper_bound.confid_up,
+        group: 3
       }
 
       index += 1
@@ -329,7 +345,7 @@ class EnergyController < ApplicationController
       }
     end
 
-    gon.energy_data = (predicted_energy_data + energy_data).compact
+    gon.energy_data = (predicted_energy_data + lower_bounds + upper_bounds + energy_data).compact
 
   end
 
@@ -344,6 +360,7 @@ class EnergyController < ApplicationController
           item = EnergyClass.last
           sleep 0.5
           pred_item = Prediction.where(datetime: item.datetime)[0]
+          lower_upper_bound = LOWER_UPPER_BOUNDS.select{|item_3| item_3.cluster_Id == pred_item.cluster && item_3.state == pred_item.state}[0]
           con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
           pred_con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[pred_item.state]]
 
@@ -365,6 +382,16 @@ class EnergyController < ApplicationController
                       content: "#{pred_con ? pred_con : ' '}"
                     },
                     group: 0
+                  },
+                  lower: {
+                    x: "#{pred_item.pred_time.strftime("%F %H:%M:%S")}",
+                    y: lower_upper_bound.confid_low,
+                    group: 2
+                  },
+                  upper: {
+                    x: "#{pred_item.pred_time.strftime("%F %H:%M:%S")}",
+                    y: lower_upper_bound.confid_up,
+                    group: 3
                   }
               }
             })

@@ -383,6 +383,22 @@ circle.vis-point:hover + text.point-label {
 	stroke-dasharray: 10 10;
 }
 
+.lower_bound_line {
+	fill: #9e9e9e;
+	fill-opacity: 0;
+	stroke-width: 2px;
+	stroke: #9e9e9e;
+	stroke-dasharray: 10 5 2 5;
+}
+
+.upper_bound_line {
+	fill: #9e9e9e;
+	fill-opacity: 0;
+	stroke-width: 2px;
+	stroke: #9e9e9e;
+	stroke-dasharray: 10 5 2 5;
+}
+
 .actual_line {
 	fill: #0f79b3;
 	fill-opacity: 0;

@@ -440,13 +440,15 @@ $(document).on("turbolinks:load", function() {
     function drawPredictedPrinterGraph(gpitems){
       var container = $(".predicted-printer-graph")[0];
       var items = gpitems
-      groups = new vis.DataSet();
 
-      for(i = 0; i <= 1; i++){
+      groups = new vis.DataSet();
+      group_className = ["predicted_line", "actual_line", "lower_bound_line", "upper_bound_line"]
+
+      for(i = 0; i <= 3; i++){
         groups.add({
           id: i,
           content: "groups",
-          className: i == 0 ? "predicted_line" : "actual_line"
+          className: group_className[i]
         });
       }
 
@@ -497,6 +499,20 @@ $(document).on("turbolinks:load", function() {
             yOffset: -10
           },
           group: 0
+        });
+
+        // Lower bound
+        dataset.add({
+          x: arguments[3],
+          y: arguments[6],
+          group: 2
+        });
+
+        // Upper bound
+        dataset.add({
+          x: arguments[3],
+          y: arguments[7],
+          group: 3
         });
 
         dataset.add({
@@ -551,13 +567,16 @@ $(document).on("turbolinks:load", function() {
         predicted_ypower = json_data.data.predicted.y
         predicted_con = json_data.data.predicted.label.content
 
+        lower_ypower = json_data.data.lower.y
+        upper_ypower = json_data.data.upper.y
+
         var predicted_dtime = new Date(predicted_xtime)
         var dtime = new Date(xtime);
         var ds = dataset.get();
         if(new Date(ds[ds.length - 1].x) != dtime )
         {
           predictionRenderStep(dtime);
-          predictionAddDataPoint(dtime, ypower, con, predicted_dtime, predicted_ypower, predicted_con);
+          predictionAddDataPoint(dtime, ypower, con, predicted_dtime, predicted_ypower, predicted_con, lower_ypower, upper_ypower);
         }
 
       });
