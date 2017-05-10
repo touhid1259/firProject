@@ -443,12 +443,16 @@ $(document).on("turbolinks:load", function() {
 
       groups = new vis.DataSet();
       group_className = ["predicted_line", "actual_line", "lower_bound_line", "upper_bound_line"]
+      group_shaded = [false, false, {orientation: "bottom", style: "fill-opacity: 0.2;"}, {orientation: "top", style: "fill-opacity: 0.2;"}]
 
       for(i = 0; i <= 3; i++){
         groups.add({
           id: i,
           content: "groups",
-          className: group_className[i]
+          className: group_className[i],
+          options: {
+            shaded: group_shaded[i]
+          }
         });
       }
 
