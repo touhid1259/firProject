@@ -1,0 +1,60 @@
+var printer_data = <%= return_json(@merged_printer_data) %>
+var data_len = printer_data.length
+if(data_len == 0){
+  alert('Nothing to show');
+
+} else {
+    $(".printer-graph-ten-second").html("");
+    var graph2d;
+    var dataset; // x and y axis data array for the graph2d
+    var groups;
+
+    function drawPredictedPrinterGraph(gpitems){
+      var container = $(".printer-graph-ten-second")[0];
+      var items = gpitems
+
+      groups = new vis.DataSet();
+      group_className = ["predicted_line", "actual_line", "lower_bound_line", "upper_bound_line"]
+      group_shaded = [false, false, {orientation: "bottom", style: "fill-opacity: 0.2;"}, {orientation: "top", style: "fill-opacity: 0.2;"}]
+
+      for(i = 0; i <= 3; i++){
+        groups.add({
+          id: i,
+          content: "groups",
+          className: group_className[i],
+          options: {
+            shaded: group_shaded[i]
+          }
+        });
+      }
+
+      dataset = new vis.DataSet(items);
+      var options = {
+        // start: gpitems[0]['x'],
+        // end: new Date(new Date(gpitems[20]['x']).getTime() + 2000),
+        // interpolation: false,
+        drawPoints: {
+          style: 'circle', // square, circle
+          size: 5
+        },
+        shaded: {
+          orientation: 'bottom' // top, bottom
+        },
+        moveable: false,
+        dataAxis: {
+          left: {
+            title: {
+              text: 'Power'
+            }
+          }
+        }
+      };
+
+      graph2d = new vis.Graph2d(container, dataset, groups ,options);
+
+    }
+
+    drawPredictedPrinterGraph(printer_data);
+    $('.show-printer-status').show();
+
+}

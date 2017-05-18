@@ -303,6 +303,8 @@ class EnergyController < ApplicationController
     multiple_predicted_energy_data = Prediction.where(datetime: energy_data.collect{|item| item.datetime})
     energy_data = energy_data.collect do |item|
       predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime }[0]
+
+      # here we are using the cluster value of previous actual data and state value of predicted data for cluster_confid
       lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == predicted.state}[0]
       predicted_energy_data[index] = {
         x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
@@ -413,6 +415,93 @@ class EnergyController < ApplicationController
     end
     render nothing: true
 
+  end
+
+  def ten_sec_prediction_index
+  end
+
+  def get_ten_sec_prediction
+    begin
+      sl_time = Time.parse(params[:selected_time])
+      if(sl_time > Time.now)
+        puts "inside if"
+        @merged_printer_data = []
+
+      else
+        sl_time = Time.zone.parse(params[:selected_time]) # for the correction of the query, we are using the utc timezone as the time in db is in utc
+        actual_data = []
+        predicted_data = []
+        lower_bound_data = []
+        upper_bound_data = []
+        ind = 0
+        start_datetime = sl_time - 10.seconds
+        end_datetime = sl_time + 10.seconds
+        actual_printer_data = EnergyClass.consumption_on(start_datetime, end_datetime)
+        multiple_predicted_energy_data = Prediction.where(datetime: actual_printer_data.collect{|item| item.datetime}[10, 19])
+
+        actual_printer_data.each_with_index do |item, index|
+          puts index
+          if index > 9
+            predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime }[0]
+
+            # here we are using the cluster and state value of predicted data for cluster_confid
+            lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == predicted.cluster && item_3.state == predicted.state}[0]
+
+            predicted_data[ind] = {
+              x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+              y: predicted.power,
+              label: {
+                content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[predicted.state]]}",
+                className: "lb_predicted",
+                xOffset: -7,
+                yOffset: -10
+              },
+              group: 0
+            }
+
+            lower_bound_data[ind] = {
+              x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+              y: lower_upper_bound.confid_low,
+              group: 2
+            }
+
+            upper_bound_data[ind] = {
+              x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+              y: lower_upper_bound.confid_up,
+              group: 3
+            }
+
+            ind += 1
+          end
+
+          actual_data[index] = {
+              x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+              y: item.power,
+              label: {
+                content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]}",
+                className: "lb_actual",
+                xOffset: -7,
+                yOffset: -10
+              },
+              group: 1
+          }
+
+        end
+
+        @merged_printer_data = (actual_data + predicted_data + lower_bound_data + upper_bound_data).compact
+
+      end
+
+    rescue Exception => ex
+      logger.error ex.message
+      logger.error ex.backtrace.join("\n")
+      @merged_printer_data = []
+
+    end
+
+    respond_to do |format|
+      format.js {}
+    end
   end
 
 end

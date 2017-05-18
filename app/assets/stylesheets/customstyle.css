@@ -312,6 +312,10 @@
 	display: none;
 }
 
+#load-printer-seconds-data-loader {
+	display: none;
+}
+
 
 .sl-custom-form-group, .dt-custom-form-group, .ld-custom-form-group {
 	margin: 0;

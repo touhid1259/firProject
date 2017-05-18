@@ -588,4 +588,31 @@ $(document).on("turbolinks:load", function() {
     // real time functions end ----
   }
 
+  if(window.location.pathname == '/energy/printer_prediction/static_ten_seconds')
+  {
+    // Datepicker and datewise energy data code start
+      $('#datetime-select').datetimepicker({
+        format: 'YYYY-MM-DD HH:mm:ss'
+      });
+
+      $("#load-printer-seconds-data").on('click', function(){
+        var stime = $("#consumption_datetime").val();
+        $.ajax({
+          type: 'POST',
+          url: '/energy/printer/ten_sec_consumption_prediction_on',
+          data: {selected_time: stime},
+          dataType: 'script',
+          beforeSend: function(){
+            $("#load-printer-seconds-data").css('display', 'none');
+            $("#load-printer-seconds-data-loader").css('display', 'inline-block');
+          },
+          complete: function(){
+            $("#load-printer-seconds-data").css('display', 'inline-block');
+            $("#load-printer-seconds-data-loader").css('display', 'none');
+          }
+        });
+      });
+    // Datepicker and datewise energy data code end
+  }
+
 });

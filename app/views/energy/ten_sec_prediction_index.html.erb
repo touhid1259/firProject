@@ -1,0 +1,56 @@
+<div class="container">
+  <div class='jumbotron printer-energy-container'>
+    <div class="row img-printer">
+      <div class="col-md-3 col-sm-3 col-xs-3 printer-img-div">
+        <img src="<%= image_path 'printer.png' %>" class="img-responsive printer-img" >
+      </div>
+      <div class="col-md-9 col-sm-9 col-xs-9">
+        <h3 class="h3-label-dtf">Printer Data Flow</h3>
+        <p class="para-consm">Printer's power consumption vs time graph</p>
+        <p>
+          <a href="<%= energy_printer_path %>"> View One </a> |
+          <a href="<%= energy_googleGraph_printer_path %>"> View Two </a> |
+          <a href="<%= energy_printer_prediction_path %>"> View Three </a> |
+          View Four
+        </p>
+      </div>
+    </div>
+		<div class="row">
+      <div class="col-md-12">
+        <div class="form-group">
+          <div class="consumption-from"> Power Consumption On: </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-4 custom-datetime-select">
+        <div class="form-group dt-custom-form-group">
+            <div class='input-group date' id='datetime-select'>
+                <input type='text' class="form-control" id="consumption_datetime" placeholder="pick a date" />
+                <span class="input-group-addon">
+                    <span class="glyphicon glyphicon-calendar"></span>
+                </span>
+            </div>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-4 col-xs-5 custom-ld">
+        <div class="form-group ld-custom-form-group">
+          <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-seconds-data" >Load</a>
+          <a href="javascript:void(0)" class="btn btn-raised btn-info custom-btn-info" id="load-printer-seconds-data-loader" >
+            Loading
+            <img src="<%= image_path 'rolling.gif' %>" class="img-responsive rolling-img" >
+          </a>
+        </div>
+      </div>
+      <div class="col-md-12 show-printer-status">
+        <div class="col-md-12 printer-status-label">
+          Printer Status:
+          <% Status::PRINTER_STATUS.each do |item| %>
+
+          <%= item[1] + " = " +  item[0] unless (item[0] == "NoState" || item[0] == "Kartusche bald leer") %>
+          <%= "|" unless ("NoState" "Kartusche bald leer" "Alarm").include?(item[0]) %>
+          <% end %>
+        </div>
+      </div>
+      <div class="col-md-12 col-sm-12 col-xs-12 printer-graph-ten-second"></div>
+		</div>
+	</div>
+</div>
