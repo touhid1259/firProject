@@ -5,13 +5,13 @@ if(data_len == 0){
 
 } else {
     console.log(data_len);
-    $(".printer-graph-ten-second").html("");
+    $(".printer-graph-static").html("");
     var graph2d;
     var dataset; // x and y axis data array for the graph2d
     var groups;
 
     function drawPrinterGraph(gpitems){
-      var container = $(".printer-graph-ten-second")[0];
+      var container = $(".printer-graph-static")[0];
       var items = gpitems;
       groups = new vis.DataSet();
 

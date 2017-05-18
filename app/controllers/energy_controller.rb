@@ -155,6 +155,7 @@ class EnergyController < ApplicationController
     begin
       date = Time.parse(params[:date]).to_date
       if(date > Time.now.to_date)
+        puts "here"
         @merged_printer_data = []
 
       else
@@ -437,11 +438,10 @@ class EnergyController < ApplicationController
         start_datetime = sl_time - 10.seconds
         end_datetime = sl_time + 10.seconds
         actual_printer_data = EnergyClass.consumption_on(start_datetime, end_datetime)
-        multiple_predicted_energy_data = Prediction.where(datetime: actual_printer_data.collect{|item| item.datetime}[10, 19])
+        multiple_predicted_energy_data = Prediction.where(datetime: actual_printer_data.collect{|item| item.datetime}[9, 18])
 
         actual_printer_data.each_with_index do |item, index|
-          puts index
-          if index > 9
+          if index > 8 and index < 19
             predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime }[0]
 
             # here we are using the cluster and state value of predicted data for cluster_confid

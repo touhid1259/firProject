@@ -108,8 +108,9 @@
           <div class="col-md-12 printer-status-label">
             Cluster:
             <% EnergyClass::COLOR_CODES.each do |key, value| %>
+              <% next if ("cluster_8" "cluster_7").include?(key) %>
               <div class="legend-circle" style="background-color: <%= value %>;"></div>= <%= key %>
-              <%= "," unless key == "cluster_8" %>
+              <%= "," unless key == "cluster_6" %>
             <% end %>
           </div>
         </div>

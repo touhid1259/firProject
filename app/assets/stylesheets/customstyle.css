@@ -424,6 +424,10 @@ circle.vis-point:hover + text.point-label {
 	fill: #0f79b3
 }
 
+.ten-sec-pred {
+	display: none;
+}
+
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
