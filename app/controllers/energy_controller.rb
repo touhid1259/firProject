@@ -76,7 +76,7 @@ class EnergyController < ApplicationController
       overlay_array[index] = {
         x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
-        cls_id: "cls_id_" + item.cluster_id.to_s,
+        cls_id: item.cluster_id > 6  ? "cls_id_greater_than_6" : "cls_id_" + item.cluster_id.to_s,
         group: group_track # Groups 1, 2, 3 and so on
       }
 
@@ -85,7 +85,7 @@ class EnergyController < ApplicationController
         # x: "#{item.date} " + "#{(item.time - 56.minutes - 7.seconds).strftime('%H:%M:%S')}",
         x: "#{item.datetime.strftime("%F %H:%M:%S")}",
         y: item.power,
-        cls_id: "cls_id_" + item.cluster_id.to_s,
+        cls_id: item.cluster_id > 6  ? "cls_id_greater_than_6" : "cls_id_" + item.cluster_id.to_s,
         label: {
           content: "#{con ? con : ' '}",
           className: "lb_cls_id_" + item.cluster_id.to_s,
@@ -124,7 +124,7 @@ class EnergyController < ApplicationController
                 data: {
                   x: "#{item.datetime.strftime("%F %H:%M:%S")}",
                   y: item.power,
-                  cls_id: "cls_id_" + item.cluster_id.to_s,
+                  cls_id: item.cluster_id > 6  ? "cls_id_greater_than_6" : "cls_id_" + item.cluster_id.to_s,
                   label: {
                     content: "#{con ? con : ' '}"
                   },
@@ -186,7 +186,7 @@ class EnergyController < ApplicationController
           overlay_array[index] = {
             x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
-            cls_id: "cls_id_" + item.cluster_id.to_s,
+            cls_id: item.cluster_id > 6  ? "cls_id_greater_than_6" : "cls_id_" + item.cluster_id.to_s,
             group: @group_track # Groups 1, 2, 3 and so on
           }
 
@@ -195,7 +195,7 @@ class EnergyController < ApplicationController
           ash_colored_stream = {
             x: "#{item.datetime.strftime("%F %H:%M:%S")}",
             y: item.power,
-            cls_id: "cls_id_" + item.cluster_id.to_s,
+            cls_id: item.cluster_id > 6  ? "cls_id_greater_than_6" : "cls_id_" + item.cluster_id.to_s,
             label: {
               content: "#{con ? con : ' '}",
               className: "lb_cls_id_" + item.cluster_id.to_s,

@@ -221,7 +221,7 @@
 	stroke-width: 2.2px;
 }
 
-.cls_id_7 {
+/*.cls_id_7 {
 	stroke: #795548;
 	fill: #795548;
 	fill-opacity: 0;
@@ -233,6 +233,11 @@
 	fill: #de2afd;
 	fill-opacity: 0;
 	stroke-width: 2.2px;
+}*/
+
+.cls_id_greater_than_6 {
+	fill-opacity: 0;
+  stroke-width: 2.2px;
 }
 
 .datewise-data-cluster-label {
@@ -263,13 +268,13 @@
 	fill: #f97421;
 }
 
-.lb_cls_id_7 {
+/*.lb_cls_id_7 {
 	fill: #795548;
 }
 
 .lb_cls_id_8 {
 	fill: #de2afd;
-}
+}*/
 
 .legend-circle {
 	height: 13px;
