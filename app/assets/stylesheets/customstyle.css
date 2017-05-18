@@ -236,6 +236,7 @@
 }*/
 
 .cls_id_greater_than_6 {
+	fill: #565656;
 	fill-opacity: 0;
   stroke-width: 2.2px;
 }

@@ -88,7 +88,7 @@ class EnergyController < ApplicationController
         cls_id: item.cluster_id > 6  ? "cls_id_greater_than_6" : "cls_id_" + item.cluster_id.to_s,
         label: {
           content: "#{con ? con : ' '}",
-          className: "lb_cls_id_" + item.cluster_id.to_s,
+          className: item.cluster_id > 6 ? "lb_cls_id_greater_than_6" : "lb_cls_id_" + item.cluster_id.to_s,
           xOffset: -7,
           yOffset: -10
         },
@@ -198,7 +198,7 @@ class EnergyController < ApplicationController
             cls_id: item.cluster_id > 6  ? "cls_id_greater_than_6" : "cls_id_" + item.cluster_id.to_s,
             label: {
               content: "#{con ? con : ' '}",
-              className: "lb_cls_id_" + item.cluster_id.to_s,
+              className: item.cluster_id > 6 ? "lb_cls_id_greater_than_6" : "lb_cls_id_" + item.cluster_id.to_s,
               xOffset: -7,
               yOffset: -10
             },
