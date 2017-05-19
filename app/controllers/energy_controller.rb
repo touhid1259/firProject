@@ -437,12 +437,13 @@ class EnergyController < ApplicationController
         end_datetime = sl_time + 10.seconds
         actual_printer_data = EnergyClass.consumption_on(start_datetime, end_datetime)
         predicted_energy_data = Prediction.where(datetime: sl_time)
-        predicted_data_for_calculating_cluster = Prediction.where(datetime: sl_time - 1.second).select{|item| item.pred_time == sl_time}[0]
+        actual_data_for_calculating_cluster = actual_printer_data.select{|item| item.datetime == sl_time}[0]
+
+        # here we are using the cluster value of previous actual data and state value of current predicted data for cluster_confid
+        lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == actual_data_for_calculating_cluster.cluster_id && item_3.state == predicted_energy_data[0].state}[0]
+
 
         predicted_data = predicted_energy_data.collect do |item|
-          # here we are using the cluster value of previous predicted data and state value of current predicted data for cluster_confid
-          lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == predicted_data_for_calculating_cluster.cluster && item_3.state == item.state}[0]
-
           lower_bound_data[ind] = {
             x: "#{item.pred_time.strftime("%F %H:%M:%S")}",
             y: lower_upper_bound.confid_low,
@@ -455,6 +456,8 @@ class EnergyController < ApplicationController
             group: 3
           }
 
+          # here we are using the cluster value of previous predicted data and state value of current predicted data for cluster_confid
+          lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster && item_3.state == item.state}[0]
           ind += 1
 
           {
