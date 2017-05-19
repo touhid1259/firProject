@@ -302,36 +302,76 @@ class EnergyController < ApplicationController
     upper_bounds = []
     index = 0
     multiple_predicted_energy_data = Prediction.where(datetime: energy_data.collect{|item| item.datetime})
-    energy_data = energy_data.collect do |item|
-      predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime }[0]
 
-      # here we are using the cluster value of previous actual data and state value of predicted data for cluster_confid
-      lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == predicted.state}[0]
-      predicted_energy_data[index] = {
-        x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
-        y: predicted.power,
-        label: {
-          content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[predicted.state]]}",
-          className: "lb_predicted",
-          xOffset: -7,
-          yOffset: -10
-        },
-        group: 0
-      }
+    energy_data = energy_data.collect.with_index do |item, index|
+      if index == 20
+        predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime}
+        first_predicted_state = predicted[0].state
+        # here we are using the cluster value of previous actual data and state value of predicted data for cluster_confid
+        lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == first_predicted_state}[0]
 
-      lower_bounds[index] = {
-        x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
-        y: lower_upper_bound.confid_low,
-        group: 2
-      }
+        predicted.each do |item|
+          predicted_energy_data[index] = {
+            x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+            y: predicted.power,
+            label: {
+              content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[predicted.state]]}",
+              className: "lb_predicted",
+              xOffset: -7,
+              yOffset: -10
+            },
+            group: 0
+          }
 
-      upper_bounds[index] = {
-        x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
-        y: lower_upper_bound.confid_up,
-        group: 3
-      }
+          lower_bounds[index] = {
+            x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+            y: lower_upper_bound.confid_low,
+            group: 2
+          }
 
-      index += 1
+          upper_bounds[index] = {
+            x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+            y: lower_upper_bound.confid_up,
+            group: 3
+          }
+
+          lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == first_predicted_state}[0]
+          index += 1
+        end
+
+      else
+        predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime }[0]
+
+        # here we are using the cluster value of previous actual data and state value of predicted data for cluster_confid
+        lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == predicted.state}[0]
+
+        predicted_energy_data[index] = {
+          x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+          y: predicted.power,
+          label: {
+            content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[predicted.state]]}",
+            className: "lb_predicted",
+            xOffset: -7,
+            yOffset: -10
+          },
+          group: 0
+        }
+
+        lower_bounds[index] = {
+          x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+          y: lower_upper_bound.confid_low,
+          group: 2
+        }
+
+        upper_bounds[index] = {
+          x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+          y: lower_upper_bound.confid_up,
+          group: 3
+        }
+
+        index += 1
+
+      end
 
       next if index == 1
 
