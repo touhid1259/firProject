@@ -470,7 +470,15 @@ class EnergyController < ApplicationController
           }
         end
 
-        actual_data = actual_printer_data.collect do |item|
+        actual_data = actual_printer_data.collect.with_index do |item, index|
+          if index > 4
+            predicted_data << {
+                x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+                y: item.power,
+                group: 0
+            }
+          end
+
           {
               x: "#{item.datetime.strftime("%F %H:%M:%S")}",
               y: item.power,
