@@ -437,7 +437,7 @@ $(document).on("turbolinks:load", function() {
     var dataset; // x and y axis data array for the graph2d
     var groups;
 
-    function drawPredictedPrinterGraph(gpitems){
+    function drawPredictedPrinterGraph(gpitems, predicted_last_data){
       var container = $(".predicted-printer-graph")[0];
       var items = gpitems
 
@@ -459,7 +459,7 @@ $(document).on("turbolinks:load", function() {
       dataset = new vis.DataSet(items);
       var options = {
         start: gpitems[0]['x'],
-        end: new Date(new Date(gpitems[20]['x']).getTime() + 2000),
+        end: new Date(new Date(predicted_last_data['x']).getTime() + 2000),
         // interpolation: false,
         drawPoints: {
           style: 'circle', // square, circle
@@ -482,7 +482,7 @@ $(document).on("turbolinks:load", function() {
 
     }
 
-    drawPredictedPrinterGraph(gon.energy_data);
+    drawPredictedPrinterGraph(gon.energy_data, gon.predicted_last_data);
 
     // real time functions for Prediction data start ----
 
@@ -493,43 +493,59 @@ $(document).on("turbolinks:load", function() {
       function predictionAddDataPoint() {
         // add a new data point to the dataset
 
-        dataset.add({
-          x: arguments[3],
-          y: arguments[4],
-          label: {
-            content: arguments[5],
-            className: "lb_predicted",
-            xOffset: -7,
-            yOffset: -10
-          },
-          group: 0
-        });
+        if(arguments[8] == 0){
+          dataset.add({
+            x: arguments[3],
+            y: arguments[4],
+            label: {
+              content: arguments[5],
+              className: "lb_predicted",
+              xOffset: -7,
+              yOffset: -10
+            },
+            group: 0
+          });
 
-        // Lower bound
-        dataset.add({
-          x: arguments[3],
-          y: arguments[6],
-          group: 2
-        });
+          // Lower bound
+          dataset.add({
+            x: arguments[3],
+            y: arguments[6],
+            group: 2
+          });
 
-        // Upper bound
-        dataset.add({
-          x: arguments[3],
-          y: arguments[7],
-          group: 3
-        });
+          // Upper bound
+          dataset.add({
+            x: arguments[3],
+            y: arguments[7],
+            group: 3
+          });
 
-        dataset.add({
-          x: arguments[0],
-          y: arguments[1],
-          label: {
-            content: arguments[2],
-            className: "lb_actual",
-            xOffset: -7,
-            yOffset: -10
-          },
-          group: 1
-        });
+          dataset.add({
+            x: arguments[0],
+            y: arguments[1],
+            label: {
+              content: arguments[2],
+              className: "lb_actual",
+              xOffset: -7,
+              yOffset: -10
+            },
+            group: 1
+          });
+
+        } else {
+
+            dataset.add({
+              x: arguments[0],
+              y: arguments[1],
+              label: {
+                content: arguments[2],
+                className: "lb_actual",
+                xOffset: -7,
+                yOffset: -10
+              },
+              group: 1
+            });
+        }
 
         // remove all data points which are no longer visible
         var range = graph2d.getWindow();
@@ -555,7 +571,7 @@ $(document).on("turbolinks:load", function() {
       }
 
       // var sec = 2;
-      var source = new EventSource('/energy/printer_prediction/continuous');
+      var source = new EventSource('/energy/printer_prediction/continuous?last_predicted_date=' + gon.predicted_last_data['x']);
       source.addEventListener('time', function(event) {
         if(window.location.pathname != '/energy/printer_prediction'){
           source.close();
@@ -563,24 +579,41 @@ $(document).on("turbolinks:load", function() {
 
         var json_data = JSON.parse(event.data);
         // console.log(json_data.data);
+
         xtime = json_data.data.actual.x
         ypower = json_data.data.actual.y
         con = json_data.data.actual.label.content
 
-        predicted_xtime = json_data.data.predicted.x
-        predicted_ypower = json_data.data.predicted.y
-        predicted_con = json_data.data.predicted.label.content
+        // var ds = dataset.get();
 
-        lower_ypower = json_data.data.lower.y
-        upper_ypower = json_data.data.upper.y
+        if(json_data.data.lower == "no_value"){
+          predicted_xtime = json_data.data.predicted
+          predicted_ypower = "no_value"
+          predicted_con = "no_value"
 
-        var predicted_dtime = new Date(predicted_xtime)
-        var dtime = new Date(xtime);
-        var ds = dataset.get();
-        if(new Date(ds[ds.length - 1].x) != dtime )
-        {
-          predictionRenderStep(dtime);
-          predictionAddDataPoint(dtime, ypower, con, predicted_dtime, predicted_ypower, predicted_con, lower_ypower, upper_ypower);
+          lower_ypower = "no_value"
+          upper_ypower = "no_value"
+          var predicted_dtime = new Date(predicted_xtime)
+          var dtime = new Date(xtime);
+          var actual_only = 1
+          predictionRenderStep(predicted_dtime);
+          predictionAddDataPoint(dtime, ypower, con, predicted_dtime, predicted_ypower, predicted_con, lower_ypower, upper_ypower, actual_only);
+
+        } else {
+          for(var i = 0; i < json_data.data.predicted.length; i++){
+            predicted_xtime = json_data.data.predicted[i].x
+            predicted_ypower = json_data.data.predicted[i].y
+            predicted_con = json_data.data.predicted[i].label.content
+
+            lower_ypower = json_data.data.lower[i].y
+            upper_ypower = json_data.data.upper[i].y
+            var predicted_dtime = new Date(predicted_xtime)
+            var dtime = new Date(xtime);
+            var actual_only = 0
+            predictionRenderStep(dtime);
+            predictionAddDataPoint(dtime, ypower, con, predicted_dtime, predicted_ypower, predicted_con, lower_ypower, upper_ypower, actual_only);
+
+          }
         }
 
       });

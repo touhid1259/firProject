@@ -303,19 +303,27 @@ class EnergyController < ApplicationController
     index = 0
     multiple_predicted_energy_data = Prediction.where(datetime: energy_data.collect{|item| item.datetime})
 
-    energy_data = energy_data.collect.with_index do |item, index|
-      if index == 20
+    energy_data = energy_data.collect.with_index do |item, index_2|
+      if index_2 == 20
         predicted = multiple_predicted_energy_data.select{|item_2| item_2.datetime == item.datetime}
-        first_predicted_state = predicted[0].state
+        item_for_calculating_cluster = predicted[0]
+        first_predicted_state = item_for_calculating_cluster.state
         # here we are using the cluster value of previous actual data and state value of predicted data for cluster_confid
         lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == first_predicted_state}[0]
 
-        predicted.each do |item|
+        predicted.each_with_index do |item_4, index_3|
+          break if first_predicted_state != item_4.state
+
+          if index_3 > 0
+            lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item_for_calculating_cluster.cluster && item_3.state == item_4.state}[0]
+
+          end
+
           predicted_energy_data[index] = {
-            x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
-            y: predicted.power,
+            x: "#{item_4.pred_time.strftime("%F %H:%M:%S")}",
+            y: item_4.power,
             label: {
-              content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[predicted.state]]}",
+              content: "#{Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item_4.state]]}",
               className: "lb_predicted",
               xOffset: -7,
               yOffset: -10
@@ -324,18 +332,18 @@ class EnergyController < ApplicationController
           }
 
           lower_bounds[index] = {
-            x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+            x: "#{item_4.pred_time.strftime("%F %H:%M:%S")}",
             y: lower_upper_bound.confid_low,
             group: 2
           }
 
           upper_bounds[index] = {
-            x: "#{predicted.pred_time.strftime("%F %H:%M:%S")}",
+            x: "#{item_4.pred_time.strftime("%F %H:%M:%S")}",
             y: lower_upper_bound.confid_up,
             group: 3
           }
 
-          lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == first_predicted_state}[0]
+          item_for_calculating_cluster = item_4
           index += 1
         end
 
@@ -388,6 +396,7 @@ class EnergyController < ApplicationController
       }
     end
 
+    gon.predicted_last_data = predicted_energy_data.last
     gon.energy_data = (predicted_energy_data + lower_bounds + upper_bounds + energy_data).compact
 
   end
@@ -396,49 +405,102 @@ class EnergyController < ApplicationController
     response.headers['Content-Type'] = 'text/event-stream'
     sse = SSE.new(response.stream, event: 'time')
     begin
-
+      last_predicted_date = params[:last_predicted_date]
       last_data_time = -1
       loop do
         EnergyClass.uncached do
           item = EnergyClass.last
-          sleep 0.5
-          pred_item = Prediction.where(datetime: item.datetime)[0]
-          lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == pred_item.state}[0]
           con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item.state_category]]
-          pred_con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[pred_item.state]]
+          sleep 0.5
 
-          if(last_data_time != item.datetime)
-            sse.write({
-                data: {
-                  actual: {
-                    x: "#{item.datetime.strftime("%F %H:%M:%S")}",
-                    y: item.power,
-                    label: {
-                      content: "#{con ? con : ' '}"
+          if last_predicted_date > item.datetime
+
+            if(last_data_time != item.datetime)
+
+              sse.write({
+                  data: {
+                    actual: {
+                      x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+                      y: item.power,
+                      label: {
+                        content: "#{con ? con : ' '}"
+                      },
+                      group: 1
                     },
-                    group: 1
+                    predicted: last_predicted_date,
+                    lower: "no_value",
+                    upper: "no_value"
+                }
+              })
+
+            end
+
+          else
+
+            if(last_data_time != item.datetime)
+
+              pred_items = Prediction.where(datetime: item.datetime)
+              data_for_calculating_cluster = pred_items[0]
+              first_predicted_state = pred_items[0].state
+              lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == item.cluster_id && item_3.state == pred_items[0].state}[0]
+              lower_items = []
+              upper_items = []
+              ind = 0
+
+              pred_items = pred_items.collect.with_index do |item_2, index|
+                break if first_predicted_state != item_2.state
+                if index > 0
+                  lower_upper_bound = ClusterConfid.all.select{|item_3| item_3.cluster_Id == data_for_calculating_cluster.cluster && item_3.state == item_2.state}[0]
+
+                end
+
+                lower_items[ind] = {
+                  x: "#{item_2.pred_time.strftime("%F %H:%M:%S")}",
+                  y: lower_upper_bound.confid_low,
+                  group: 2
+                },
+
+                upper_items[ind] = {
+                  x: "#{item_2.pred_time.strftime("%F %H:%M:%S")}",
+                  y: lower_upper_bound.confid_up,
+                  group: 3
+                }
+
+                ind += 1
+                data_for_calculating_cluster = item_2
+
+                pred_con = Status::PRINTER_STATUS[Status::PRINTER_STATUS_KEYS[item_2.state]]
+                {
+                  x: "#{item_2.pred_time.strftime("%F %H:%M:%S")}",
+                  y: item_2.power,
+                  label: {
+                    content: "#{pred_con ? pred_con : ' '}"
                   },
-                  predicted: {
-                    x: "#{pred_item.pred_time.strftime("%F %H:%M:%S")}",
-                    y: pred_item.power,
-                    label: {
-                      content: "#{pred_con ? pred_con : ' '}"
+                  group: 0
+                }
+              end
+
+              sse.write({
+                  data: {
+                    actual: {
+                      x: "#{item.datetime.strftime("%F %H:%M:%S")}",
+                      y: item.power,
+                      label: {
+                        content: "#{con ? con : ' '}"
+                      },
+                      group: 1
                     },
-                    group: 0
-                  },
-                  lower: {
-                    x: "#{pred_item.pred_time.strftime("%F %H:%M:%S")}",
-                    y: lower_upper_bound.confid_low,
-                    group: 2
-                  },
-                  upper: {
-                    x: "#{pred_item.pred_time.strftime("%F %H:%M:%S")}",
-                    y: lower_upper_bound.confid_up,
-                    group: 3
-                  }
-              }
-            })
+                    predicted: pred_items,
+                    lower: lower_items,
+                    upper: upper_items
+                }
+              })
+
+              last_predicted_date = pred_items.last['x']
+            end
+
           end
+
           last_data_time = item.datetime
           sleep 0.2
         end
