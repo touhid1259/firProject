@@ -434,7 +434,7 @@ class EnergyController < ApplicationController
         upper_bound_data = []
         ind = 0
         start_datetime = sl_time - 5.seconds
-        end_datetime = sl_time
+        end_datetime = sl_time + 10.seconds
         actual_printer_data = EnergyClass.consumption_on(start_datetime, end_datetime)
         predicted_energy_data = Prediction.where(datetime: sl_time)
         predicted_data_for_calculating_cluster = Prediction.where(datetime: sl_time - 1.second).select{|item| item.pred_time == sl_time}[0]
@@ -470,8 +470,8 @@ class EnergyController < ApplicationController
           }
         end
 
-        actual_data = actual_printer_data.collect.with_index do |item, index|
-          if index > 4
+        actual_data = actual_printer_data.collect do |item|
+          if item.datetime == sl_time
             predicted_data << {
                 x: "#{item.datetime.strftime("%F %H:%M:%S")}",
                 y: item.power,
