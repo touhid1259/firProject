@@ -428,6 +428,21 @@ circle.vis-point:hover + text.point-label {
 	display: none;
 }
 
+h2.preferred-schedule {
+	margin: 15px 0 25px 0;
+	color: #00abc1;
+}
+
+h4.schedule-choices {
+	padding: 0 15px;
+}
+
+.select-choice {
+	clear: both;
+	padding: 7px 15px 0 15px;
+	text-align: right;
+}
+
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
@@ -600,7 +615,7 @@ circle.vis-point:hover + text.point-label {
 
 }
 
-/*Mobile and Tab devices betwwen 544px and 767px*/
+/*Mobile and Tab devices between 544px and 767px*/
 @media (min-width: 544px) and (max-width: 767px) {
 
 	#planned_energy {
