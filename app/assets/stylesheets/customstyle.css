@@ -443,6 +443,34 @@ h4.schedule-choices {
 	text-align: right;
 }
 
+.h5-schedule-choices {
+	font-size: 16px;
+}
+
+.euro-sign {
+	height: 18px;
+	margin-top: -3px;
+	font-size: 20px;
+}
+
+.cls-energy-power {
+		fill: #00ff27;
+    fill-opacity: 0;
+    stroke-width: 2px;
+    stroke: #10732f;
+}
+
+.cls-energy-price {
+	fill: #E91E63;
+	fill-opacity: 0;
+	stroke-width: 2px;
+	stroke: #c71a55;
+}
+
+i.user-status {
+	font-size: 80px;
+}
+
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 

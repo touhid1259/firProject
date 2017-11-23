@@ -1,81 +1,78 @@
 class EwimaController < ApplicationController
   def select_your_preference
     dataForGraph = []
-    preferred_velocities = PaperOne.all
-    timeLineValue = 8
+    velData = PaperOne.all
+    preferred_velocities = velData + velData.shuffle + velData.shuffle + velData.shuffle
+
+    timeLineValue = Time.parse(Date.today.to_s + " 08:00:00")
 
     preferred_velocities.each_with_index do |item, index|
-      timeLineValue = 8 if timeLineValue > 18
-      break if index > 21
+
+      timeLineValue = Time.parse(Date.today.to_s + " 08:00:00") if (timeLineValue > Time.parse(Date.today.to_s + " 15:45:00"))
+
       dataForGraph <<
       {
-        x: Date.today.to_s + (timeLineValue > 9 ? " #{timeLineValue}:00:00" : " 0#{timeLineValue}:00:00"),
+        x: timeLineValue.to_s,
         y: item.v1,
         group: 0
       }
 
       dataForGraph <<
       {
-        x: Date.today.to_s + (timeLineValue > 9 ? " #{timeLineValue}:00:00" : " 0#{timeLineValue}:00:00"),
+        x: timeLineValue.to_s,
         y: item.v2,
         group: 1
       }
 
-      timeLineValue = timeLineValue + 1
+      timeLineValue = timeLineValue + 15.minutes
 
     end
 
-    gon.dataToVisualizeOne = dataForGraph[0..21]
-    gon.dataToVisualizeTwo = dataForGraph[22..43]
+    gon.dataToVisualizeOne = dataForGraph[0..63]
+    gon.dataToVisualizeTwo = dataForGraph[64..127]
+    gon.dataToVisualizeThree = dataForGraph[128..191]
+    gon.dataToVisualizeFour = dataForGraph[192..255]
 
   end
 
   def summary_view
     dataForGraph = [[], [], []]
-    optimalGraphData = PaperOne.all
-    consumptionAndPriceData = PaperTwo.all
+    optimalConsumptionPriceData = PaperTwo.all
 
-    timeLineValue = 8
+    timeLineValue = Time.parse(Date.today.to_s + " 08:00:00")
 
-    optimalGraphData[21..31].each do |item|
-      timeLineValue = 8 if timeLineValue > 18
+    optimalConsumptionPriceData.each do |item|
 
-      dataForGraph[0] <<
-      {
-        x: Date.today.to_s + (timeLineValue > 9 ? " #{timeLineValue}:00:00" : " 0#{timeLineValue}:00:00"),
-        y: item.v1,
-        group: 0
-      }
+          dataForGraph[0] <<
+          {
+            x: timeLineValue.to_s,
+            y: item.v1,
+            group: 0
+          }
 
-      dataForGraph[0] <<
-      {
-        x: Date.today.to_s + (timeLineValue > 9 ? " #{timeLineValue}:00:00" : " 0#{timeLineValue}:00:00"),
-        y: item.v2,
-        group: 1
-      }
+          dataForGraph[0] <<
+          {
+            x: timeLineValue.to_s,
+            y: item.v2,
+            group: 1
+          }
 
-      timeLineValue = timeLineValue + 1
+          dataForGraph[1] <<
+          {
+            x: timeLineValue.to_s,
+            y: item.power,
+            group: 2
+          }
 
-    end
+          dataForGraph[2] <<
+          {
+            x: timeLineValue.to_s,
+            y: item.energyprice,
+            group: 2
+          }
 
-    consumptionAndPriceData.each_with_index do |item, index|
-      timeLineValue = 8 if timeLineValue > 18
-      break if index > 10
-      dataForGraph[1] <<
-      {
-        x: Date.today.to_s + (timeLineValue > 9 ? " #{timeLineValue}:00:00" : " 0#{timeLineValue}:00:00"),
-        y: item.power,
-        group: 0
-      }
+      timeLineValue = timeLineValue + 15.minutes
 
-      dataForGraph[2] <<
-      {
-        x: Date.today.to_s + (timeLineValue > 9 ? " #{timeLineValue}:00:00" : " 0#{timeLineValue}:00:00"),
-        y: item.energyprice,
-        group: 0
-      }
-
-      timeLineValue = timeLineValue + 1
     end
 
     gon.optimalGraphData = dataForGraph[0]
@@ -83,4 +80,5 @@ class EwimaController < ApplicationController
     gon.energyPriceData = dataForGraph[2]
 
   end
+
 end

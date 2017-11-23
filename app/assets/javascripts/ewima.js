@@ -17,12 +17,12 @@ $(document).on("turbolinks:load", function() {
 
         var options = {
           start: gpitems[0]['x'],
-          end: gpitems[10]['x'],
+          end: gpitems[63]['x'],
           drawPoints: {
             style: 'circle', // square, circle
             size: 3
           },
-          height: "300px",
+          height: "265px",
           shaded: {
             orientation: 'bottom' // top, bottom
           },
@@ -44,6 +44,8 @@ $(document).on("turbolinks:load", function() {
 
       drawPreferenceGraph(gon.dataToVisualizeOne, $(".preference-graph-one")[0]);
       drawPreferenceGraph(gon.dataToVisualizeTwo, $(".preference-graph-two")[0]);
+      drawPreferenceGraph(gon.dataToVisualizeThree, $(".preference-graph-three")[0]);
+      drawPreferenceGraph(gon.dataToVisualizeFour, $(".preference-graph-four")[0]);
 
   }
 
@@ -51,7 +53,7 @@ $(document).on("turbolinks:load", function() {
 
   if(window.location.pathname == '/ewima/summary')
   {
-    function drawGraph(gpitems, container, yAxisValue, groupContent){
+    function drawGraph(gpitems, container, yAxisValue, groupContent, groupClassName){
       var graph2d;
       var dataset = new vis.DataSet(gpitems); // x and y axis data array for the graph2d
       var groups = new vis.DataSet();
@@ -63,10 +65,14 @@ $(document).on("turbolinks:load", function() {
         id: 1,
         content: groupContent[1],
       });
+      groups.add({
+        id: 2,
+        content: groupContent[0],
+        className: groupClassName
+      });
 
       var options = {
         start: gpitems[0]['x'],
-        end: gpitems[10]['x'],
         drawPoints: {
           style: 'circle', // square, circle
           size: 3
@@ -91,9 +97,9 @@ $(document).on("turbolinks:load", function() {
 
     }
 
-    drawGraph(gon.optimalGraphData, $(".optimal-graph")[0], "belt velocity", ["v1", "v2"]);
-    drawGraph(gon.energyConsumptionData, $(".energy-consumption-graph")[0], "power", ["power", ""]);
-    drawGraph(gon.energyPriceData, $(".energy-price-graph")[0], "energy price", ["price", ""]);
+    drawGraph(gon.optimalGraphData, $(".optimal-graph")[0], "belt velocity", ["v1", "v2"], "");
+    drawGraph(gon.energyConsumptionData, $(".energy-consumption-graph")[0], "power", ["power", ""], "cls-energy-power");
+    drawGraph(gon.energyPriceData, $(".energy-price-graph")[0], "energy price", ["price", ""], "cls-energy-price");
 
   }
 
