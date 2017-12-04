@@ -480,6 +480,29 @@ i.user-status {
 /*Mobile devices smaller than 544px*/
 @media (max-width: 543px) {
 
+	.h5-schedule-choices {
+    font-size: 13px;
+	}
+
+	.gap {
+    margin: 50px 0 0 0;
+	}
+
+	.padding-0 {
+		padding: 0;
+	}
+
+	h2.preferred-schedule {
+    margin: 0px 0 25px 0;
+    color: #00abc1;
+    font-size: 20px;
+	}
+
+	h4.schedule-choices {
+    padding: 0 15px;
+    font-size: 15px;
+	}
+
 	.de-gap {
 		padding: 0;
 	}
