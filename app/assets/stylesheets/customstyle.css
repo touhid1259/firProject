@@ -479,6 +479,9 @@ i.user-status {
 
 /*Mobile devices smaller than 544px*/
 @media (max-width: 543px) {
+	.navbar-nav-custom {
+		float: none;
+	}
 
 	.h5-schedule-choices {
     font-size: 13px;
@@ -668,6 +671,9 @@ i.user-status {
 
 /*Mobile and Tab devices between 544px and 767px*/
 @media (min-width: 544px) and (max-width: 767px) {
+	.navbar-nav-custom {
+		float: none;
+	}
 
 	#planned_energy {
 		padding-left: 0;
