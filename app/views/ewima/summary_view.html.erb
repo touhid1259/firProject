@@ -17,12 +17,13 @@
   			<div class="col-md-6 padding-0">
   				<h4 class="schedule-choices"> Statistics: </h4>
 					<div class="col-md-12">
-						<h5 class="h5-schedule-choices"> Current Belt One Velocity (v1): 25 km/hour </h5>
-						<h5 class="h5-schedule-choices"> Current Belt Two Velocity (v2): 30 km/hour </h5>
-						<h5 class="h5-schedule-choices"> Current Energy Price: <img src="<%= asset_path('euro_symbol.png') %>" class="euro-sign"> 33.5 per unit</h5>
-						<h5 class="h5-schedule-choices"> Current Energy Consumption: 51 kWh</h5>
-						<h5 class="h5-schedule-choices"> User Status: </h5>
-						<h4> <i class="material-icons user-status">sentiment_satisfied</i> </h4>
+							<h5 class="h5-schedule-choices"> Current Belt One Velocity (v1)<%= raw(repeat_html_code(3, "&nbsp;")) %>: <%= rand(10..30) %> km/hour </h5>
+							<h5 class="h5-schedule-choices"> Current Belt Two Velocity (v2)<%= raw(repeat_html_code(3, "&nbsp;")) %>: <%= rand(10..30) %> km/hour </h5>
+							<h5 class="h5-schedule-choices"> Current Energy Price<%= raw(repeat_html_code(17, "&nbsp;")) %>: <img src="<%= asset_path('euro_symbol.png') %>" class="euro-sign"> <%= rand(25..35) %> per unit</h5>
+							<h5 class="h5-schedule-choices"> Current Energy Consumption<%= raw(repeat_html_code(4, "&nbsp;")) %>: <%= rand(40..60) %> kWh</h5>
+							<h5 class="h5-schedule-choices"> User Status : </h5>
+							<% sentiment = ["sentiment_satisfied", "sentiment_dissatisfied", "sentiment_neutral"] %>
+							<h4> <i class="material-icons user-status"><%= sentiment[rand(0..2)] %></i> </h4>
 					</div>
   			</div>
 
