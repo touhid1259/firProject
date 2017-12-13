@@ -22,8 +22,12 @@
 							<h5 class="h5-schedule-choices"> Current Energy Price<%= raw(repeat_html_code(17, "&nbsp;")) %>: <img src="<%= asset_path('euro_symbol.png') %>" class="euro-sign"> <%= rand(25..35) %> per unit</h5>
 							<h5 class="h5-schedule-choices"> Current Energy Consumption<%= raw(repeat_html_code(4, "&nbsp;")) %>: <%= rand(40..60) %> kWh</h5>
 							<h5 class="h5-schedule-choices"> User Status : </h5>
-							<% sentiment = ["sentiment_satisfied", "sentiment_dissatisfied", "sentiment_neutral"] %>
-							<h4> <i class="material-icons user-status"><%= sentiment[rand(0..2)] %></i> </h4>
+							<%
+								sentiment = ["sentiment_satisfied", "sentiment_dissatisfied", "sentiment_neutral"]
+								sentiment_color = ["#228b22", "#ea0000", "#0085ff"]
+								random_sentiment = rand(0..2)
+							%>
+							<h4> <i class="material-icons user-status" style="color: <%= sentiment_color[random_sentiment] %>;"><%= sentiment[random_sentiment] %></i> </h4>
 					</div>
   			</div>
 
