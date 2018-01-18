@@ -23,6 +23,7 @@ Rails.application.routes.draw do
   post '/energy/printer/ten_sec_consumption_prediction_on' => 'energy#get_ten_sec_prediction'
   get '/ewima/preference_selection' => 'ewima#select_your_preference'
   get '/ewima/summary' => 'ewima#summary_view'
+  get '/ewima/rough_planning' => 'ewima#rough_planning'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

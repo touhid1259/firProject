@@ -103,5 +103,45 @@ $(document).on("turbolinks:load", function() {
 
   }
 
+// ===================================================================================
+
+  if(window.location.pathname == '/ewima/rough_planning')
+  {
+    function drawGraph(gpitems, container){
+      var graph2d;
+      var dataset = new vis.DataSet(gpitems); // x and y axis data array for the graph2d
+      var groups = new vis.DataSet();
+
+      var options = {
+        start: gpitems[0]['x'],
+        drawPoints: {
+          style: 'circle', // square, circle
+          size: 3
+        },
+        height: "120px",
+        shaded: {
+          orientation: 'bottom' // top, bottom
+        },
+        showCurrentTime: false,
+        dataAxis: {
+          left: {
+            title: {
+              text: "waste"
+            }
+          }
+        }
+      };
+
+      graph2d = new vis.Graph2d(container, dataset, groups, options);
+      graph2d.fit();
+    }
+
+    drawGraph(gon.dataForTunnelOne, $(".rough-tunnel-one")[0]);
+    drawGraph(gon.dataForTunnelTwo, $(".rough-tunnel-two")[0]);
+    drawGraph(gon.dataForTunnelThree, $(".rough-tunnel-three")[0]);
+    drawGraph(gon.dataForTunnelFour, $(".rough-tunnel-four")[0]);
+    drawGraph(gon.dataForTunnelFive, $(".rough-tunnel-five")[0]);
+  }
+
 
 });

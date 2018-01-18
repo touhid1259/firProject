@@ -81,4 +81,30 @@ class EwimaController < ApplicationController
 
   end
 
+  def rough_planning
+    tunnelData = RoughPlanning.all
+    dataForGraph = [[],[],[],[],[]]
+    timeLineValue = Time.now
+    tunnelData.collect do |item|
+      (1..5).each do |i|
+        dataForGraph[i - 1] <<
+        {
+          x: timeLineValue.to_s,
+          y: item["tunnel#{i}"],
+          group: 0
+        }
+      end
+
+      timeLineValue = timeLineValue + 6.hours
+
+    end
+
+    gon.dataForTunnelOne = dataForGraph[0]
+    gon.dataForTunnelTwo = dataForGraph[1]
+    gon.dataForTunnelThree = dataForGraph[2]
+    gon.dataForTunnelFour = dataForGraph[3]
+    gon.dataForTunnelFive = dataForGraph[4]
+
+  end
+
 end
