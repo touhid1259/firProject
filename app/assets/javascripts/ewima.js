@@ -107,10 +107,15 @@ $(document).on("turbolinks:load", function() {
 
   if(window.location.pathname == '/ewima/rough_planning')
   {
-    function drawGraph(gpitems, container){
+    function drawGraph(gpitems, container, groupClassName){
       var graph2d;
       var dataset = new vis.DataSet(gpitems); // x and y axis data array for the graph2d
       var groups = new vis.DataSet();
+
+      groups.add({
+        id: 0,
+        className: groupClassName
+      });
 
       var options = {
         start: gpitems[0]['x'],
@@ -137,11 +142,11 @@ $(document).on("turbolinks:load", function() {
       graph2d.fit();
     }
 
-    drawGraph(gon.dataForTunnelOne, $(".rough-tunnel-one")[0]);
-    drawGraph(gon.dataForTunnelTwo, $(".rough-tunnel-two")[0]);
-    drawGraph(gon.dataForTunnelThree, $(".rough-tunnel-three")[0]);
-    drawGraph(gon.dataForTunnelFour, $(".rough-tunnel-four")[0]);
-    drawGraph(gon.dataForTunnelFive, $(".rough-tunnel-five")[0]);
+    drawGraph(gon.dataForTunnelOne, $(".rough-tunnel-one")[0], "tunnel-one-color");
+    drawGraph(gon.dataForTunnelTwo, $(".rough-tunnel-two")[0], "tunnel-two-color");
+    drawGraph(gon.dataForTunnelThree, $(".rough-tunnel-three")[0], "tunnel-three-color");
+    drawGraph(gon.dataForTunnelFour, $(".rough-tunnel-four")[0], "tunnel-four-color");
+    drawGraph(gon.dataForTunnelFive, $(".rough-tunnel-five")[0], "tunnel-five-color");
   }
 
 

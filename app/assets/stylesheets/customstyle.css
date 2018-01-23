@@ -483,6 +483,37 @@ i.user-status {
   text-align: right;
 }
 
+.tunnel-one-color {
+	fill: #4f81bd;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #4f81bd;
+}
+.tunnel-two-color {
+	fill: #e91e63;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #e91e63;
+}
+.tunnel-three-color {
+	fill: #4caf50;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #4caf50;
+}
+.tunnel-four-color {
+	fill: #9c27b0;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #9c27b0;
+}
+.tunnel-five-color {
+	fill: #ff9800;
+  fill-opacity: 0;
+  stroke-width: 2px;
+  stroke: #ff9800;
+}
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */
