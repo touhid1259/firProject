@@ -124,6 +124,7 @@ $(document).on("turbolinks:load", function() {
         },
         showCurrentTime: false,
         dataAxis: {
+          alignZeros: true,
           left: {
             title: {
               text: "waste"

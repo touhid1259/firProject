@@ -471,6 +471,17 @@ i.user-status {
 	font-size: 80px;
 }
 
+.rough-tunnel-one, .rough-tunnel-two, .rough-tunnel-three, .rough-tunnel-four,
+.rough-tunnel-five {
+	font-size: 12px;
+	margin: 10px 0 0 0;
+}
+
+.next-to-detailed {
+	clear: both;
+  padding: 7px 0 0 0;
+  text-align: right;
+}
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
