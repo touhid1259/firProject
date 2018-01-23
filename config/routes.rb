@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/ewima/preference_selection' => 'ewima#select_your_preference'
   get '/ewima/summary' => 'ewima#summary_view'
   get '/ewima/rough_planning' => 'ewima#rough_planning'
+  get '/ewima/detailed_planning' => 'ewima#detailed_planning'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase

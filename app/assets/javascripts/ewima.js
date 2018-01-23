@@ -121,18 +121,22 @@ $(document).on("turbolinks:load", function() {
         start: gpitems[0]['x'],
         drawPoints: {
           style: 'circle', // square, circle
-          size: 3
+          size: 4
         },
         height: "120px",
         shaded: {
           orientation: 'bottom' // top, bottom
         },
+        interpolation: false,
         showCurrentTime: false,
         dataAxis: {
           alignZeros: true,
           left: {
             title: {
               text: "waste"
+            },
+            range: {
+              min: 0
             }
           }
         }
