@@ -107,4 +107,38 @@ class EwimaController < ApplicationController
 
   end
 
+  def detailed_planning
+    tunnelData = [DetailedPlanningOne.all, DetailedPlanningTwo.all]
+    dataForGraph = [ [ [], [], [], [], [] ], [ [], [], [], [], [] ] ]
+    timeLineValue = Time.now
+    timeToStore = timeLineValue
+
+    2.times.each do |tm|
+      tunnelData[tm].collect do |item|
+        (1..5).each do |i|
+          dataForGraph[tm][i - 1] <<
+          {
+            x: timeLineValue.to_s,
+            y: item["tunnel#{i}"],
+            group: 0
+          }
+        end
+
+        timeLineValue = timeLineValue + 1.hour
+
+      end
+      timeLineValue = timeToStore
+
+    end
+
+    detailedDataOneForTunnel = [ dataForGraph[0][0], dataForGraph[0][1], dataForGraph[0][2],
+                                    dataForGraph[0][3], dataForGraph[0][4] ]
+
+    detailedDataTwoForTunnel = [ dataForGraph[1][0], dataForGraph[1][1], dataForGraph[1][2],
+                                    dataForGraph[1][3], dataForGraph[1][4] ]
+
+    gon.detailedPlanningData = [ detailedDataOneForTunnel, detailedDataTwoForTunnel ]
+
+  end
+
 end

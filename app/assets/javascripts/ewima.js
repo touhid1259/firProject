@@ -146,11 +146,63 @@ $(document).on("turbolinks:load", function() {
       graph2d.fit();
     }
 
-    drawGraph(gon.dataForTunnelOne, $(".rough-tunnel-one")[0], "tunnel-one-color");
-    drawGraph(gon.dataForTunnelTwo, $(".rough-tunnel-two")[0], "tunnel-two-color");
-    drawGraph(gon.dataForTunnelThree, $(".rough-tunnel-three")[0], "tunnel-three-color");
-    drawGraph(gon.dataForTunnelFour, $(".rough-tunnel-four")[0], "tunnel-four-color");
-    drawGraph(gon.dataForTunnelFive, $(".rough-tunnel-five")[0], "tunnel-five-color");
+    drawGraph(gon.dataForTunnelOne, $(".rough-tunnel-one")[0], "tunnel-1-color");
+    drawGraph(gon.dataForTunnelTwo, $(".rough-tunnel-two")[0], "tunnel-2-color");
+    drawGraph(gon.dataForTunnelThree, $(".rough-tunnel-three")[0], "tunnel-3-color");
+    drawGraph(gon.dataForTunnelFour, $(".rough-tunnel-four")[0], "tunnel-4-color");
+    drawGraph(gon.dataForTunnelFive, $(".rough-tunnel-five")[0], "tunnel-5-color");
+  }
+
+
+// ===================================================================================
+
+  if(window.location.pathname == '/ewima/detailed_planning')
+  {
+    function drawGraph(gpitems, container, groupClassName){
+      var graph2d;
+      var dataset = new vis.DataSet(gpitems); // x and y axis data array for the graph2d
+      var groups = new vis.DataSet();
+
+      groups.add({
+        id: 0,
+        className: groupClassName
+      });
+
+      var options = {
+        start: gpitems[0]['x'],
+        drawPoints: {
+          style: 'circle', // square, circle
+          size: 3
+        },
+        height: "120px",
+        shaded: {
+          orientation: 'bottom' // top, bottom
+        },
+        interpolation: false,
+        showCurrentTime: false,
+        dataAxis: {
+          alignZeros: true,
+          left: {
+            title: {
+              text: "waste"
+            },
+            range: {
+              min: 0
+            }
+          }
+        }
+      };
+
+      graph2d = new vis.Graph2d(container, dataset, groups, options);
+      graph2d.fit();
+    }
+
+    for(var i = 0; i < 2; i++){
+      for(var j = 0; j < 5; j++){
+        drawGraph(gon.detailedPlanningData[i][j], $(".detailed-" + (i+1) + "-tunnel-" + (j+1))[0], "tunnel-" + (j+1) +"-color")
+      }
+    }
+
   }
 
 

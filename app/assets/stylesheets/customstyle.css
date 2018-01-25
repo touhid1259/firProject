@@ -472,9 +472,13 @@ i.user-status {
 }
 
 .rough-tunnel-one, .rough-tunnel-two, .rough-tunnel-three, .rough-tunnel-four,
-.rough-tunnel-five {
+.rough-tunnel-five, .detailed-1-tunnel-1, .detailed-1-tunnel-2, .detailed-1-tunnel-3,
+.detailed-1-tunnel-4, .detailed-1-tunnel-5, .detailed-2-tunnel-1, .detailed-2-tunnel-2,
+.detailed-2-tunnel-3, .detailed-2-tunnel-4, .detailed-2-tunnel-5 {
+
 	font-size: 12px;
 	margin: 10px 0 0 0;
+
 }
 
 .next-to-detailed {
@@ -483,35 +487,44 @@ i.user-status {
   text-align: right;
 }
 
-.tunnel-one-color {
+.tunnel-1-color  {
 	fill: #4f81bd;
   fill-opacity: 0;
   stroke-width: 2px;
   stroke: #4f81bd;
 }
-.tunnel-two-color {
+
+.tunnel-2-color {
 	fill: #e91e63;
   fill-opacity: 0;
   stroke-width: 2px;
   stroke: #e91e63;
 }
-.tunnel-three-color {
+
+.tunnel-3-color {
 	fill: #4caf50;
   fill-opacity: 0;
   stroke-width: 2px;
   stroke: #4caf50;
 }
-.tunnel-four-color {
+
+.tunnel-4-color {
 	fill: #9c27b0;
   fill-opacity: 0;
   stroke-width: 2px;
   stroke: #9c27b0;
 }
-.tunnel-five-color {
+
+.tunnel-5-color {
 	fill: #ff9800;
   fill-opacity: 0;
   stroke-width: 2px;
   stroke: #ff9800;
+}
+
+.h-center {
+	text-align: center;
+	color: #00abc1;
 }
 
 /**** Above css's are the actual css. Below css are the view specific css ****/
