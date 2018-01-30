@@ -474,7 +474,8 @@ i.user-status {
 .rough-tunnel-one, .rough-tunnel-two, .rough-tunnel-three, .rough-tunnel-four,
 .rough-tunnel-five, .detailed-1-tunnel-1, .detailed-1-tunnel-2, .detailed-1-tunnel-3,
 .detailed-1-tunnel-4, .detailed-1-tunnel-5, .detailed-2-tunnel-1, .detailed-2-tunnel-2,
-.detailed-2-tunnel-3, .detailed-2-tunnel-4, .detailed-2-tunnel-5 {
+.detailed-2-tunnel-3, .detailed-2-tunnel-4, .detailed-2-tunnel-5, .preferred-tunnel-1,
+.preferred-tunnel-2, .preferred-tunnel-3, .preferred-tunnel-4, .preferred-tunnel-5 {
 
 	font-size: 12px;
 	margin: 10px 0 0 0;
@@ -525,6 +526,24 @@ i.user-status {
 .h-center {
 	text-align: center;
 	color: #00abc1;
+}
+
+.h-color-bluish {
+	color: #00abc1;
+}
+
+.energy-consumption-color {
+	fill: red;
+	fill-opacity: 0;
+	stroke-width: 2px;
+	stroke: red;
+}
+
+.energy-price-color {
+	fill: green;
+	fill-opacity: 0;
+	stroke-width: 2px;
+	stroke: green;
 }
 
 /**** Above css's are the actual css. Below css are the view specific css ****/

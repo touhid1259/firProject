@@ -205,5 +205,58 @@ $(document).on("turbolinks:load", function() {
 
   }
 
+// ===================================================================================
+
+  if(window.location.pathname == '/ewima/planning_summary')
+  {
+    function drawGraph(gpitems, container, groupClassName, someOptions){
+      var graph2d;
+      var dataset = new vis.DataSet(gpitems); // x and y axis data array for the graph2d
+      var groups = new vis.DataSet();
+
+      groups.add({
+        id: 0,
+        className: groupClassName
+      });
+
+      var options = {
+        start: gpitems[0]['x'],
+        drawPoints: {
+          style: 'circle', // square, circle
+          size: 3
+        },
+        height: someOptions[0],
+        shaded: {
+          orientation: 'bottom' // top, bottom
+        },
+        interpolation: false,
+        showCurrentTime: false,
+        dataAxis: {
+          alignZeros: true,
+          left: {
+            title: {
+              text: someOptions[1]
+            },
+            range: {
+              min: 0
+            }
+          }
+        }
+      };
+
+      graph2d = new vis.Graph2d(container, dataset, groups, options);
+      graph2d.fit();
+    }
+
+    for(var i = 0; i < 5; i++){
+      drawGraph(gon.preferredData[i], $(".preferred-tunnel-" + (i+1))[0], "tunnel-" + (i+1) +"-color", ["120px", "waste"]);
+    }
+
+    drawGraph(gon.consumptionData, $(".energy-consumption-graph")[0], "energy-consumption-color", ["230px", "consumption"]);
+    drawGraph(gon.priceData, $(".energy-price-graph")[0], "energy-price-color", ["230px", "price"]);
+
+
+  }
+
 
 });

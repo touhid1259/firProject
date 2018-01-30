@@ -141,4 +141,55 @@ class EwimaController < ApplicationController
 
   end
 
+  def planning_summary
+    @access = true
+    if params[:preference] == "select1"
+
+      tunnelData = DetailedPlanningOne.all
+      statisticsData = StatisticsOne.all
+      energyConsumptionData = EnergyConsumptionOne.all
+      energyPriceData = EnergyPrice.all
+
+      dataForTunnelGraph = [[],[],[],[],[]]
+      dataForConsPrice = [[], []]
+      dataForStats = []
+      timeLineValue = Time.now
+      timeToStore = timeLineValue
+
+      tunnelData.collect.with_index do |item, index|
+        (1..5).each do |i|
+          dataForTunnelGraph[i - 1] <<
+          {
+            x: timeLineValue.to_s,
+            y: item["tunnel#{i}"],
+            group: 0
+          }
+        end
+
+        (1..2).each do |i|
+          dataToShow = (i == 1 ? energyConsumptionData[index][:energyconsumption] : energyPriceData[index][:energyprice] )
+          dataForConsPrice[i - 1] <<
+          {
+            x: timeLineValue.to_s,
+            y: dataToShow,
+            group: 0
+          }
+        end
+
+        timeLineValue = timeLineValue + 1.hour
+      end
+
+      gon.preferredData = dataForTunnelGraph
+      gon.consumptionData = dataForConsPrice[0]
+      gon.priceData = dataForConsPrice[1]
+
+    elsif params[:preference] == "select2"
+
+
+    else
+      @access = false
+    end
+
+  end
+
 end

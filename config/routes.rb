@@ -10,21 +10,28 @@ Rails.application.routes.draw do
 
   get '/controlling' => 'control#index'
   get '/energy' => 'energy#index'
+
   get 'energy/printer' => 'energy#printer_energy_data'
   get 'energy/printer/continuous' => 'energy#continuous_printer_energy_data'
   post 'energy/printer/consumption_on' => 'energy#get_datewise_printer_data'
+
   get '/demo_coding' => 'homepage#demo_coding'
   get '/demo_coding/demo_continuous_printer_energy_data' => 'homepage#demo_continuous_printer_energy_data'
+
   get '/energy/googleGraph_printer' => 'energy#googleGraph_printer_energy_data'
   get '/energy/googleGraph_printer/continuous' => 'energy#googleGraph_continuous_printer_energy_data'
+
   get '/energy/printer_prediction' => 'energy#printer_energy_prediction'
   get '/energy/printer_prediction/continuous' => 'energy#continuous_printer_energy_prediction'
   get '/energy/printer_prediction/static_ten_seconds' => 'energy#ten_sec_prediction_index'
   post '/energy/printer/ten_sec_consumption_prediction_on' => 'energy#get_ten_sec_prediction'
+
   get '/ewima/preference_selection' => 'ewima#select_your_preference'
   get '/ewima/summary' => 'ewima#summary_view'
+
   get '/ewima/rough_planning' => 'ewima#rough_planning'
   get '/ewima/detailed_planning' => 'ewima#detailed_planning'
+  get '/ewima/planning_summary' => 'ewima#planning_summary'
 
   # Example of named route that can be invoked with purchase_url(id: product.id)
   #   get 'products/:id/purchase' => 'catalog#purchase', as: :purchase
