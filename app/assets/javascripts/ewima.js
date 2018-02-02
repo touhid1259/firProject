@@ -209,7 +209,7 @@ $(document).on("turbolinks:load", function() {
 
   if(window.location.pathname == '/ewima/planning_summary')
   {
-    function drawGraph(gpitems, container, groupClassName, someOptions){
+    function drawGraphPlanningSummary(gpitems, container, groupClassName, someOptions){
       var graph2d;
       var dataset = new vis.DataSet(gpitems); // x and y axis data array for the graph2d
       var groups = new vis.DataSet();
@@ -249,11 +249,11 @@ $(document).on("turbolinks:load", function() {
     }
 
     for(var i = 0; i < 5; i++){
-      drawGraph(gon.preferredData[i], $(".preferred-tunnel-" + (i+1))[0], "tunnel-" + (i+1) +"-color", ["120px", "waste"]);
+      drawGraphPlanningSummary(gon.preferredData[i], $(".preferred-tunnel-" + (i+1))[0], "tunnel-" + (i+1) +"-color", ["120px", "waste"]);
     }
 
-    drawGraph(gon.consumptionData, $(".energy-consumption-graph")[0], "energy-consumption-color", ["230px", "consumption"]);
-    drawGraph(gon.priceData, $(".energy-price-graph")[0], "energy-price-color", ["230px", "price"]);
+    drawGraphPlanningSummary(gon.consumptionData, $(".energy-consumption-graph")[0], "energy-consumption-color", ["230px", "consumption"]);
+    drawGraphPlanningSummary(gon.priceData, $(".energy-price-graph")[0], "energy-price-color", ["230px", "price"]);
 
 
   }
