@@ -143,16 +143,26 @@ class EwimaController < ApplicationController
 
   def planning_summary
     @access = true
-    if params[:preference] == "select1"
+    if params[:preference] == "select1" || params[:preference] == "select2"
 
-      tunnelData = DetailedPlanningOne.all
-      statisticsData = StatisticsOne.all
-      energyConsumptionData = EnergyConsumptionOne.all
-      energyPriceData = EnergyPrice.all
+      if params[:preference] == "select1"
+
+        tunnelData = DetailedPlanningOne.all
+        @statisticsData = StatisticsOne.all
+        energyConsumptionData = EnergyConsumptionOne.all
+        energyPriceData = EnergyPrice.all
+
+      elsif params[:preference] == "select2"
+
+        tunnelData = DetailedPlanningTwo.all
+        @statisticsData = StatisticsTwo.all
+        energyConsumptionData = EnergyConsumptionTwo.all
+        energyPriceData = EnergyPrice.all
+
+      end
 
       dataForTunnelGraph = [[],[],[],[],[]]
       dataForConsPrice = [[], []]
-      dataForStats = []
       timeLineValue = Time.now
       timeToStore = timeLineValue
 
@@ -183,11 +193,10 @@ class EwimaController < ApplicationController
       gon.consumptionData = dataForConsPrice[0]
       gon.priceData = dataForConsPrice[1]
 
-    elsif params[:preference] == "select2"
-
-
     else
+
       @access = false
+
     end
 
   end

@@ -546,6 +546,18 @@ i.user-status {
 	stroke: green;
 }
 
+.stats-data {
+	margin-top: 12px;
+}
+
+.consumption-data {
+	margin-top: 20px;
+}
+
+.price-data {
+	margin-top: 20px;
+}
+
 /**** Above css's are the actual css. Below css are the view specific css ****/
 
 /* Extra small devices (phones, less than 768px) */

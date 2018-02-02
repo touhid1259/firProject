@@ -5,29 +5,53 @@
       <% if @access %>
 
         <div class="col-md-12"><h3 class="h-center">Summary and Statistics</h3></div>
-        <div class="col-md-6">
-          <h4 class="h-center">Your Preference<h4>
+
+				<div class="col-md-6">
+					<h4 class="h-center">Your Preference<h4>
           <div class="col-md-12 preferred-tunnel-1">tunnel one</div>
           <div class="col-md-12 preferred-tunnel-2">tunnel two</div>
           <div class="col-md-12 preferred-tunnel-3">tunnel three</div>
           <div class="col-md-12 preferred-tunnel-4">tunnel four</div>
           <div class="col-md-12 preferred-tunnel-5">tunnel five</div>
-        </div>
-        <div class="col-md-6">
-          <div class="row">
-            <div class="col-md-12">
+				</div>
+
+				<div class="col-md-6">
+
+					<div class="row">
+
+						<div class="col-md-12">
               <h4 class="h-center">Statistics</h4>
-            </div>
-            <div class="col-md-12">
+
+							<div class="col-md-12 stats-data">
+								<div class="col-md-6">
+									<h5> Mean Velocity </h5>
+									<h5> Mean Variance </h5>
+									<h5> Mean Energy Price </h5>
+									<h5> Mean Energy Consumption </h5>
+								</div>
+								<div class="col-md-6">
+									<h5> : <%= @statisticsData[0].meanvelocity.to_f.round(3) %> km/hour </h5>
+									<h5> : <%= @statisticsData[0].meanvariance.to_f.round(3) %> </h5>
+									<h5> : <img src="<%= asset_path('euro_symbol.png') %>" class="euro-sign"> <%= @statisticsData[0].meanprice.to_f.round(3) %>  </h5>
+									<h5> : <%= @statisticsData[0].meanconsumption.to_f.round(3) %> kWh </h5>
+								</div>
+							</div>
+
+						</div>
+
+            <div class="col-md-12 consumption-data">
               <h4 class="h-center">Energy Consumption</h4>
 							<div class="col-md-12 energy-consumption-graph"></div>
             </div>
-            <div class="col-md-12">
+
+						<div class="col-md-12 price-data">
               <h4 class="h-center">Energy Price</h4>
 							<div class="col-md-12 energy-price-graph"></div>
             </div>
-          </div>
-        </div>
+
+					</div>
+
+				</div>
 
       <% else %>
 
